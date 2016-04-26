@@ -2,8 +2,15 @@
 
 namespace BasicHttpClient;
 
-class HttpClient
+use BasicHttpClient\Request\Request;
+
+class BasicHttpClient
 {
+
+	/**
+	 * @var Request
+	 */
+	private $request;
 
 	/**
 	 * Request methods
