@@ -86,7 +86,6 @@ class Message
 	 */
 	public function setHeaders(array $headers)
 	{
-		// TODO: Validate argument
 		$this->headers = $headers;
 		return $this;
 	}
@@ -176,11 +175,11 @@ class Message
 	}
 
 	/**
-	 * @return bool
+	 * @return int
 	 */
 	public function getHeaderCount()
 	{
-		return count($this->headers);
+		return (int)count($this->headers);
 	}
 
 	/**
@@ -301,11 +300,11 @@ class Message
 	}
 
 	/**
-	 * @return bool
+	 * @return int
 	 */
 	public function getCookieCount()
 	{
-		return count($this->cookies);
+		return (int)count($this->cookies);
 	}
 
 	/**
