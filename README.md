@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/markenwerk/php-basic-http-client.svg?branch=master)](https://travis-ci.org/markenwerk/php-basic-http-client)
 [![Test Coverage](https://codeclimate.com/github/markenwerk/php-basic-http-client/badges/coverage.svg)](https://codeclimate.com/github/markenwerk/php-basic-http-client/coverage)
-[![Dependency Status](https://www.versioneye.com/user/projects/571f7843fcd19a0039f18149/badge.svg)](https://www.versioneye.com/user/projects/571f7843fcd19a0039f18149)
+[![Dependency Status](https://www.versioneye.com/user/projects/571f8827fcd19a00415b2836/badge.svg)](https://www.versioneye.com/user/projects/571f8827fcd19a00415b2836)
 [![Code Climate](https://codeclimate.com/github/markenwerk/php-basic-http-client/badges/gpa.svg)](https://codeclimate.com/github/markenwerk/php-basic-http-client)
 [![Latest Stable Version](https://poser.pugx.org/markenwerk/basic-http-client/v/stable)](https://packagist.org/packages/markenwerk/basic-http-client)
 [![Total Downloads](https://poser.pugx.org/markenwerk/basic-http-client/downloads)](https://packagist.org/packages/markenwerk/basic-http-client)
