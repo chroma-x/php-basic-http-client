@@ -288,6 +288,30 @@ class Request implements RequestInterface
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getEffectiveStatus()
+	{
+		return $this->effectiveStatus;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveEndpoint()
+	{
+		return $this->effectiveEndpoint;
+	}
+
+	/**
+	 * @return Header[]
+	 */
+	public function getEffectiveHeaders()
+	{
+		return $this->effectiveHeaders;
+	}
+
+	/**
 	 * @param resource $curl
 	 * @return $this
 	 */
