@@ -37,9 +37,10 @@ try {
 }
 */
 
-$client = new \BasicHttpClient\JsonHttpClient('https://api-yourapihere-com-98yq3775xff0.runscope.net/path/');
+$client = new \BasicHttpClient\BasicHttpClient('https://api-yourapihere-com-98yq3775xff0.runscope.net/path/');
 $client
 	->getRequest()
+	->addAuthentication(new \BasicHttpClient\Request\Authentication\BasicAuthentication('username', 'password'))
 	->getMessage()
 	->addHeader(new \BasicHttpClient\Request\Message\Header\Header('Runscope-Bucket-Auth', array('7a64dde7-74d5-4eed-b170-a2ab406eff08')))
 	->addCookie(new \BasicHttpClient\Request\Message\Cookie\Cookie('SESSION_ID', 'abc'));
