@@ -44,15 +44,7 @@ class Message
 	 */
 	public function getHeadersByName($name)
 	{
-		$headerNameNormalizer = new HeaderNameNormalizer();
-		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
-		$matchingHeaders = array();
-		foreach ($this->headers as $header) {
-			if ($header->getNormalizedName() === $normalizedName) {
-				$matchingHeaders[] = $header;
-			}
-		}
-		return $matchingHeaders;
+		return $this->findHeadersByName($name);
 	}
 
 	/**
@@ -61,14 +53,10 @@ class Message
 	 */
 	public function getHeaderByName($name)
 	{
-		$headerNameNormalizer = new HeaderNameNormalizer();
-		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
-		foreach ($this->headers as $header) {
-			if ($header->getNormalizedName() === $normalizedName) {
-				return $header;
-			}
+		if (!$this->hasHeaderWithName($name)) {
+			return null;
 		}
-		return null;
+		return $this->findHeadersByName($name)[0];
 	}
 
 	/**
@@ -92,14 +80,21 @@ class Message
 
 	/**
 	 * @param Header $header
-	 * @param bool $replaceExisting
 	 * @return $this
 	 */
-	public function addHeader(Header $header, $replaceExisting = false)
+	public function addAdditionalHeader(Header $header)
 	{
-		if ($replaceExisting) {
-			$this->removeHeadersByName($header->getName());
-		}
+		$this->headers[] = $header;
+		return $this;
+	}
+
+	/**
+	 * @param Header $header
+	 * @return $this
+	 */
+	public function addHeader(Header $header)
+	{
+		$this->removeHeadersByName($header->getName());
 		$this->headers[] = $header;
 		return $this;
 	}
@@ -110,14 +105,7 @@ class Message
 	 */
 	public function removeHeadersByName($name)
 	{
-		$headerNameNormalizer = new HeaderNameNormalizer();
-		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
-		$remainingHeaders = array();
-		foreach ($this->headers as $header) {
-			if ($header->getNormalizedName() !== $normalizedName) {
-				$remainingHeaders[] = $header;
-			}
-		}
+		$this->headers = $this->findHeadersExcludedByName($name);
 		return $this;
 	}
 
@@ -127,12 +115,11 @@ class Message
 	 */
 	public function removeHeader(Header $header)
 	{
-		for ($i = 0; $i < count($this->headers); $i++) {
-			if ($header == $this->headers[$i]) {
-				unset($this->headers[$i]);
-				return $this;
-			}
+		if (!$this->hasHeader($header)) {
+			return $this;
 		}
+		$headerIndex = $this->findHeaderIndex($header);
+		unset($this->headers[$headerIndex]);
 		return $this;
 	}
 
@@ -142,14 +129,7 @@ class Message
 	 */
 	public function hasHeaderWithName($name)
 	{
-		$headerNameNormalizer = new HeaderNameNormalizer();
-		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
-		foreach ($this->headers as $header) {
-			if ($header->getNormalizedName() !== $normalizedName) {
-				return true;
-			}
-		}
-		return false;
+		return count($this->findHeadersByName($name)) > 0;
 	}
 
 	/**
@@ -158,12 +138,7 @@ class Message
 	 */
 	public function hasHeader(Header $header)
 	{
-		foreach ($this->headers as $existingHeader) {
-			if ($existingHeader == $header) {
-				return true;
-			}
-		}
-		return false;
+		return !is_null($this->findHeaderIndex($header));
 	}
 
 	/**
@@ -340,6 +315,54 @@ class Message
 	{
 		$this->body = null;
 		return $this;
+	}
+
+	/**
+	 * @param string $name
+	 * @return Header[]
+	 */
+	private function findHeadersByName($name)
+	{
+		$headerNameNormalizer = new HeaderNameNormalizer();
+		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
+		$matchingHeaders = array();
+		foreach ($this->headers as $header) {
+			if ($header->getNormalizedName() === $normalizedName) {
+				$matchingHeaders[] = $header;
+			}
+		}
+		return $matchingHeaders;
+	}
+
+	/**
+	 * @param Header $header
+	 * @return int
+	 */
+	private function findHeaderIndex(Header $header)
+	{
+		for ($i = 0; $i < count($this->headers); $i++) {
+			if ($this->headers[$i] === $header) {
+				return $i;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param string $name
+	 * @return Header[]
+	 */
+	private function findHeadersExcludedByName($name)
+	{
+		$headerNameNormalizer = new HeaderNameNormalizer();
+		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
+		$matchingHeaders = array();
+		foreach ($this->headers as $header) {
+			if ($header->getNormalizedName() !== $normalizedName) {
+				$matchingHeaders[] = $header;
+			}
+		}
+		return $matchingHeaders;
 	}
 
 }
