@@ -2,10 +2,9 @@
 
 namespace BasicHttpClient\Response;
 
-use BasicHttpClient\Request\Message\Header\Header as RequestHeader;
+use BasicHttpClient\Request\Base\RequestInterface;
 use BasicHttpClient\Response\Header\Header;
 use BasicHttpClient\Response\Statistics\Statistics;
-use BasicHttpClient\Response\Statistics\StatisticsBuilder;
 
 /**
  * Class Response
@@ -14,6 +13,11 @@ use BasicHttpClient\Response\Statistics\StatisticsBuilder;
  */
 class Response
 {
+
+	/**
+	 * @var RequestInterface
+	 */
+	private $request;
 
 	/**
 	 * @var int
@@ -56,19 +60,14 @@ class Response
 	private $statistics;
 
 	/**
-	 * @var string
+	 * Response constructor.
+	 *
+	 * @param RequestInterface $request
 	 */
-	private $effectiveRequestStatus;
-
-	/**
-	 * @var string
-	 */
-	private $effectiveRequestEndpoint;
-
-	/**
-	 * @var RequestHeader[]
-	 */
-	private $effectiveRequestHeaders = array();
+	public function __construct(RequestInterface $request)
+	{
+		$this->request = $request;
+	}
 
 	/**
 	 * @param resource $curl
@@ -78,12 +77,10 @@ class Response
 	public function populateFromCurlResult($curl, $responseBody)
 	{
 		$this->statusCode = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
-		$this->effectiveRequestEndpoint = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
 		$this->redirectCount = curl_getinfo($curl, CURLINFO_REDIRECT_COUNT);
 		$this->redirectTime = curl_getinfo($curl, CURLINFO_REDIRECT_TIME);
 		$this->redirectEndpoint = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
 		$this->setStatistics($curl);
-		$this->setEffectiveRequestHeaders($curl);
 		$this->setResponseData($responseBody);
 		return $this;
 	}
@@ -94,40 +91,8 @@ class Response
 	 */
 	private function setStatistics($curl)
 	{
-		$statisticsBuilder = new StatisticsBuilder();
-		$this->statistics = $statisticsBuilder
-			->setTotalTime(curl_getinfo($curl, CURLINFO_TOTAL_TIME))
-			->setHostLookupTime(curl_getinfo($curl, CURLINFO_NAMELOOKUP_TIME))
-			->setConnectionEstablishTime(curl_getinfo($curl, CURLINFO_CONNECT_TIME))
-			->setPreTransferTime(curl_getinfo($curl, CURLINFO_PRETRANSFER_TIME))
-			->setStartTransferTime(curl_getinfo($curl, CURLINFO_STARTTRANSFER_TIME))
-			->buildStatistics();
-		return $this;
-	}
-
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	private function setEffectiveRequestHeaders($curl)
-	{
-		// Build effective request headers
-		$requestHeaders = preg_split(
-			'/\r\n/',
-			curl_getinfo($curl, CURLINFO_HEADER_OUT),
-			null,
-			PREG_SPLIT_NO_EMPTY
-		);
-		foreach ($requestHeaders as $requestHeader) {
-			if (strpos($requestHeader, ':') !== false) {
-				$headerName = mb_substr($requestHeader, 0, strpos($requestHeader, ':'));
-				$headerValue = mb_substr($requestHeader, strpos($requestHeader, ':') + 1);
-				$headerValues = explode(',', $headerValue);
-				$this->effectiveRequestHeaders[] = new RequestHeader($headerName, $headerValues);
-			} else {
-				$this->effectiveRequestStatus = $requestHeader;
-			}
-		}
+		$this->statistics = new Statistics();
+		$this->statistics->populateFromCurlResult($curl);
 		return $this;
 	}
 

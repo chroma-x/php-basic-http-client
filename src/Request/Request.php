@@ -5,6 +5,7 @@ namespace BasicHttpClient\Request;
 use BasicHttpClient\Request\Authentication\Base\AuthenticationInterface;
 use BasicHttpClient\Request\Base\RequestInterface;
 use BasicHttpClient\Request\Message\Base\MessageInterface;
+use BasicHttpClient\Request\Message\Header\Header;
 use BasicHttpClient\Request\Transport\Base\TransportInterface;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
@@ -67,6 +68,21 @@ class Request implements RequestInterface
 	 * @var Response
 	 */
 	private $response;
+
+	/**
+	 * @var string
+	 */
+	private $effectiveStatus;
+
+	/**
+	 * @var string
+	 */
+	private $effectiveEndpoint;
+
+	/**
+	 * @var Header[]
+	 */
+	private $effectiveHeaders = array();
 
 	/**
 	 * Request constructor.
@@ -332,8 +348,9 @@ class Request implements RequestInterface
 		$curlErrorCode = curl_errno($curl);
 		$curlErrorMessage = curl_error($curl);
 		if ($curlErrorCode === CURLE_OK) {
-			$this->response = new Response();
+			$this->response = new Response($this);
 			$this->response->populateFromCurlResult($curl, $responseBody);
+			$this->setEffectiveProperties($curl);
 			return $this;
 		}
 		curl_close($curl);
@@ -365,6 +382,33 @@ class Request implements RequestInterface
 		if ($urlUtil->getScheme($this->getEndpoint()) == 'HTTPS' && !$this->getTransport() instanceof HttpsTransport) {
 			throw new \Exception('Transport misconfiguration. Use HttpsTransport for HTTPS requests.');
 		}
+	}
+
+	/**
+	 * @param resource $curl
+	 * @return $this
+	 */
+	private function setEffectiveProperties($curl)
+	{
+		$this->effectiveEndpoint = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+		// Build effective request headers
+		$requestHeaders = preg_split(
+			'/\r\n/',
+			curl_getinfo($curl, CURLINFO_HEADER_OUT),
+			null,
+			PREG_SPLIT_NO_EMPTY
+		);
+		foreach ($requestHeaders as $requestHeader) {
+			if (strpos($requestHeader, ':') !== false) {
+				$headerName = mb_substr($requestHeader, 0, strpos($requestHeader, ':'));
+				$headerValue = mb_substr($requestHeader, strpos($requestHeader, ':') + 1);
+				$headerValues = explode(',', $headerValue);
+				$this->effectiveHeaders[] = new Header($headerName, $headerValues);
+			} else {
+				$this->effectiveStatus = $requestHeader;
+			}
+		}
+		return $this;
 	}
 
 }

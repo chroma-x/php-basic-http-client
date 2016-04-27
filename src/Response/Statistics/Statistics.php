@@ -36,26 +36,17 @@ class Statistics
 	private $startTransferTime;
 
 	/**
-	 * Statistics constructor.
-	 *
-	 * @param float $totalTime
-	 * @param float $hostLookupTime
-	 * @param float $connectionEstablishTime
-	 * @param float $preTransferTime
-	 * @param float $startTransferTime
+	 * @param resource $curl
+	 * @return $this
 	 */
-	public function __construct(
-		$totalTime,
-		$hostLookupTime,
-		$connectionEstablishTime,
-		$preTransferTime,
-		$startTransferTime
-	) {
-		$this->totalTime = $totalTime;
-		$this->hostLookupTime = $hostLookupTime;
-		$this->connectionEstablishTime = $connectionEstablishTime;
-		$this->preTransferTime = $preTransferTime;
-		$this->startTransferTime = $startTransferTime;
+	public function populateFromCurlResult($curl)
+	{
+		$this->totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
+		$this->hostLookupTime = curl_getinfo($curl, CURLINFO_NAMELOOKUP_TIME);
+		$this->connectionEstablishTime = curl_getinfo($curl, CURLINFO_CONNECT_TIME);
+		$this->preTransferTime = curl_getinfo($curl, CURLINFO_PRETRANSFER_TIME);
+		$this->startTransferTime = curl_getinfo($curl, CURLINFO_STARTTRANSFER_TIME);
+		return $this;
 	}
 
 	/**
