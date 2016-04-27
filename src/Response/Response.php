@@ -112,20 +112,20 @@ class Response
 	private function setEffectiveRequestHeaders($curl)
 	{
 		// Build effective request headers
-		$effectiveRequestHeaders = preg_split(
+		$requestHeaders = preg_split(
 			'/\r\n/',
 			curl_getinfo($curl, CURLINFO_HEADER_OUT),
 			null,
 			PREG_SPLIT_NO_EMPTY
 		);
-		foreach ($effectiveRequestHeaders as $effectiveRequestHeader) {
-			if (strpos($effectiveRequestHeader, ':') !== false) {
-				$headerName = mb_substr($effectiveRequestHeader, 0, strpos($effectiveRequestHeader, ':'));
-				$headerValue = mb_substr($effectiveRequestHeader, strpos($effectiveRequestHeader, ':') + 1);
+		foreach ($requestHeaders as $requestHeader) {
+			if (strpos($requestHeader, ':') !== false) {
+				$headerName = mb_substr($requestHeader, 0, strpos($requestHeader, ':'));
+				$headerValue = mb_substr($requestHeader, strpos($requestHeader, ':') + 1);
 				$headerValues = explode(',', $headerValue);
 				$this->effectiveRequestHeaders[] = new RequestHeader($headerName, $headerValues);
 			} else {
-				$this->effectiveRequestStatus = $effectiveRequestHeader;
+				$this->effectiveRequestStatus = $requestHeader;
 			}
 		}
 		return $this;
@@ -138,7 +138,7 @@ class Response
 	private function setResponseData($responseBody)
 	{
 		// Parse response
-		$parsedResponseHeaders = array();
+		$responseHeaders = array();
 		$responseStatusText = null;
 		$responseStatusCode = null;
 		if (strpos($responseBody, "\r\n\r\n") !== false) {
@@ -158,16 +158,9 @@ class Response
 					|| !$responseStatusCode >= 400
 				)
 			);
-			$parsedResponseHeaders = preg_split('/\r\n/', $responseHeader, null, PREG_SPLIT_NO_EMPTY);
+			$responseHeaders = preg_split('/\r\n/', $responseHeader, null, PREG_SPLIT_NO_EMPTY);
 		}
-		foreach ($parsedResponseHeaders as $parsedResponseHeader) {
-			if (strpos($parsedResponseHeader, ':') !== false) {
-				$headerName = mb_substr($parsedResponseHeader, 0, strpos($parsedResponseHeader, ':'));
-				$headerValue = mb_substr($parsedResponseHeader, strpos($parsedResponseHeader, ':') + 1);
-				$headerValues = explode(',', $headerValue);
-				$this->headers[] = new Header($headerName, $headerValues);
-			}
-		}
+		$this->setResponseHeader($responseHeaders);
 		if (!is_null($responseStatusCode)) {
 			$this->statusCode = $responseStatusCode;
 		}
@@ -177,4 +170,22 @@ class Response
 		$this->body = $responseBody;
 		return $this;
 	}
+
+	/**
+	 * @param string[] $responseHeaders
+	 * @return $this
+	 */
+	private function setResponseHeader(array $responseHeaders)
+	{
+		foreach ($responseHeaders as $responseHeader) {
+			if (strpos($responseHeader, ':') !== false) {
+				$headerName = mb_substr($responseHeader, 0, strpos($responseHeader, ':'));
+				$headerValue = mb_substr($responseHeader, strpos($responseHeader, ':') + 1);
+				$headerValues = explode(',', $headerValue);
+				$this->headers[] = new Header($headerName, $headerValues);
+			}
+		}
+		return $this;
+	}
+
 }
