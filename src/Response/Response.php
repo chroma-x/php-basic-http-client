@@ -3,6 +3,7 @@
 namespace BasicHttpClient\Response;
 
 use BasicHttpClient\Request\Base\RequestInterface;
+use BasicHttpClient\Response\Base\ResponseInterface;
 use BasicHttpClient\Response\Header\Header;
 use BasicHttpClient\Response\Statistics\Statistics;
 
@@ -11,7 +12,7 @@ use BasicHttpClient\Response\Statistics\Statistics;
  *
  * @package BasicHttpClient\Response
  */
-class Response
+class Response implements ResponseInterface
 {
 
 	/**
@@ -40,21 +41,6 @@ class Response
 	private $body;
 
 	/**
-	 * @var int
-	 */
-	private $redirectCount;
-
-	/**
-	 * @var float
-	 */
-	private $redirectTime;
-
-	/**
-	 * @var string
-	 */
-	private $redirectEndpoint;
-
-	/**
 	 * @var Statistics
 	 */
 	private $statistics;
@@ -77,12 +63,57 @@ class Response
 	public function populateFromCurlResult($curl, $responseBody)
 	{
 		$this->statusCode = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
-		$this->redirectCount = curl_getinfo($curl, CURLINFO_REDIRECT_COUNT);
-		$this->redirectTime = curl_getinfo($curl, CURLINFO_REDIRECT_TIME);
-		$this->redirectEndpoint = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
 		$this->setStatistics($curl);
 		$this->setResponseData($responseBody);
 		return $this;
+	}
+
+	/**
+	 * @return RequestInterface
+	 */
+	public function getRequest()
+	{
+		return $this->request;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getStatusCode()
+	{
+		return $this->statusCode;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getStatusText()
+	{
+		return $this->statusText;
+	}
+
+	/**
+	 * @return Header[]
+	 */
+	public function getHeaders()
+	{
+		return $this->headers;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getBody()
+	{
+		return $this->body;
+	}
+
+	/**
+	 * @return Statistics
+	 */
+	public function getStatistics()
+	{
+		return $this->statistics;
 	}
 
 	/**

@@ -36,6 +36,21 @@ class Statistics
 	private $startTransferTime;
 
 	/**
+	 * @var int
+	 */
+	private $redirectCount;
+
+	/**
+	 * @var float
+	 */
+	private $redirectTime;
+
+	/**
+	 * @var string
+	 */
+	private $redirectEndpoint;
+
+	/**
 	 * @param resource $curl
 	 * @return $this
 	 */
@@ -46,6 +61,9 @@ class Statistics
 		$this->connectionEstablishTime = curl_getinfo($curl, CURLINFO_CONNECT_TIME);
 		$this->preTransferTime = curl_getinfo($curl, CURLINFO_PRETRANSFER_TIME);
 		$this->startTransferTime = curl_getinfo($curl, CURLINFO_STARTTRANSFER_TIME);
+		$this->redirectCount = curl_getinfo($curl, CURLINFO_REDIRECT_COUNT);
+		$this->redirectTime = curl_getinfo($curl, CURLINFO_REDIRECT_TIME);
+		$this->redirectEndpoint = curl_getinfo($curl, CURLINFO_REDIRECT_URL);
 		return $this;
 	}
 
@@ -87,6 +105,30 @@ class Statistics
 	public function getStartTransferTime()
 	{
 		return $this->startTransferTime;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRedirectCount()
+	{
+		return $this->redirectCount;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getRedirectTime()
+	{
+		return $this->redirectTime;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRedirectEndpoint()
+	{
+		return $this->redirectEndpoint;
 	}
 
 }

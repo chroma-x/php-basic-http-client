@@ -9,6 +9,7 @@ use BasicHttpClient\Request\Message\Header\Header;
 use BasicHttpClient\Request\Transport\Base\TransportInterface;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
+use BasicHttpClient\Response\Base\ResponseInterface;
 use BasicHttpClient\Response\Response;
 use BasicHttpClient\Util\UrlUtil;
 use CommonException\NetworkException\Base\NetworkException;
@@ -65,7 +66,7 @@ class Request implements RequestInterface
 	private $message;
 
 	/**
-	 * @var Response
+	 * @var ResponseInterface
 	 */
 	private $response;
 
@@ -288,30 +289,6 @@ class Request implements RequestInterface
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getEffectiveStatus()
-	{
-		return $this->effectiveStatus;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEffectiveEndpoint()
-	{
-		return $this->effectiveEndpoint;
-	}
-
-	/**
-	 * @return Header[]
-	 */
-	public function getEffectiveHeaders()
-	{
-		return $this->effectiveHeaders;
-	}
-
-	/**
 	 * @param resource $curl
 	 * @return $this
 	 */
@@ -389,11 +366,35 @@ class Request implements RequestInterface
 	}
 
 	/**
-	 * @return Response
+	 * @return ResponseInterface
 	 */
 	public function getResponse()
 	{
 		return $this->response;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveStatus()
+	{
+		return $this->effectiveStatus;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveEndpoint()
+	{
+		return $this->effectiveEndpoint;
+	}
+
+	/**
+	 * @return Header[]
+	 */
+	public function getEffectiveHeaders()
+	{
+		return $this->effectiveHeaders;
 	}
 
 	/**

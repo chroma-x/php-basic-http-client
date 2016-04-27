@@ -4,8 +4,9 @@ namespace BasicHttpClient\Request\Base;
 
 use BasicHttpClient\Request\Authentication\Base\AuthenticationInterface;
 use BasicHttpClient\Request\Message\Base\MessageInterface;
+use BasicHttpClient\Request\Message\Header\Header;
 use BasicHttpClient\Request\Transport\Base\TransportInterface;
-use BasicHttpClient\Response\Response;
+use BasicHttpClient\Response\Base\ResponseInterface;
 
 /**
  * Class Request
@@ -14,6 +15,17 @@ use BasicHttpClient\Response\Response;
  */
 interface RequestInterface extends CurlConfiguratorInterface
 {
+
+	/**
+	 * @return string
+	 */
+	public function getUserAgent();
+
+	/**
+	 * @param string $userAgent
+	 * @return $this
+	 */
+	public function setUserAgent($userAgent);
 
 	/**
 	 * @return string
@@ -30,6 +42,11 @@ interface RequestInterface extends CurlConfiguratorInterface
 	 * @return int
 	 */
 	public function getPort();
+
+	/**
+	 * @return bool
+	 */
+	public function hasPort();
 
 	/**
 	 * @param int $port
@@ -115,8 +132,23 @@ interface RequestInterface extends CurlConfiguratorInterface
 	public function perform();
 
 	/**
-	 * @return Response
+	 * @return ResponseInterface
 	 */
 	public function getResponse();
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveStatus();
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveEndpoint();
+
+	/**
+	 * @return Header[]
+	 */
+	public function getEffectiveHeaders();
 
 }
