@@ -2,12 +2,14 @@
 
 namespace BasicHttpClient\Request\Message\Cookie;
 
+use BasicHttpClient\Request\Message\Cookie\Base\CookieInterface;
+
 /**
  * Class Cookie
  *
  * @package BasicHttpClient\Request\Message\Cookie
  */
-class Cookie
+class Cookie implements CookieInterface
 {
 
 	/**
@@ -21,7 +23,7 @@ class Cookie
 	private $value;
 
 	/**
-	 * Header constructor.
+	 * Cookie constructor.
 	 *
 	 * @param string $name
 	 * @param string $value

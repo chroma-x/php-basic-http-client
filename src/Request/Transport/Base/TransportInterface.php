@@ -2,12 +2,14 @@
 
 namespace BasicHttpClient\Request\Transport\Base;
 
+use BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+
 /**
  * Interface TransportInterface
  *
  * @package BasicHttpClient\Request\Transport\Base
  */
-interface TransportInterface
+interface TransportInterface extends CurlConfiguratorInterface
 {
 
 	/**

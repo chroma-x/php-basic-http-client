@@ -2,26 +2,27 @@
 
 namespace BasicHttpClient\Request\Message;
 
+use BasicHttpClient\Request\Message\Base\MessageInterface;
 use BasicHttpClient\Request\Message\Body\Base\BodyInterface;
-use BasicHttpClient\Request\Message\Cookie\Cookie;
-use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Util\HeaderNameNormalizer;
+use BasicHttpClient\Request\Message\Cookie\Base\CookieInterface;
+use BasicHttpClient\Request\Message\Header\Base\HeaderInterface;
+use BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Message
  *
  * @package BasicHttpClient\Request\Message
  */
-class Message
+class Message implements MessageInterface
 {
 
 	/**
-	 * @var Header[]
+	 * @var HeaderInterface[]
 	 */
 	private $headers = array();
 
 	/**
-	 * @var Cookie[]
+	 * @var CookieInterface[]
 	 */
 	private $cookies = array();
 
@@ -31,7 +32,7 @@ class Message
 	private $body;
 
 	/**
-	 * @return Header[]
+	 * @return HeaderInterface[]
 	 */
 	public function getHeaders()
 	{
@@ -40,7 +41,7 @@ class Message
 
 	/**
 	 * @param string $name
-	 * @return Header[]
+	 * @return HeaderInterface[]
 	 */
 	public function getHeadersByName($name)
 	{
@@ -49,7 +50,7 @@ class Message
 
 	/**
 	 * @param string $name
-	 * @return Header
+	 * @return HeaderInterface
 	 */
 	public function getHeaderByName($name)
 	{
@@ -69,7 +70,7 @@ class Message
 	}
 
 	/**
-	 * @param Header[] $headers
+	 * @param HeaderInterface[] $headers
 	 * @return $this
 	 */
 	public function setHeaders(array $headers)
@@ -79,20 +80,20 @@ class Message
 	}
 
 	/**
-	 * @param Header $header
+	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function addAdditionalHeader(Header $header)
+	public function addAdditionalHeader(HeaderInterface $header)
 	{
 		$this->headers[] = $header;
 		return $this;
 	}
 
 	/**
-	 * @param Header $header
+	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function addHeader(Header $header)
+	public function addHeader(HeaderInterface $header)
 	{
 		$this->removeHeadersByName($header->getName());
 		$this->headers[] = $header;
@@ -110,10 +111,10 @@ class Message
 	}
 
 	/**
-	 * @param Header $header
+	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function removeHeader(Header $header)
+	public function removeHeader(HeaderInterface $header)
 	{
 		if (!$this->hasHeader($header)) {
 			return $this;
@@ -133,10 +134,10 @@ class Message
 	}
 
 	/**
-	 * @param Header $header
+	 * @param HeaderInterface $header
 	 * @return bool
 	 */
-	public function hasHeader(Header $header)
+	public function hasHeader(HeaderInterface $header)
 	{
 		return !is_null($this->findHeaderIndex($header));
 	}
@@ -158,7 +159,7 @@ class Message
 	}
 
 	/**
-	 * @return Cookie[]
+	 * @return CookieInterface[]
 	 */
 	public function getCookies()
 	{
@@ -167,7 +168,7 @@ class Message
 
 	/**
 	 * @param $name
-	 * @return Cookie
+	 * @return CookieInterface
 	 */
 	public function getCookieByName($name)
 	{
@@ -189,7 +190,7 @@ class Message
 	}
 
 	/**
-	 * @param Cookie[] $cookies
+	 * @param CookieInterface[] $cookies
 	 * @return $this
 	 */
 	public function setCookies($cookies)
@@ -199,10 +200,10 @@ class Message
 	}
 
 	/**
-	 * @param Cookie $cookie
+	 * @param CookieInterface $cookie
 	 * @return $this
 	 */
-	public function addCookie(Cookie $cookie)
+	public function addCookie(CookieInterface $cookie)
 	{
 		$this->cookies[] = $cookie;
 		return $this;
@@ -224,10 +225,10 @@ class Message
 	}
 
 	/**
-	 * @param Cookie $cookie
+	 * @param CookieInterface $cookie
 	 * @return $this
 	 */
-	public function removeCookie(Cookie $cookie)
+	public function removeCookie(CookieInterface $cookie)
 	{
 		for ($i = 0; $i < count($this->cookies); $i++) {
 			if ($cookie == $this->cookies[$i]) {
@@ -253,10 +254,10 @@ class Message
 	}
 
 	/**
-	 * @param Cookie $cookie
+	 * @param CookieInterface $cookie
 	 * @return bool
 	 */
-	public function hasCookie(Cookie $cookie)
+	public function hasCookie(CookieInterface $cookie)
 	{
 		foreach ($this->cookies as $existingCookie) {
 			if ($existingCookie == $cookie) {
@@ -319,12 +320,12 @@ class Message
 
 	/**
 	 * @param string $name
-	 * @return Header[]
+	 * @return HeaderInterface[]
 	 */
 	private function findHeadersByName($name)
 	{
-		$headerNameNormalizer = new HeaderNameNormalizer();
-		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
+		$headerNameUtil = new HeaderNameUtil();
+		$normalizedName = $headerNameUtil->normalizeHeaderName($name);
 		$matchingHeaders = array();
 		foreach ($this->headers as $header) {
 			if ($header->getNormalizedName() === $normalizedName) {
@@ -335,10 +336,10 @@ class Message
 	}
 
 	/**
-	 * @param Header $header
+	 * @param HeaderInterface $header
 	 * @return int
 	 */
-	private function findHeaderIndex(Header $header)
+	private function findHeaderIndex(HeaderInterface $header)
 	{
 		for ($i = 0; $i < count($this->headers); $i++) {
 			if ($this->headers[$i] === $header) {
@@ -350,12 +351,12 @@ class Message
 
 	/**
 	 * @param string $name
-	 * @return Header[]
+	 * @return HeaderInterface[]
 	 */
 	private function findHeadersExcludedByName($name)
 	{
-		$headerNameNormalizer = new HeaderNameNormalizer();
-		$normalizedName = $headerNameNormalizer->normalizeHeaderName($name);
+		$headerNameUtil = new HeaderNameUtil();
+		$normalizedName = $headerNameUtil->normalizeHeaderName($name);
 		$matchingHeaders = array();
 		foreach ($this->headers as $header) {
 			if ($header->getNormalizedName() !== $normalizedName) {
@@ -363,6 +364,32 @@ class Message
 			}
 		}
 		return $matchingHeaders;
+	}
+
+	/**
+	 * @param resource $curl
+	 * @return $this
+	 */
+	public function configureCurl($curl)
+	{
+		// Add request headers
+		if ($this->hasHeaders()) {
+			$requestHeaders = array();
+			foreach ($this->getHeaders() as $header) {
+				$requestHeaders[] = $header->getNormalizedName() . ': ' . $header->getValuesAsString();
+			}
+			// Set http header to curl
+			curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
+		}
+		// Setup request cookies
+		if ($this->hasCookies()) {
+			$requestCookies = array();
+			foreach ($this->getCookies() as $cookie) {
+				$requestCookies[] = $cookie->getName() . '=' . $cookie->getValue();
+			}
+			curl_setopt($curl, CURLOPT_COOKIE, implode(';', $requestCookies));
+		}
+		return $this;
 	}
 
 }

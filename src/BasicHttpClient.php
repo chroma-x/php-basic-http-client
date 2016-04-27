@@ -2,13 +2,14 @@
 
 namespace BasicHttpClient;
 
+use BasicHttpClient\Request\Base\RequestInterface;
 use BasicHttpClient\Request\Request;
 
 class BasicHttpClient
 {
 
 	/**
-	 * @var Request
+	 * @var RequestInterface
 	 */
 	private $request;
 

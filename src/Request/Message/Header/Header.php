@@ -2,14 +2,15 @@
 
 namespace BasicHttpClient\Request\Message\Header;
 
-use BasicHttpClient\Util\HeaderNameNormalizer;
+use BasicHttpClient\Request\Message\Header\Base\HeaderInterface;
+use BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Header
  *
  * @package BasicHttpClient\Request\Message\Header
  */
-class Header
+class Header implements HeaderInterface
 {
 
 	/**
@@ -47,8 +48,8 @@ class Header
 	 */
 	public function getNormalizedName()
 	{
-		$normalizer = new HeaderNameNormalizer();
-		return $normalizer->normalizeHeaderName($this->name);
+		$headerNameUtil = new HeaderNameUtil();
+		return $headerNameUtil->normalizeHeaderName($this->name);
 	}
 
 	/**
@@ -67,6 +68,14 @@ class Header
 	public function getValues()
 	{
 		return $this->values;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValuesAsString()
+	{
+		return implode(', ', $this->values);
 	}
 
 	/**

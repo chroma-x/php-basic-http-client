@@ -3,11 +3,11 @@
 namespace BasicHttpClient\Util;
 
 /**
- * Class HeaderNameNormalizer
+ * Class HeaderNameUtil
  *
  * @package BasicHttpClient\Util
  */
-class HeaderNameNormalizer
+class HeaderNameUtil
 {
 
 	/**

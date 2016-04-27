@@ -10,9 +10,12 @@ namespace BasicHttpClient\Request\Transport;
 class HttpTransport implements Base\TransportInterface
 {
 
-	const HTTP_VERSION_1_0 = '1.0';
-	const HTTP_VERSION_1_1 = '1.1';
+	const HTTP_VERSION_1_0 = CURL_HTTP_VERSION_1_0;
+	const HTTP_VERSION_1_1 = CURL_HTTP_VERSION_1_1;
 
+	/**
+	 * @var string
+	 */
 	private $httpVersion = self::HTTP_VERSION_1_1;
 
 	/**
@@ -145,6 +148,30 @@ class HttpTransport implements Base\TransportInterface
 	public function setMaxRedirects($maxRedirects)
 	{
 		$this->maxRedirects = $maxRedirects;
+		return $this;
+	}
+
+	/**
+	 * @param resource $curl
+	 * @return $this
+	 */
+	public function configureCurl($curl)
+	{
+		// HTTP version
+		curl_setopt($curl, CURLOPT_HTTP_VERSION, $this->getHttpVersion());
+		// Timeout
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->getTimeout());
+		curl_setopt($curl, CURLOPT_TIMEOUT, $this->getTimeout());
+		// Caching and connection reusage
+		if (!$this->getAllowCaching() || !$this->getReuseConnection()) {
+			curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
+			curl_setopt($curl, CURLOPT_FRESH_CONNECT, true);
+		}
+		// Follow redirects
+		if ($this->getFollowRedirects()) {
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, $this->getMaxRedirects());
+		}
 		return $this;
 	}
 
