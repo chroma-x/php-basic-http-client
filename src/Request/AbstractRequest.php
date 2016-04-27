@@ -301,22 +301,6 @@ abstract class AbstractRequest implements RequestInterface
 			curl_setopt($curl, CURLOPT_HTTPGET, false);
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->getMethod());
 		}
-		// Request body
-		switch ($this->getMethod()) {
-			case self::REQUEST_METHOD_GET:
-			case self::REQUEST_METHOD_HEAD:
-				// Modify the URL using the body as query string
-				break;
-			case self::REQUEST_METHOD_POST:
-				// curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
-				break;
-			case self::REQUEST_METHOD_PUT:
-				// curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
-				break;
-			case self::REQUEST_METHOD_PATCH:
-				// curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
-				break;
-		}
 		return $this;
 	}
 
@@ -337,6 +321,9 @@ abstract class AbstractRequest implements RequestInterface
 		$this->configureCurl($curl);
 		$this->getTransport()->configureCurl($curl);
 		$this->getMessage()->configureCurl($curl);
+		for ($i = 0; $i < count($this->authentications); $i++) {
+			$this->authentications[$i]->configureCurl($curl);
+		}
 		// Execute request
 		$responseBody = curl_exec($curl);
 		$curlErrorCode = curl_errno($curl);
