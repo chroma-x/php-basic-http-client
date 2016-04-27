@@ -1,15 +1,14 @@
 {
   "name": "markenwerk/basic-http-client",
   "type": "library",
-  "description": "A PHP HTTP client library supporting different protocols like RESTful JSON, JSON-RPC, XML-RPC and SOAP.",
+  "description": "A basic yet extensible HTTP client library providing different authentication methods written in PHP.",
   "keywords": [
     "HTTP client",
     "RESTful",
     "JSON",
-    "JSON-RPC",
-    "XML-RPC",
-    "SOAP",
-    "SSL"
+    "SSL",
+    "Basic Auth",
+    "Client Certificate Auth"
   ],
   "homepage": "http://markenwerk.net/",
   "license": "MIT",
@@ -27,6 +26,7 @@
   },
   "require": {
     "php": ">=5.3",
+    "lib-curl": "*",
     "markenwerk/common-exceptions": "~2.0"
   },
   "require-dev": {
