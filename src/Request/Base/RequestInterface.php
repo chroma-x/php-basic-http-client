@@ -5,6 +5,7 @@ namespace BasicHttpClient\Request\Base;
 use BasicHttpClient\Request\Authentication\Base\AuthenticationInterface;
 use BasicHttpClient\Request\Message\Base\MessageInterface;
 use BasicHttpClient\Request\Transport\Base\TransportInterface;
+use BasicHttpClient\Response\Response;
 
 /**
  * Class Request
@@ -107,5 +108,15 @@ interface RequestInterface extends CurlConfiguratorInterface
 	 * @return int
 	 */
 	public function countAuthentications();
+
+	/**
+	 * @return $this
+	 */
+	public function perform();
+
+	/**
+	 * @return Response
+	 */
+	public function getResponse();
 
 }

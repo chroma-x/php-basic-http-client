@@ -6,8 +6,12 @@ use BasicHttpClient\Request\Authentication\Base\AuthenticationInterface;
 use BasicHttpClient\Request\Base\RequestInterface;
 use BasicHttpClient\Request\Message\Base\MessageInterface;
 use BasicHttpClient\Request\Transport\Base\TransportInterface;
+use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
+use BasicHttpClient\Response\Response;
 use BasicHttpClient\Util\UrlUtil;
+use CommonException\NetworkException\Base\NetworkException;
+use CommonException\NetworkException\ConnectionTimeoutException;
 
 /**
  * Class Request
@@ -58,6 +62,11 @@ class Request implements RequestInterface
 	 * @var MessageInterface
 	 */
 	private $message;
+
+	/**
+	 * @var Response
+	 */
+	private $response;
 
 	/**
 	 * Request constructor.
@@ -113,6 +122,14 @@ class Request implements RequestInterface
 	public function getPort()
 	{
 		return $this->port;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasPort()
+	{
+		return !is_null($this->port);
 	}
 
 	/**
@@ -265,27 +282,29 @@ class Request implements RequestInterface
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 		curl_setopt($curl, CURLOPT_USERAGENT, $this->getUserAgent());
 		curl_setopt($curl, CURLOPT_URL, $this->getEndpoint());
-		// Setup request method
+		if ($this->hasPort()) {
+			curl_setopt($curl, CURLOPT_PORT, $this->getPort());
+		}
+		// Request method
+		curl_setopt($curl, CURLOPT_HTTPGET, true);
+		if ($this->getMethod() != self::REQUEST_METHOD_GET) {
+			curl_setopt($curl, CURLOPT_HTTPGET, false);
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->getMethod());
+		}
+		// Request body
 		switch ($this->getMethod()) {
 			case self::REQUEST_METHOD_GET:
 			case self::REQUEST_METHOD_HEAD:
-				curl_setopt($curl, CURLOPT_HTTPGET, true);
 				// Modify the URL using the body as query string
 				break;
 			case self::REQUEST_METHOD_POST:
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
 				// curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
 				break;
 			case self::REQUEST_METHOD_PUT:
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
 				// curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
 				break;
 			case self::REQUEST_METHOD_PATCH:
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
 				// curl_setopt($curl, CURLOPT_POSTFIELDS, $requestBody);
-				break;
-			case self::REQUEST_METHOD_DELETE:
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 				break;
 		}
 		return $this;
@@ -293,9 +312,16 @@ class Request implements RequestInterface
 
 	/**
 	 * @return $this
+	 * @throws ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws \Exception
 	 */
 	public function perform()
 	{
+		// Reset former result
+		$this->response = null;
+		// Perform hook
+		$this->prePerform();
 		// Curl basic setup
 		$curl = curl_init();
 		$this->configureCurl($curl);
@@ -303,9 +329,42 @@ class Request implements RequestInterface
 		$this->getMessage()->configureCurl($curl);
 		// Execute request
 		$responseBody = curl_exec($curl);
-		// TODO: Parse the response body
+		$curlErrorCode = curl_errno($curl);
+		$curlErrorMessage = curl_error($curl);
+		if ($curlErrorCode === CURLE_OK) {
+			$this->response = new Response();
+			$this->response->populateFromCurlResult($curl, $responseBody);
+			return $this;
+		}
 		curl_close($curl);
-		return $this;
+		switch ($curlErrorCode) {
+			case CURLE_OPERATION_TIMEOUTED:
+				throw new ConnectionTimeoutException('The request timed out with message: ' . $curlErrorMessage);
+				break;
+			default:
+				throw new NetworkException('The request failed with message: ' . $curlErrorMessage);
+				break;
+		}
+	}
+
+	/**
+	 * @return Response
+	 */
+	public function getResponse()
+	{
+		return $this->response;
+	}
+
+	/**
+	 * @throws \Exception
+	 * @return void
+	 */
+	protected function prePerform()
+	{
+		$urlUtil = new UrlUtil();
+		if ($urlUtil->getScheme($this->getEndpoint()) == 'HTTPS' && !$this->getTransport() instanceof HttpsTransport) {
+			throw new \Exception('Transport misconfiguration. Use HttpsTransport for HTTPS requests.');
+		}
 	}
 
 }

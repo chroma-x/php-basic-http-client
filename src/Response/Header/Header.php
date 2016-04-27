@@ -1,16 +1,15 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Header;
+namespace BasicHttpClient\Response\Header;
 
-use BasicHttpClient\Request\Message\Header\Base\HeaderInterface;
 use BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Header
  *
- * @package BasicHttpClient\Request\Message\Header
+ * @package BasicHttpClient\Response\Header
  */
-class Header implements HeaderInterface
+class Header
 {
 
 	/**
@@ -56,7 +55,7 @@ class Header implements HeaderInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function setName($name)
+	private function setName($name)
 	{
 		$this->name = trim($name);
 		return $this;
@@ -82,7 +81,7 @@ class Header implements HeaderInterface
 	 * @param string[] $values
 	 * @return $this
 	 */
-	public function setValues($values)
+	private function setValues($values)
 	{
 		foreach ($values as $value) {
 			$this->values[] = trim($value);

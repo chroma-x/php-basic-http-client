@@ -319,6 +319,32 @@ class Message implements MessageInterface
 	}
 
 	/**
+	 * @param resource $curl
+	 * @return $this
+	 */
+	public function configureCurl($curl)
+	{
+		// Add request headers
+		if ($this->hasHeaders()) {
+			$requestHeaders = array();
+			foreach ($this->getHeaders() as $header) {
+				$requestHeaders[] = $header->getNormalizedName() . ': ' . $header->getValuesAsString();
+			}
+			// Set http header to curl
+			curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
+		}
+		// Setup request cookies
+		if ($this->hasCookies()) {
+			$requestCookies = array();
+			foreach ($this->getCookies() as $cookie) {
+				$requestCookies[] = $cookie->getName() . '=' . $cookie->getValue();
+			}
+			curl_setopt($curl, CURLOPT_COOKIE, implode(';', $requestCookies));
+		}
+		return $this;
+	}
+
+	/**
 	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
@@ -364,32 +390,6 @@ class Message implements MessageInterface
 			}
 		}
 		return $matchingHeaders;
-	}
-
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	public function configureCurl($curl)
-	{
-		// Add request headers
-		if ($this->hasHeaders()) {
-			$requestHeaders = array();
-			foreach ($this->getHeaders() as $header) {
-				$requestHeaders[] = $header->getNormalizedName() . ': ' . $header->getValuesAsString();
-			}
-			// Set http header to curl
-			curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
-		}
-		// Setup request cookies
-		if ($this->hasCookies()) {
-			$requestCookies = array();
-			foreach ($this->getCookies() as $cookie) {
-				$requestCookies[] = $cookie->getName() . '=' . $cookie->getValue();
-			}
-			curl_setopt($curl, CURLOPT_COOKIE, implode(';', $requestCookies));
-		}
-		return $this;
 	}
 
 }

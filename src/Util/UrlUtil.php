@@ -28,4 +28,12 @@ class UrlUtil
 		return !filter_var($url, FILTER_VALIDATE_URL) === false;
 	}
 
+	/**
+	 * @param string $url
+	 */
+	public function getScheme($url)
+	{
+		return mb_strtoupper(parse_url($url, PHP_URL_SCHEME));
+	}
+
 }
