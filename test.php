@@ -80,3 +80,5 @@ for ($i = 0; $i < 2; $i++) {
 }
 
 $response = $client->post($postData);
+
+print_r($response);

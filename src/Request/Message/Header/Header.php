@@ -2,7 +2,6 @@
 
 namespace BasicHttpClient\Request\Message\Header;
 
-use BasicHttpClient\Request\Message\Header\Base\HeaderInterface;
 use BasicHttpClient\Util\HeaderNameUtil;
 
 /**

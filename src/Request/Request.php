@@ -2,14 +2,13 @@
 
 namespace BasicHttpClient\Request;
 
-use BasicHttpClient\Request\Authentication\Base\AuthenticationInterface;
-use BasicHttpClient\Request\Base\RequestInterface;
-use BasicHttpClient\Request\Message\Base\MessageInterface;
+use BasicHttpClient\Request\Authentication\AuthenticationInterface;
+use BasicHttpClient\Request\Message\MessageInterface;
 use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Request\Transport\Base\TransportInterface;
+use BasicHttpClient\Request\Transport\TransportInterface;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
-use BasicHttpClient\Response\Base\ResponseInterface;
+use BasicHttpClient\Response\ResponseInterface;
 use BasicHttpClient\Response\Response;
 use BasicHttpClient\Util\UrlUtil;
 use CommonException\NetworkException\Base\NetworkException;

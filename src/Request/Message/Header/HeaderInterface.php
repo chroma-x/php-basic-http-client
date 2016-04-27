@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Header\Base;
+namespace BasicHttpClient\Request\Message\Header;
 
 /**
  * Interface HeaderInterface
  *
- * @package BasicHttpClient\Request\Message\Header\Base
+ * @package BasicHttpClient\Request\Message\Header
  */
 interface HeaderInterface
 {

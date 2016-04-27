@@ -2,12 +2,13 @@
 
 namespace BasicHttpClient;
 
-use BasicHttpClient\Request\Base\RequestInterface;
+use BasicHttpClient\Request\RequestInterface;
 use BasicHttpClient\Request\Message\Body\Body;
 use BasicHttpClient\Request\Message\Message;
 use BasicHttpClient\Request\Request;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
+use BasicHttpClient\Response\ResponseInterface;
 use BasicHttpClient\Util\UrlUtil;
 
 /**
@@ -51,7 +52,7 @@ class BasicHttpClient
 	}
 
 	/**
-	 * @return Response\Base\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	public function get()
 	{
@@ -62,7 +63,7 @@ class BasicHttpClient
 	}
 
 	/**
-	 * @return Response\Base\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	public function head()
 	{
@@ -74,7 +75,7 @@ class BasicHttpClient
 
 	/**
 	 * @param array $postData
-	 * @return Response\Base\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	public function post(array $postData)
 	{
@@ -91,7 +92,7 @@ class BasicHttpClient
 
 	/**
 	 * @param array $putData
-	 * @return Response\Base\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	public function put(array $putData)
 	{
@@ -108,7 +109,7 @@ class BasicHttpClient
 
 	/**
 	 * @param array $patchData
-	 * @return Response\Base\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	public function patch(array $patchData)
 	{
@@ -124,7 +125,7 @@ class BasicHttpClient
 	}
 
 	/**
-	 * @return Response\Base\ResponseInterface
+	 * @return ResponseInterface
 	 */
 	public function delete()
 	{

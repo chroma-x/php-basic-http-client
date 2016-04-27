@@ -7,7 +7,7 @@ namespace BasicHttpClient\Request\Transport;
  *
  * @package BasicHttpClient\Request\Transport
  */
-class HttpTransport implements Base\TransportInterface
+class HttpTransport implements TransportInterface
 {
 
 	const HTTP_VERSION_1_0 = CURL_HTTP_VERSION_1_0;

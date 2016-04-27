@@ -2,8 +2,6 @@
 
 namespace BasicHttpClient\Request\Message\Cookie;
 
-use BasicHttpClient\Request\Message\Cookie\Base\CookieInterface;
-
 /**
  * Class Cookie
  *

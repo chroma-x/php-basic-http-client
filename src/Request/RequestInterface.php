@@ -1,15 +1,16 @@
 <?php
 
-namespace BasicHttpClient\Request\Base;
+namespace BasicHttpClient\Request;
 
-use BasicHttpClient\Request\Authentication\Base\AuthenticationInterface;
-use BasicHttpClient\Request\Message\Base\MessageInterface;
+use BasicHttpClient\Request\Authentication\AuthenticationInterface;
+use BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use BasicHttpClient\Request\Message\MessageInterface;
 use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Request\Transport\Base\TransportInterface;
-use BasicHttpClient\Response\Base\ResponseInterface;
+use BasicHttpClient\Request\Transport\TransportInterface;
+use BasicHttpClient\Response\ResponseInterface;
 
 /**
- * Class Request
+ * Interface RequestInterface
  *
  * @package BasicHttpClient\Request
  */

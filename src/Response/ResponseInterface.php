@@ -1,8 +1,8 @@
 <?php
 
-namespace BasicHttpClient\Response\Base;
+namespace BasicHttpClient\Response;
 
-use BasicHttpClient\Request\Base\RequestInterface;
+use BasicHttpClient\Request\RequestInterface;
 use BasicHttpClient\Response\Header\Header;
 use BasicHttpClient\Response\Statistics\Statistics;
 

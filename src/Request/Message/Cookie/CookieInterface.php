@@ -1,9 +1,9 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Cookie\Base;
+namespace BasicHttpClient\Request\Message\Cookie;
 
 /**
- * Class Cookie
+ * Interface CookieInterface
  *
  * @package BasicHttpClient\Request\Message\Cookie
  */

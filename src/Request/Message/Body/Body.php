@@ -7,7 +7,7 @@ namespace BasicHttpClient\Request\Message\Body;
  *
  * @package BasicHttpClient\Request\Message\Body
  */
-class Body implements Base\BodyInterface
+class Body implements BodyInterface
 {
 
 	/**

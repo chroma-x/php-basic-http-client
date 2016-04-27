@@ -1,16 +1,16 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Base;
+namespace BasicHttpClient\Request\Message;
 
 use BasicHttpClient\Request\Base\CurlConfiguratorInterface;
-use BasicHttpClient\Request\Message\Body\Base\BodyInterface;
-use BasicHttpClient\Request\Message\Cookie\Base\CookieInterface;
-use BasicHttpClient\Request\Message\Header\Base\HeaderInterface;
+use BasicHttpClient\Request\Message\Body\BodyInterface;
+use BasicHttpClient\Request\Message\Cookie\CookieInterface;
+use BasicHttpClient\Request\Message\Header\HeaderInterface;
 
 /**
  * Interface MessageInterface
  *
- * @package BasicHttpClient\Request\Message\Base
+ * @package BasicHttpClient\Request\Message
  */
 interface MessageInterface extends CurlConfiguratorInterface
 {

@@ -2,8 +2,7 @@
 
 namespace BasicHttpClient\Response;
 
-use BasicHttpClient\Request\Base\RequestInterface;
-use BasicHttpClient\Response\Base\ResponseInterface;
+use BasicHttpClient\Request\RequestInterface;
 use BasicHttpClient\Response\Header\Header;
 use BasicHttpClient\Response\Statistics\Statistics;
 

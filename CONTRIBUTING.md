@@ -48,11 +48,22 @@ Always **make a new branch** for your work, no matter how small. This makes it e
 - **New features** should branch off of **the `master` branch.**
   - Note that depending on how long it takes for the dev team to merge your patch, the copy of `master` you worked off of may get out of date! If you find yourself ‘bumping’ a pull request that’s been sidelined for a while, **make sure you rebase or merge to latest `master`** to ensure a speedier resolution.
 
-### Code formatting
+### Coding standards
 
 **Follow the style you see used in the primary repository!** Consistency with the rest of the project always trumps other considerations. It doesn’t matter if you have your own style or if the rest of the code breaks with the greater community - just follow along.
 
-PHP projects usually follow the [PHP Standards Recommendations guidelines](http://www.php-fig.org/psr/) (though many have minor deviations depending on the lead maintainers’ preferences.)
+Our PHP projects usually follow the [PSR-1](http://www.php-fig.org/psr/psr-1/), [PSR-2](http://www.php-fig.org/psr/psr-2/) and [PSR-4](http://www.php-fig.org/psr/psr-4/) guidelines with minor deviations depending on the lead maintainers’ preferences.
+
+#### Naming things
+
+- Prefix abstract classes with `Abstract`
+- Suffix interfaces with `Interface`
+- Suffix traits with `Trait`
+- Suffix exceptions with `Exception`
+
+#### PHPDocs
+
+For type-hinting in PHPDocs and casting, use `bool` (instead of boolean or Boolean), `int` (instead of integer) and `float` (instead of double or real).
 
 ### Documentation isn’t optional
 
