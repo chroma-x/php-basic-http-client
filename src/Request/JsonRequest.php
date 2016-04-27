@@ -2,15 +2,15 @@
 
 namespace BasicHttpClient\Request;
 
-use BasicHttpClient\Response\Response;
+use BasicHttpClient\Response\JsonResponse;
 use BasicHttpClient\Response\ResponseInterface;
 
 /**
- * Class Request
+ * Class JsonRequest
  *
  * @package BasicHttpClient\Request
  */
-class Request extends AbstractRequest
+class JsonRequest extends AbstractRequest
 {
 
 	/**
@@ -18,7 +18,7 @@ class Request extends AbstractRequest
 	 */
 	protected function buildResponse()
 	{
-		return new Response($this);
+		return new JsonResponse($this);
 	}
 
 }

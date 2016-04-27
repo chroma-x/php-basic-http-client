@@ -2,21 +2,22 @@
 
 namespace BasicHttpClient;
 
+use BasicHttpClient\Request\Message\Header\Header;
 use BasicHttpClient\Request\RequestInterface;
-use BasicHttpClient\Request\Message\Body\Body;
+use BasicHttpClient\Request\Message\Body\JsonBody;
 use BasicHttpClient\Request\Message\Message;
-use BasicHttpClient\Request\Request;
+use BasicHttpClient\Request\JsonRequest;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
 use BasicHttpClient\Response\ResponseInterface;
 use BasicHttpClient\Util\UrlUtil;
 
 /**
- * Class BasicHttpClient
+ * Class JsonHttpClient
  *
  * @package BasicHttpClient
  */
-class BasicHttpClient implements HttpClientInterface
+class JsonHttpClient implements HttpClientInterface
 {
 
 	/**
@@ -36,10 +37,14 @@ class BasicHttpClient implements HttpClientInterface
 		if ($urlUtil->getScheme($endpoint) == 'HTTPS') {
 			$transport = new HttpsTransport();
 		}
-		$this->request = new Request();
+		$message = new Message();
+		$message
+			->addHeader(new Header('Accept', array('application/json')))
+			->addHeader(new Header('Content-Type', array('application/json')));
+		$this->request = new JsonRequest();
 		$this->request
 			->setTransport($transport)
-			->setMessage(new Message())
+			->setMessage($message)
 			->setEndpoint($endpoint);
 	}
 
@@ -79,11 +84,9 @@ class BasicHttpClient implements HttpClientInterface
 	 */
 	public function post(array $postData)
 	{
-		$body = new Body();
-		$body->setBodyTextFromArray($postData);
 		$this->request
 			->getMessage()
-			->setBody($body);
+			->setBody(new JsonBody($postData));
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_POST)
 			->perform();
@@ -96,11 +99,9 @@ class BasicHttpClient implements HttpClientInterface
 	 */
 	public function put(array $putData)
 	{
-		$body = new Body();
-		$body->setBodyTextFromArray($putData);
 		$this->request
 			->getMessage()
-			->setBody($body);
+			->setBody(new JsonBody($putData));
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_PUT)
 			->perform();
@@ -113,11 +114,9 @@ class BasicHttpClient implements HttpClientInterface
 	 */
 	public function patch(array $patchData)
 	{
-		$body = new Body();
-		$body->setBodyTextFromArray($patchData);
 		$this->request
 			->getMessage()
-			->setBody($body);
+			->setBody(new JsonBody($patchData));
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_PATCH)
 			->perform();
