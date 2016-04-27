@@ -341,6 +341,10 @@ class Message implements MessageInterface
 			}
 			curl_setopt($curl, CURLOPT_COOKIE, implode(';', $requestCookies));
 		}
+		// Setup body
+		if ($this->hasBody()) {
+			$this->getBody()->configureCurl($curl);
+		}
 		return $this;
 	}
 

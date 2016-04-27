@@ -18,17 +18,12 @@ use CommonException\NetworkException\ConnectionTimeoutException;
 /**
  * Class Request
  *
+ * TODO: Add query params to be concatenated to the endpoints URL for performing GET, HEAD and DELETE requests.
+ *
  * @package BasicHttpClient\Request
  */
 class Request implements RequestInterface
 {
-
-	const REQUEST_METHOD_GET = 'GET';
-	const REQUEST_METHOD_HEAD = 'HEAD';
-	const REQUEST_METHOD_POST = 'POST';
-	const REQUEST_METHOD_PUT = 'PUT';
-	const REQUEST_METHOD_PATCH = 'PATCH';
-	const REQUEST_METHOD_DELETE = 'DELETE';
 
 	/**
 	 * @var string
