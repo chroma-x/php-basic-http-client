@@ -15,89 +15,91 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	/**
 	 * @var string
 	 */
-	private $caCertificatePath;
+	private $caCertPath;
+
 	/**
 	 * @var string
 	 */
-	private $clientCertificatePath;
+	private $clientCertPath;
+
 	/**
 	 * @var string
 	 */
-	private $clientCertificatePassword;
+	private $clientCertPassword;
 
 	/**
 	 * ClientCertificateAuthentication constructor.
 	 *
-	 * @param string $caCertificatePath
-	 * @param string $clientCertificatePath
-	 * @param string $clientCertificatePassword
+	 * @param string $caCertPath
+	 * @param string $clientCertPath
+	 * @param string $clientCertPassword
 	 */
-	public function __construct($caCertificatePath, $clientCertificatePath, $clientCertificatePassword)
+	public function __construct($caCertPath, $clientCertPath, $clientCertPassword)
 	{
-		$this->setCaCertificatePath($caCertificatePath);
-		$this->setClientCertificatePath($clientCertificatePath);
-		$this->setClientCertificatePassword($clientCertificatePassword);
+		$this->setCaCertPath($caCertPath);
+		$this->setClientCertPath($clientCertPath);
+		$this->setClientCertPassword($clientCertPassword);
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getCaCertificatePath()
+	public function getCaCertPath()
 	{
-		return $this->caCertificatePath;
+		return $this->caCertPath;
 	}
 
 	/**
-	 * @param mixed $caCertificatePath
+	 * @param mixed $caCertPath
 	 * @return $this
 	 * @throws FileReadableException
 	 */
-	public function setCaCertificatePath($caCertificatePath)
+	public function setCaCertPath($caCertPath)
 	{
-		if (!is_file($caCertificatePath)) {
+		if (!is_file($caCertPath)) {
 			throw new FileReadableException('CA certificate file not readable.');
 		}
-		$this->caCertificatePath = $caCertificatePath;
+		$this->caCertPath = $caCertPath;
 		return $this;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getClientCertificatePath()
+	public function getClientCertPath()
 	{
-		return $this->clientCertificatePath;
+		return $this->clientCertPath;
 	}
 
 	/**
-	 * @param mixed $clientCertificatePath
+	 * @param mixed $clientCertPath
 	 * @return $this
 	 * @throws FileReadableException
 	 */
-	public function setClientCertificatePath($clientCertificatePath)
+	public function setClientCertPath($clientCertPath)
 	{
-		if (!is_file($clientCertificatePath)) {
+		if (!is_file($clientCertPath)) {
 			throw new FileReadableException('Client certificate file not readable.');
 		}
-		$this->clientCertificatePath = $clientCertificatePath;
+		$this->clientCertPath = $clientCertPath;
 		return $this;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getClientCertificatePassword()
+	public function getClientCertPassword()
 	{
-		return $this->clientCertificatePassword;
+		return $this->clientCertPassword;
 	}
 
 	/**
-	 * @param mixed $clientCertificatePassword
+	 * @param mixed $clientCertPassword
 	 * @return $this
 	 */
-	public function setClientCertificatePassword($clientCertificatePassword)
+	public function setClientCertPassword($clientCertPassword)
 	{
-		$this->clientCertificatePassword = $clientCertificatePassword;
+		$this->clientCertPassword = $clientCertPassword;
 		return $this;
 	}
 
@@ -107,9 +109,9 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	 */
 	public function configureCurl($curl)
 	{
-		curl_setopt($curl, CURLOPT_CAINFO, $this->caCertificatePath);
-		curl_setopt($curl, CURLOPT_SSLCERT, $this->clientCertificatePath);
-		curl_setopt($curl, CURLOPT_SSLCERTPASSWD, $this->clientCertificatePassword);
+		curl_setopt($curl, CURLOPT_CAINFO, $this->caCertPath);
+		curl_setopt($curl, CURLOPT_SSLCERT, $this->clientCertPath);
+		curl_setopt($curl, CURLOPT_SSLCERTPASSWD, $this->clientCertPassword);
 		return $this;
 	}
 
