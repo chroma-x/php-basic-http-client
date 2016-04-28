@@ -40,7 +40,7 @@ $message = new Message();
 $message
 	->addHeader(new Header('Content-Type', array('application/json')))
 	->addHeader(new Header('Accept', array('application/json', 'text/*')))
-	->addHeader(new Header('Runscope-Bucket-Auth', '7a64dde7-74d5-4eed-b170-a2ab406eff08'))
+	->addHeader(new Header('Runscope-Bucket-Auth', array('7a64dde7-74d5-4eed-b170-a2ab406eff08')))
 	->addCookie(new Cookie('PHPSESSID', '<MY_SESSION_ID>'))
 	->setBody($messageBody);
 
@@ -60,3 +60,5 @@ $response = $request
 	->setTransport($transport)
 	->setMessage($message)
 	->perform();
+
+print_r($request->getEffectiveRawHeader());

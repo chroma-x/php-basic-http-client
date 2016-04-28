@@ -120,7 +120,6 @@ Content-Type: application/x-www-form-urlencoded
 Accept: text/html, text/*
 Content-Length: 101
 
-
 paramName1=paramValue1&paramName2=paramValue2&paramName3%5Bkey1%5D=value1&paramName3%5Bkey2%5D=value2
 ```
 
@@ -170,7 +169,7 @@ $message = new Message();
 $message
 	->addHeader(new Header('Content-Type', array('application/json')))
 	->addHeader(new Header('Accept', array('application/json', 'text/*')))
-	->addHeader(new Header('Runscope-Bucket-Auth', '7a64dde7-74d5-4eed-b170-a2ab406eff08'))
+	->addHeader(new Header('Runscope-Bucket-Auth', array('7a64dde7-74d5-4eed-b170-a2ab406eff08')))
 	->addCookie(new Cookie('PHPSESSID', '<MY_SESSION_ID>'))
 	->setBody($messageBody);
 
@@ -191,6 +190,22 @@ $response = $request
 	->setTransport($transport)
 	->setMessage($message)
 	->perform();
+```
+
+The resulting HTTP request would be the following.
+
+```{http}
+POST /?paramName1=paramValue1&paramName2=paramValue2 HTTP/1.1
+Host: yourapihere-com-98yq3775xff0.runscope.net
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+User-Agent: PHP Basic HTTP Client Test 1.0
+Cookie: PHPSESSID=<MY_SESSION_ID>
+Content-Type: application/json
+Accept: application/json, text/*
+Runscope-Bucket-Auth: 7a64dde7-74d5-4eed-b170-a2ab406eff08
+Content-Length: 102
+
+{"paramName1":"paramValue1","paramName2":"paramValue2","paramName3":{"key1":"value1","key2":"value2"}}
 ```
 
 ---
