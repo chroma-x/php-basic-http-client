@@ -74,6 +74,25 @@ interface RequestInterface extends CurlConfiguratorInterface
 	public function setMethod($method);
 
 	/**
+	 * @return string[]
+	 */
+	public function getQueryParameters();
+
+	/**
+	 * @param string $parameterName
+	 * @param string $parameterValue
+	 * @return $this
+	 * @internal param string $queryParameter
+	 */
+	public function addQueryParameter($parameterName, $parameterValue);
+
+	/**
+	 * @param string[] $queryParameters
+	 * @return $this
+	 */
+	public function setQueryParameters($queryParameters);
+
+	/**
 	 * @return TransportInterface
 	 */
 	public function getTransport();
@@ -153,6 +172,11 @@ interface RequestInterface extends CurlConfiguratorInterface
 	 * @return string
 	 */
 	public function getEffectiveEndpoint();
+
+	/**
+	 * @return string
+	 */
+	public function getEffectiveRawHeader();
 
 	/**
 	 * @return Header[]

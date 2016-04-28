@@ -52,23 +52,31 @@ class BasicHttpClient implements HttpClientInterface
 	}
 
 	/**
+	 * @param string[] $queryParameters
 	 * @return ResponseInterface
+	 * @throws \CommonException\NetworkException\Base\NetworkException
+	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
 	 */
-	public function get()
+	public function get(array $queryParameters = null)
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_GET)
+			->setQueryParameters($queryParameters)
 			->perform();
 		return $this->request->getResponse();
 	}
 
 	/**
+	 * @param string[] $queryParameters
 	 * @return ResponseInterface
+	 * @throws \CommonException\NetworkException\Base\NetworkException
+	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
 	 */
-	public function head()
+	public function head(array $queryParameters = null)
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_HEAD)
+			->setQueryParameters($queryParameters)
 			->perform();
 		return $this->request->getResponse();
 	}
@@ -76,8 +84,10 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param array $postData
 	 * @return ResponseInterface
+	 * @throws \CommonException\NetworkException\Base\NetworkException
+	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
 	 */
-	public function post(array $postData)
+	public function post(array $postData = null)
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($postData);
@@ -93,8 +103,10 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param array $putData
 	 * @return ResponseInterface
+	 * @throws \CommonException\NetworkException\Base\NetworkException
+	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
 	 */
-	public function put(array $putData)
+	public function put(array $putData = null)
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($putData);
@@ -110,8 +122,10 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param array $patchData
 	 * @return ResponseInterface
+	 * @throws \CommonException\NetworkException\Base\NetworkException
+	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
 	 */
-	public function patch(array $patchData)
+	public function patch(array $patchData = null)
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($patchData);
@@ -125,12 +139,16 @@ class BasicHttpClient implements HttpClientInterface
 	}
 
 	/**
+	 * @param string[] $queryParameters
 	 * @return ResponseInterface
+	 * @throws \CommonException\NetworkException\Base\NetworkException
+	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
 	 */
-	public function delete()
+	public function delete(array $queryParameters = null)
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_DELETE)
+			->setQueryParameters($queryParameters)
 			->perform();
 		return $this->request->getResponse();
 	}

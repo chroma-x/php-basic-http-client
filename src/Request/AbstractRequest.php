@@ -44,6 +44,11 @@ abstract class AbstractRequest implements RequestInterface
 	private $method = self::REQUEST_METHOD_GET;
 
 	/**
+	 * @var string[]
+	 */
+	private $queryParameters = array();
+
+	/**
 	 * @var TransportInterface
 	 */
 	private $transport;
@@ -72,6 +77,11 @@ abstract class AbstractRequest implements RequestInterface
 	 * @var string
 	 */
 	private $effectiveEndpoint;
+
+	/**
+	 * @var string
+	 */
+	private $effectiveRawHeader;
 
 	/**
 	 * @var Header[]
@@ -167,6 +177,44 @@ abstract class AbstractRequest implements RequestInterface
 	public function setMethod($method)
 	{
 		$this->method = $method;
+		return $this;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getQueryParameters()
+	{
+		return $this->queryParameters;
+	}
+
+	/**
+	 * @param string $parameterName
+	 * @param string $parameterValue
+	 * @return $this
+	 * @internal param string $queryParameter
+	 */
+	public function addQueryParameter($parameterName, $parameterValue)
+	{
+		if (!is_string($parameterName) || !is_string($parameterValue)) {
+			throw new \InvalidArgumentException('Query parameter names and values have to be a string.');
+		}
+		$this->queryParameters[$parameterName] = $parameterValue;
+		return $this;
+	}
+
+	/**
+	 * @param string[] $queryParameters
+	 * @return $this
+	 */
+	public function setQueryParameters($queryParameters)
+	{
+		foreach ($queryParameters as $parameterName => $parameterValue) {
+			if (!is_string($parameterName) || !is_string($parameterValue)) {
+				throw new \InvalidArgumentException('Query parameters have to be an associative array.');
+			}
+		}
+		$this->queryParameters = $queryParameters;
 		return $this;
 	}
 
@@ -291,7 +339,7 @@ abstract class AbstractRequest implements RequestInterface
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 		curl_setopt($curl, CURLOPT_USERAGENT, $this->getUserAgent());
-		curl_setopt($curl, CURLOPT_URL, $this->getEndpoint());
+		curl_setopt($curl, CURLOPT_URL, $this->calculateEndpoint());
 		if ($this->hasPort()) {
 			curl_setopt($curl, CURLOPT_PORT, $this->getPort());
 		}
@@ -375,11 +423,30 @@ abstract class AbstractRequest implements RequestInterface
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getEffectiveRawHeader()
+	{
+		return $this->effectiveRawHeader;
+	}
+
+	/**
 	 * @return Header[]
 	 */
 	public function getEffectiveHeaders()
 	{
 		return $this->effectiveHeaders;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function calculateEndpoint()
+	{
+		$endpoint = $this->getEndpoint();
+		$glueCharacter = (strpos($endpoint, '?') === false) ? '?' : '&';
+		$endpoint .= $glueCharacter . http_build_query($this->getQueryParameters());
+		return $endpoint;
 	}
 
 	/**
@@ -401,10 +468,11 @@ abstract class AbstractRequest implements RequestInterface
 	private function setEffectiveProperties($curl)
 	{
 		$this->effectiveEndpoint = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+		$this->effectiveRawHeader = curl_getinfo($curl, CURLINFO_HEADER_OUT);
 		// Build effective request headers
 		$requestHeaders = preg_split(
 			'/\r\n/',
-			curl_getinfo($curl, CURLINFO_HEADER_OUT),
+			$this->effectiveRawHeader,
 			null,
 			PREG_SPLIT_NO_EMPTY
 		);

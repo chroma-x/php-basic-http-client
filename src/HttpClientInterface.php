@@ -19,36 +19,39 @@ interface HttpClientInterface
 	public function getRequest();
 
 	/**
+	 * @param string[] $queryParameters
 	 * @return ResponseInterface
 	 */
-	public function get();
+	public function get(array $queryParameters = null);
 
 	/**
+	 * @param string[] $queryParameters
 	 * @return ResponseInterface
 	 */
-	public function head();
+	public function head(array $queryParameters = null);
 
 	/**
 	 * @param array $postData
 	 * @return ResponseInterface
 	 */
-	public function post(array $postData);
+	public function post(array $postData = null);
 
 	/**
 	 * @param array $putData
 	 * @return ResponseInterface
 	 */
-	public function put(array $putData);
+	public function put(array $putData = null);
 
 	/**
 	 * @param array $patchData
 	 * @return ResponseInterface
 	 */
-	public function patch(array $patchData);
+	public function patch(array $patchData = null);
 
 	/**
+	 * @param string[] $queryParameters
 	 * @return ResponseInterface
 	 */
-	public function delete();
+	public function delete(array $queryParameters = null);
 
 }
