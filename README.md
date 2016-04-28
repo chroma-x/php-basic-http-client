@@ -299,12 +299,32 @@ $response = $request->addAuthentication($clientCertificateAuthentication);
 
 ---
 
+## Reading from the resulting Response instance
+
+TODO
+
+---
+
+## Getting effective Request information
+
+TODO
+
+---
+
+## Getting some transactional statistics
+
+TODO
+
+---
+
 ## Extending the Basic HTTP Client
 
 Every part of the client is based upon proper interfaces. Most class instances can get injected into the client itself. 
 If you want to extend the client just write some classes implementing the according interface and you´re done with that. 
 
 Take a look at the [PHP JSON HTTP Client](https://github.com/markenwerk/php-json-http-client) which is an extension of the PHP Basic HTTP Client.
+
+---
 
 ## Exception handling
 
