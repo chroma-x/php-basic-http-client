@@ -129,15 +129,25 @@ The same mechanic is offered to perform `PUT` and `PATCH` requests wich all are 
 
 The following example shows the usage with a more detailed configuration. 
 
-#### Configuring a Transport instance
+#### Configuring a HTTP Transport instance
 
 ```{php}
-use BasicHttpClient\Request\Authentication\BasicAuthentication;
-use BasicHttpClient\Request\Message\Body\Body;
-use BasicHttpClient\Request\Message\Cookie\Cookie;
-use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Request\Message\Message;
-use BasicHttpClient\Request\Request;
+use BasicHttpClient\Request\Transport\HttpTransport;
+
+// Configuring a Transport instance
+$transport = new HttpTransport();
+$transport
+	->setHttpVersion(HttpsTransport::HTTP_VERSION_1_1)
+	->setTimeout(5)
+	->setReuseConnection(true)
+	->setAllowCaching(true)
+	->setFollowRedirects(true)
+	->setMaxRedirects(10);
+```
+
+#### Configuring a HTTPS Transport instance
+
+```{php}
 use BasicHttpClient\Request\Transport\HttpsTransport;
 
 // Configuring a Transport instance
@@ -155,6 +165,11 @@ $transport
 #### Configuring a Message instance with Body
 
 ```{php}
+use BasicHttpClient\Request\Message\Body\Body;
+use BasicHttpClient\Request\Message\Cookie\Cookie;
+use BasicHttpClient\Request\Message\Header\Header;
+use BasicHttpClient\Request\Message\Message;
+
 // Configuring a message Body instance
 $messageBody = new Body();
 $messageBody->setBodyText(
@@ -199,9 +214,12 @@ $message->addHeader(new Header('Custom-Header', array('CustomHeaderValue')));
 $message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
 ```
 
-#### Configuring and submitting a Request instance
+#### Configuring a Request instance and perform the HTTP request
 
 ```{php}
+use BasicHttpClient\Request\Authentication\BasicAuthentication;
+use BasicHttpClient\Request\Request;
+
 // Configuring and performing a Request
 $request = new Request();
 $response = $request
@@ -237,6 +255,46 @@ Custom-Header: AnotherCustomHeaderValue
 Content-Length: 102
 
 {"paramName1":"paramValue1","paramName2":"paramValue2","paramName3":{"key1":"value1","key2":"value2"}}
+```
+
+### Usage of authentication methods
+
+You can add one or more Authentication instances to every Request instance. At the moment this project provides classes for [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) and [SSL Client Certificate Authentication](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake).
+
+#### HTTP Basic Authentication
+
+Required credentials are a *username* and a *password* that get provided to the class constructor as arguments.
+
+```{php}
+use BasicHttpClient\Request\Authentication\BasicAuthentication;
+use BasicHttpClient\Request\Request;
+
+// Configuring the authentication
+$basicAuthentication = new BasicAuthentication('username', 'password');
+
+// Adding the authentication instance to the Request
+$request = new Request();
+$response = $request->addAuthentication($basicAuthentication);
+```
+
+#### SSL Client Certificate Authentication
+
+Required credentials are a *Certificate Authority Certificate*, a *Client Certificate* and the password that is used to decrypt the Client Certificate that get provided to the class constructor as arguments.
+
+```{php}
+use BasicHttpClient\Request\Authentication\ClientCertificateAuthentication;
+use BasicHttpClient\Request\Request;
+
+// Configuring the authentication
+$clientCertificateAuthentication = new ClientCertificateAuthentication(
+	'/var/www/project/clientCert/ca.crt',
+	'/var/www/project/clientCert/client.crt',
+	'clientCertPassword'
+);
+
+// Adding the authentication instance to the Request
+$request = new Request();
+$response = $request->addAuthentication($clientCertificateAuthentication);
 ```
 
 ---

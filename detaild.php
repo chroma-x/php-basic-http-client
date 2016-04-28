@@ -3,6 +3,7 @@
 namespace Project;
 
 use BasicHttpClient\Request\Authentication\BasicAuthentication;
+use BasicHttpClient\Request\Authentication\ClientCertificateAuthentication;
 use BasicHttpClient\Request\Message\Body\Body;
 use BasicHttpClient\Request\Message\Cookie\Cookie;
 use BasicHttpClient\Request\Message\Header\Header;
@@ -67,5 +68,11 @@ $response = $request
 	->setTransport($transport)
 	->setMessage($message)
 	->perform();
+
+$auth = new ClientCertificateAuthentication(
+	'/var/www/project/clientCert/ca.crt',
+	'/var/www/project/clientCert/client.crt',
+	'clientCertPassword'
+);
 
 print_r($request->getEffectiveRawHeader());
