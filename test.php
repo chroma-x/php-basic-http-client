@@ -29,7 +29,9 @@ $response = $client->get(array(
 	'paramName2' => 'paramValue2'
 ));
 
-
+$client
+	->getRequest()
+	->removeQueryParameters();
 $response = $client->post(array(
 	'paramName1' => 'paramValue1',
 	'paramName2' => 'paramValue2',

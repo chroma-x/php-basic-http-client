@@ -189,10 +189,17 @@ abstract class AbstractRequest implements RequestInterface
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasQueryParameters()
+	{
+		return count($this->queryParameters) > 0;
+	}
+
+	/**
 	 * @param string $parameterName
 	 * @param string $parameterValue
 	 * @return $this
-	 * @internal param string $queryParameter
 	 */
 	public function addQueryParameter($parameterName, $parameterValue)
 	{
@@ -215,6 +222,15 @@ abstract class AbstractRequest implements RequestInterface
 			}
 		}
 		$this->queryParameters = $queryParameters;
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function removeQueryParameters()
+	{
+		$this->queryParameters = array();
 		return $this;
 	}
 
@@ -444,8 +460,10 @@ abstract class AbstractRequest implements RequestInterface
 	protected function calculateEndpoint()
 	{
 		$endpoint = $this->getEndpoint();
-		$glueCharacter = (strpos($endpoint, '?') === false) ? '?' : '&';
-		$endpoint .= $glueCharacter . http_build_query($this->getQueryParameters());
+		if ($this->hasQueryParameters()) {
+			$glueCharacter = (strpos($endpoint, '?') === false) ? '?' : '&';
+			$endpoint .= $glueCharacter . http_build_query($this->getQueryParameters());
+		}
 		return $endpoint;
 	}
 
