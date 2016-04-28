@@ -173,6 +173,18 @@ $message
 	->addCookie(new Cookie('PHPSESSID', '<MY_SESSION_ID>'))
 	->setBody($messageBody);
 
+// Please note, that headers have some unusual behaviours.
+// Header names have an uniform way of nomenclature so the three getter calls would have the same result.
+$header1 = $message->getHeaderByName('Content-Type');
+$header2 = $message->getHeaderByName('content-type');
+$header3 = $message->getHeaderByName('CONTENT-Type');
+
+// To allow multiple request headers using the same name, the method `addAdditionalHeader` provides such a logic.
+// Add or replace a request header
+$message->addHeader(new Header('Custom-Header', array('CustomHeaderValue')));
+// Add a request header and keep the existing one untouched
+$message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
+
 // Configuring and performing a Request
 $request = new Request();
 $response = $request
@@ -203,6 +215,8 @@ Cookie: PHPSESSID=<MY_SESSION_ID>
 Content-Type: application/json
 Accept: application/json, text/*
 Runscope-Bucket-Auth: 7a64dde7-74d5-4eed-b170-a2ab406eff08
+Custom-Header: CustomHeaderValue
+Custom-Header: AnotherCustomHeaderValue
 Content-Length: 102
 
 {"paramName1":"paramValue1","paramName2":"paramValue2","paramName3":{"key1":"value1","key2":"value2"}}

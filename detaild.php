@@ -44,6 +44,13 @@ $message
 	->addCookie(new Cookie('PHPSESSID', '<MY_SESSION_ID>'))
 	->setBody($messageBody);
 
+$header1 = $message->getHeaderByName('Content-Type');
+$header2 = $message->getHeaderByName('content-type');
+$header3 = $message->getHeaderByName('CONTENT-Type');
+
+$message->addHeader(new Header('Custom-Header', array('CustomHeaderValue')));
+$message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
+
 $request = new Request();
 $response = $request
 	->setUserAgent('PHP Basic HTTP Client Test 1.0')
