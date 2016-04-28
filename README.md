@@ -80,7 +80,7 @@ $response = $client->get(array(
 
 will result in the following HTTP request.
 
-```{ssh}
+```{http}
 GET /1aipzl31?paramName1=paramValue1&paramName2=paramValue2 HTTP/1.1
 Host: requestb.in
 Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
@@ -109,7 +109,7 @@ $response = $client->post(array(
 
 will result in the following HTTP request.
 
-```{ssh}
+```{http}
 POST /1aipzl31?paramName1=paramValue1&paramName2=paramValue2 HTTP/1.1
 Host: requestb.in
 Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
