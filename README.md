@@ -125,6 +125,8 @@ paramName1=paramValue1&paramName2=paramValue2&paramName3%5Bkey1%5D=value1&paramN
 
 The same mechanic is offered to perform `PUT` and `PATCH` requests wich all are body-full.
 
+---
+
 ### Detailed usage
 
 The following example shows the usage with a more detailed configuration. 
