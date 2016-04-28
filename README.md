@@ -129,6 +129,8 @@ The same mechanic is offered to perform `PUT` and `PATCH` requests wich all are 
 
 The following example shows the usage with a more detailed configuration. 
 
+#### Configuring a Transport instance
+
 ```{php}
 use BasicHttpClient\Request\Authentication\BasicAuthentication;
 use BasicHttpClient\Request\Message\Body\Body;
@@ -148,7 +150,11 @@ $transport
 	->setFollowRedirects(true)
 	->setMaxRedirects(10)
 	->setVerifyPeer(true);
+```
 
+#### Configuring a Message instance with Body
+
+```{php}
 // Configuring a message Body instance
 $messageBody = new Body();
 $messageBody->setBodyText(
@@ -172,19 +178,30 @@ $message
 	->addHeader(new Header('Runscope-Bucket-Auth', array('7a64dde7-74d5-4eed-b170-a2ab406eff08')))
 	->addCookie(new Cookie('PHPSESSID', '<MY_SESSION_ID>'))
 	->setBody($messageBody);
+```
 
-// Please note, that headers have some unusual behaviours.
-// Header names have an uniform way of nomenclature so the three getter calls would have the same result.
+##### Message and request Header instances
+
+**Please note, that headers have some unusual behaviours.** Header names have an uniform way of nomenclature so the following three getter calls would have the same result.
+
+```{php}
 $header1 = $message->getHeaderByName('Content-Type');
 $header2 = $message->getHeaderByName('content-type');
 $header3 = $message->getHeaderByName('CONTENT-Type');
+```
 
-// To allow multiple request headers using the same name, the method `addAdditionalHeader` provides such a logic.
+To allow multiple request headers using the same name, the method `addAdditionalHeader` provides such a logic.
+
+```{php}
 // Add or replace a request header
 $message->addHeader(new Header('Custom-Header', array('CustomHeaderValue')));
 // Add a request header and keep the existing one untouched
 $message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
+```
 
+#### Configuring and submitting a Request instance
+
+```{php}
 // Configuring and performing a Request
 $request = new Request();
 $response = $request
