@@ -31,6 +31,10 @@ class BasicHttpClient implements HttpClientInterface
 	 */
 	public function __construct($endpoint)
 	{
+		if (!is_string($endpoint)) {
+			$argumentType = (is_object($endpoint)) ? get_class($endpoint) : gettype($endpoint);
+			throw new \InvalidArgumentException('Expected the endpoint as string. Got ' . $argumentType);
+		}
 		$urlUtil = new UrlUtil();
 		$transport = new HttpTransport();
 		if ($urlUtil->getScheme($endpoint) == 'HTTPS') {
@@ -52,7 +56,7 @@ class BasicHttpClient implements HttpClientInterface
 	}
 
 	/**
-	 * @param string[] $queryParameters
+	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 * @throws \CommonException\NetworkException\Base\NetworkException
 	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
@@ -67,7 +71,7 @@ class BasicHttpClient implements HttpClientInterface
 	}
 
 	/**
-	 * @param string[] $queryParameters
+	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 * @throws \CommonException\NetworkException\Base\NetworkException
 	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
@@ -139,7 +143,7 @@ class BasicHttpClient implements HttpClientInterface
 	}
 
 	/**
-	 * @param string[] $queryParameters
+	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 * @throws \CommonException\NetworkException\Base\NetworkException
 	 * @throws \CommonException\NetworkException\ConnectionTimeoutException

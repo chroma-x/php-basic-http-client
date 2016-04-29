@@ -57,6 +57,10 @@ class Header implements HeaderInterface
 	 */
 	public function setName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		$this->name = trim($name);
 		return $this;
 	}
@@ -83,6 +87,12 @@ class Header implements HeaderInterface
 	 */
 	public function setValues($values)
 	{
+		foreach ($values as $value) {
+			if (!is_string($value)) {
+				$argumentType = (is_object($value)) ? get_class($value) : gettype($value);
+				throw new \InvalidArgumentException('Expected the values as array of strings. Got ' . $argumentType);
+			}
+		}
 		foreach ($values as $value) {
 			$this->values[] = trim($value);
 		}

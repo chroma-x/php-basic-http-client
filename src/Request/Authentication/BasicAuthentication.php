@@ -2,6 +2,8 @@
 
 namespace BasicHttpClient\Request\Authentication;
 
+use BasicHttpClient\Request\RequestInterface;
+
 /**
  * Class BasicAuthentication
  *
@@ -70,11 +72,24 @@ class BasicAuthentication implements AuthenticationInterface
 	}
 
 	/**
+	 * @param RequestInterface $request
+	 * @return $this
+	 */
+	public function validate(RequestInterface $request)
+	{
+		return $this;
+	}
+
+	/**
 	 * @param resource $curl
 	 * @return $this
 	 */
 	public function configureCurl($curl)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_USERPWD, $this->username . ':' . $this->password);
 		return $this;

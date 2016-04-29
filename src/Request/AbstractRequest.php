@@ -2,6 +2,7 @@
 
 namespace BasicHttpClient\Request;
 
+use BasicHttpClient\Exception\HttpRequestException;
 use BasicHttpClient\Request\Authentication\AuthenticationInterface;
 use BasicHttpClient\Request\Message\MessageInterface;
 use BasicHttpClient\Request\Message\Header\Header;
@@ -12,11 +13,10 @@ use BasicHttpClient\Response\ResponseInterface;
 use BasicHttpClient\Util\UrlUtil;
 use CommonException\NetworkException\Base\NetworkException;
 use CommonException\NetworkException\ConnectionTimeoutException;
+use CommonException\NetworkException\CurlException;
 
 /**
  * Class Request
- *
- * TODO: Add query params to be concatenated to the endpoints URL for performing GET, HEAD and DELETE requests.
  *
  * @package BasicHttpClient\Request
  */
@@ -216,10 +216,14 @@ abstract class AbstractRequest implements RequestInterface
 	 */
 	public function setQueryParameters($queryParameters)
 	{
-		foreach ($queryParameters as $parameterName => $parameterValue) {
-			if (!is_string($parameterName) || !is_string($parameterValue)) {
-				throw new \InvalidArgumentException('Query parameters have to be an associative array.');
+		foreach ($queryParameters as &$queryParameter) {
+			if (!is_scalar($queryParameter)) {
+				$argumentType = (is_object($queryParameter)) ? get_class($queryParameter) : gettype($queryParameter);
+				throw new \InvalidArgumentException(
+					'Expected the query parameters as array of scalar values. Got ' . $argumentType
+				);
 			}
+			$queryParameter = (string)$queryParameter;
 		}
 		$this->queryParameters = $queryParameters;
 		return $this;
@@ -351,6 +355,10 @@ abstract class AbstractRequest implements RequestInterface
 	 */
 	public function configureCurl($curl)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
@@ -386,7 +394,9 @@ abstract class AbstractRequest implements RequestInterface
 		$this->getTransport()->configureCurl($curl);
 		$this->getMessage()->configureCurl($curl);
 		for ($i = 0; $i < count($this->authentications); $i++) {
-			$this->authentications[$i]->configureCurl($curl);
+			$this->authentications[$i]
+				->validate($this)
+				->configureCurl($curl);
 		}
 		// Execute request
 		$responseBody = curl_exec($curl);
@@ -404,7 +414,7 @@ abstract class AbstractRequest implements RequestInterface
 				throw new ConnectionTimeoutException('The request timed out with message: ' . $curlErrorMessage);
 				break;
 			default:
-				throw new NetworkException('The request failed with message: ' . $curlErrorMessage);
+				throw new CurlException('The request failed with message: ' . $curlErrorMessage);
 				break;
 		}
 	}
@@ -475,7 +485,7 @@ abstract class AbstractRequest implements RequestInterface
 	{
 		$urlUtil = new UrlUtil();
 		if ($urlUtil->getScheme($this->getEndpoint()) == 'HTTPS' && !$this->getTransport() instanceof HttpsTransport) {
-			throw new \Exception('Transport misconfiguration. Use HttpsTransport for HTTPS requests.');
+			throw new HttpRequestException('Transport misconfiguration. Use HttpsTransport for HTTPS requests.');
 		}
 	}
 

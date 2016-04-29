@@ -39,6 +39,10 @@ class Body implements BodyInterface
 	 */
 	public function setBodyText($bodyText)
 	{
+		if (!is_string($bodyText)) {
+			$argumentType = (is_object($bodyText)) ? get_class($bodyText) : gettype($bodyText);
+			throw new \InvalidArgumentException('Expected the body text as string. Got ' . $argumentType);
+		}
 		$this->bodyText = $bodyText;
 		return $this;
 	}
@@ -59,6 +63,10 @@ class Body implements BodyInterface
 	 */
 	public function configureCurl($curl)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $this->bodyText);
 		return $this;
 	}

@@ -31,6 +31,10 @@ class HttpsTransport extends HttpTransport
 	 */
 	public function setVerifyPeer($verifyPeer)
 	{
+		if (!is_bool($verifyPeer)) {
+			$argumentType = (is_object($verifyPeer)) ? get_class($verifyPeer) : gettype($verifyPeer);
+			throw new \InvalidArgumentException('Expected the verify peer value as bool. Got ' . $argumentType);
+		}
 		$this->verifyPeer = $verifyPeer;
 		return $this;
 	}

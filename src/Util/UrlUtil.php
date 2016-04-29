@@ -16,6 +16,10 @@ class UrlUtil
 	 */
 	public function normalizeUrl($url)
 	{
+		if (!is_string($url)) {
+			$argumentType = (is_object($url)) ? get_class($url) : gettype($url);
+			throw new \InvalidArgumentException('Expected the URL as string. Got ' . $argumentType);
+		}
 		return filter_var($url, FILTER_SANITIZE_URL);
 	}
 
@@ -25,6 +29,10 @@ class UrlUtil
 	 */
 	public function validateUrl($url)
 	{
+		if (!is_string($url)) {
+			$argumentType = (is_object($url)) ? get_class($url) : gettype($url);
+			throw new \InvalidArgumentException('Expected the URL as string. Got ' . $argumentType);
+		}
 		return !filter_var($url, FILTER_VALIDATE_URL) === false;
 	}
 
@@ -33,6 +41,10 @@ class UrlUtil
 	 */
 	public function getScheme($url)
 	{
+		if (!is_string($url)) {
+			$argumentType = (is_object($url)) ? get_class($url) : gettype($url);
+			throw new \InvalidArgumentException('Expected the URL as string. Got ' . $argumentType);
+		}
 		return mb_strtoupper(parse_url($url, PHP_URL_SCHEME));
 	}
 

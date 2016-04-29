@@ -46,6 +46,10 @@ class Cookie implements CookieInterface
 	 */
 	public function setName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		$this->name = $name;
 		return $this;
 	}
@@ -64,6 +68,10 @@ class Cookie implements CookieInterface
 	 */
 	public function setValue($value)
 	{
+		if (!is_string($value)) {
+			$argumentType = (is_object($value)) ? get_class($value) : gettype($value);
+			throw new \InvalidArgumentException('Expected the value as string. Got ' . $argumentType);
+		}
 		$this->value = $value;
 		return $this;
 	}

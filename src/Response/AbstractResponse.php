@@ -61,6 +61,14 @@ abstract class AbstractResponse implements ResponseInterface
 	 */
 	public function populateFromCurlResult($curl, $responseBody)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
+		if (!is_string($responseBody)) {
+			$argumentType = (is_object($responseBody)) ? get_class($responseBody) : gettype($responseBody);
+			throw new \InvalidArgumentException('Expected the response body as string. Got ' . $argumentType);
+		}
 		$this->statusCode = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
 		$this->setStatistics($curl);
 		$this->setResponseData($responseBody);

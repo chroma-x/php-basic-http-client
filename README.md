@@ -224,7 +224,7 @@ use BasicHttpClient\Request\Request;
 
 // Configuring and performing a Request
 $request = new Request();
-$response = $request
+$request
 	->setUserAgent('PHP Basic HTTP Client Test 1.0')
 	->setEndpoint('https://yourapihere-com-98yq3775xff0.runscope.net/')
 	->setPort(443)
@@ -276,7 +276,7 @@ $basicAuthentication = new BasicAuthentication('username', 'password');
 
 // Adding the authentication instance to the Request
 $request = new Request();
-$response = $request->addAuthentication($basicAuthentication);
+$request->addAuthentication($basicAuthentication);
 ```
 
 #### SSL Client Certificate Authentication
@@ -296,14 +296,32 @@ $clientCertificateAuthentication = new ClientCertificateAuthentication(
 
 // Adding the authentication instance to the Request
 $request = new Request();
-$response = $request->addAuthentication($clientCertificateAuthentication);
+$request->addAuthentication($clientCertificateAuthentication);
 ```
 
 ---
 
 ## Reading from the resulting Response instance
 
-TODO
+### Getting the response object
+
+If using the `BasicHttpClient` the response object is returned by the termination methods listed above. If directly using the Request instance, you can get the Response object via a getter.
+
+```{php}
+$response = $request->getResponse();
+
+// Reading the HTTP status code as integer; will return `200`
+echo print_r($response->getStatusCode(), true).PHP_EOL;
+
+// Reading the HTTP status text as string; will return `HTTP/1.1 200 OK`
+echo print_r($response->getStatusText(), true).PHP_EOL;
+
+// Reading the HTTP response headers as array of BasicHttpClient\Response\Header\Header objects
+echo print_r($response->getHeaders(), true).PHP_EOL;
+
+// Reading the HTTP response body as string
+echo print_r($response->getBody(), true).PHP_EOL;
+```
 
 ---
 
@@ -315,7 +333,34 @@ TODO
 
 ## Getting some transactional statistics
 
-TODO
+```
+// Getting the statistics BasicHttpClient\Response\Statistics\Statistics object
+$statistics = $request->getResponse()->getStatistics();
+
+// Reading the redirection URL if the server responds with an redirect HTTP header and followRedirects is set to false
+echo print_r($statistics->getRedirectEndpoint(), true).PHP_EOL;
+
+// Reading the numbers of redirection as integer
+echo print_r($statistics->getRedirectCount(), true).PHP_EOL;
+
+// Getting the time in seconds the redirect utilized as float
+echo print_r($statistics->getRedirectTime(), true).PHP_EOL;
+
+// Getting the time in seconds that was utilized until the connection was established
+echo print_r($statistics->getConnectionEstablishTime(), true).PHP_EOL;
+
+// Getting the time in seconds that was utilized until the DNS hostname lookup was done
+echo print_r($statistics->getHostLookupTime(), true).PHP_EOL;
+
+// Getting the time in seconds that was utilized before the first data was sent
+echo print_r($statistics->getPreTransferTime(), true).PHP_EOL;
+
+// Getting the time in seconds that was utilized before the first data was received
+echo print_r($statistics->getStartTransferTime(), true).PHP_EOL;
+
+// Getting the time in seconds that was utilized to perfom the request an read the response
+echo print_r($statistics->getTotalTime(), true).PHP_EOL;
+```
 
 ---
 
@@ -332,6 +377,17 @@ Take a look at the [PHP JSON HTTP Client](https://github.com/markenwerk/php-json
 
 PHP Basic HTTP Client provides different exceptions – also provided by the PHP Common Exceptions project – for proper handling.  
 You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
+
+### Exceptions to be expected
+
+In general you should expect that any setter method could thrown an `\InvalidArgumentException`. The following exceptions could get thrown while using PHP Basic HTTP Client.
+
+- `CommonException\IoException\FileReadableException` on configuring a `ClientCertificateAuthentication`instance
+- `BasicHttpClient\Exception\HttpRequestAuthenticationException` on performing a request
+- `BasicHttpClient\Exception\HttpRequestException` on performing a request
+- `CommonException\NetworkException\ConnectionTimeoutException` on performing a request
+- `CommonException\NetworkException\CurlException` on performing a request
+
 
 ## Contribution
 

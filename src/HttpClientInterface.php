@@ -19,13 +19,13 @@ interface HttpClientInterface
 	public function getRequest();
 
 	/**
-	 * @param string[] $queryParameters
+	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 */
 	public function get(array $queryParameters = null);
 
 	/**
-	 * @param string[] $queryParameters
+	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 */
 	public function head(array $queryParameters = null);
@@ -49,7 +49,7 @@ interface HttpClientInterface
 	public function patch(array $patchData = null);
 
 	/**
-	 * @param string[] $queryParameters
+	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 */
 	public function delete(array $queryParameters = null);

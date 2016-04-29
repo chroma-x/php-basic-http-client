@@ -44,6 +44,10 @@ class Message implements MessageInterface
 	 */
 	public function getHeadersByName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		return $this->findHeadersByName($name);
 	}
 
@@ -53,6 +57,10 @@ class Message implements MessageInterface
 	 */
 	public function getHeaderByName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		if (!$this->hasHeaderWithName($name)) {
 			return null;
 		}
@@ -74,6 +82,12 @@ class Message implements MessageInterface
 	 */
 	public function setHeaders(array $headers)
 	{
+		foreach ($headers as $header) {
+			if (!$header instanceof HeaderInterface) {
+				$typeOfHeader = (is_object($header)) ? get_class($header) : gettype($header);
+				throw new \InvalidArgumentException('Expected an array of HeaderInterface implementations. Got ' . $typeOfHeader);
+			}
+		}
 		$this->headers = $headers;
 		return $this;
 	}
@@ -105,6 +119,10 @@ class Message implements MessageInterface
 	 */
 	public function removeHeadersByName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		$this->headers = $this->findHeadersExcludedByName($name);
 		return $this;
 	}
@@ -129,6 +147,10 @@ class Message implements MessageInterface
 	 */
 	public function hasHeaderWithName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		return count($this->findHeadersByName($name)) > 0;
 	}
 
@@ -171,6 +193,10 @@ class Message implements MessageInterface
 	 */
 	public function getCookieByName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		foreach ($this->cookies as $cookie) {
 			if ($cookie->getName() === $name) {
 				return $cookie;
@@ -194,6 +220,12 @@ class Message implements MessageInterface
 	 */
 	public function setCookies($cookies)
 	{
+		foreach ($cookies as $cookie) {
+			if (!$cookie instanceof CookieInterface) {
+				$typeOfHeader = (is_object($cookie)) ? get_class($cookie) : gettype($cookie);
+				throw new \InvalidArgumentException('Expected an array of CookieInterface implementations. Got ' . $typeOfHeader);
+			}
+		}
 		$this->cookies = $cookies;
 		return $this;
 	}
@@ -214,6 +246,10 @@ class Message implements MessageInterface
 	 */
 	public function removeCookieByName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		for ($i = 0; $i < count($this->cookies); $i++) {
 			if ($this->cookies[$i]->getName() !== $name) {
 				unset($this->cookies[$i]);
@@ -244,6 +280,10 @@ class Message implements MessageInterface
 	 */
 	public function hasCookieWithName($name)
 	{
+		if (!is_string($name)) {
+			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
+			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
+		}
 		foreach ($this->cookies as $cookie) {
 			if ($cookie->getName() !== $name) {
 				return true;
@@ -323,6 +363,10 @@ class Message implements MessageInterface
 	 */
 	public function configureCurl($curl)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
 		// Add request headers
 		if ($this->hasHeaders()) {
 			$requestHeaders = array();

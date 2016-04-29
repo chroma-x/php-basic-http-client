@@ -56,6 +56,10 @@ class Statistics
 	 */
 	public function populateFromCurlResult($curl)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
 		$this->totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
 		$this->hostLookupTime = curl_getinfo($curl, CURLINFO_NAMELOOKUP_TIME);
 		$this->connectionEstablishTime = curl_getinfo($curl, CURLINFO_CONNECT_TIME);

@@ -2,6 +2,9 @@
 
 namespace BasicHttpClient\Request\Authentication;
 
+use BasicHttpClient\Exception\HttpRequestAuthenticationException;
+use BasicHttpClient\Request\RequestInterface;
+use BasicHttpClient\Request\Transport\HttpsTransport;
 use CommonException\IoException\FileReadableException;
 
 /**
@@ -104,11 +107,30 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	}
 
 	/**
+	 * @param RequestInterface $request
+	 * @return $this
+	 * @throws HttpRequestAuthenticationException
+	 */
+	public function validate(RequestInterface $request)
+	{
+		if(!$request->getTransport() instanceof HttpsTransport){
+			throw new HttpRequestAuthenticationException(
+				'To perform a ClientCertificateAuthentication a HttpsTransport is required.'
+			);
+		}
+		return $this;
+	}
+
+	/**
 	 * @param resource $curl
 	 * @return mixed
 	 */
 	public function configureCurl($curl)
 	{
+		if (!is_resource($curl)) {
+			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
+			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
 		curl_setopt($curl, CURLOPT_CAINFO, $this->caCertPath);
 		curl_setopt($curl, CURLOPT_SSLCERT, $this->clientCertPath);
 		curl_setopt($curl, CURLOPT_SSLCERTPASSWD, $this->clientCertPassword);
