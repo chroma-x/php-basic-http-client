@@ -308,6 +308,7 @@ $request->addAuthentication($clientCertificateAuthentication);
 If using the `BasicHttpClient` the response object is returned by the termination methods listed above. If directly using the Request instance, you can get the Response object via a getter.
 
 ```{php}
+// Getting the response BasicHttpClient\Response\ResponseInterface implementing object
 $response = $request->getResponse();
 
 // Reading the HTTP status code as integer; will return `200`
@@ -327,7 +328,21 @@ echo print_r($response->getBody(), true).PHP_EOL;
 
 ## Getting effective Request information
 
-TODO
+After successful performing the request, the effective request information is tracked back to the Request object. They can get accessed as follows.
+
+```{php}
+// Getting the effective endpoint URL including the query parameters
+echo print_r($request->getEffectiveEndpoint(), true) . PHP_EOL;
+
+// Getting the effective HTTP status, f.e. `POST /?paramName1=paramValue1&paramName2=paramValue2&paramName3=1&paramName4=42 HTTP/1.1`
+echo print_r($request->getEffectiveStatus(), true) . PHP_EOL;
+
+// Getting the effective raw request headers as string
+echo print_r($request->getEffectiveRawHeader(), true) . PHP_EOL;
+
+// Getting the effective request headers as array of `BasicHttpClient\Request\Message\Header\Header` objects
+echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
+```
 
 ---
 

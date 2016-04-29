@@ -67,18 +67,23 @@ $request
 	->perform();
 
 $response = $request->getResponse();
-echo print_r($response->getStatusCode(), true).PHP_EOL;
-echo print_r($response->getStatusText(), true).PHP_EOL;
-echo print_r($response->getHeaders(), true).PHP_EOL;
-echo print_r($response->getBody(), true).PHP_EOL;
+echo print_r($response->getStatusCode(), true) . PHP_EOL;
+echo print_r($response->getStatusText(), true) . PHP_EOL;
+echo print_r($response->getHeaders(), true) . PHP_EOL;
+echo print_r($response->getBody(), true) . PHP_EOL . PHP_EOL;
 
 $statistics = $response->getStatistics();
-echo print_r($statistics->getRedirectEndpoint(), true).PHP_EOL;
-echo print_r($statistics->getRedirectCount(), true).PHP_EOL;
-echo print_r($statistics->getRedirectTime(), true).PHP_EOL;
+echo print_r($statistics->getRedirectEndpoint(), true) . PHP_EOL;
+echo print_r($statistics->getRedirectCount(), true) . PHP_EOL;
+echo print_r($statistics->getRedirectTime(), true) . PHP_EOL;
+echo print_r($statistics->getConnectionEstablishTime(), true) . PHP_EOL;
+echo print_r($statistics->getHostLookupTime(), true) . PHP_EOL;
+echo print_r($statistics->getPreTransferTime(), true) . PHP_EOL;
+echo print_r($statistics->getStartTransferTime(), true) . PHP_EOL;
+echo print_r($statistics->getTotalTime(), true) . PHP_EOL . PHP_EOL;
 
-echo print_r($statistics->getConnectionEstablishTime(), true).PHP_EOL;
-echo print_r($statistics->getHostLookupTime(), true).PHP_EOL;
-echo print_r($statistics->getPreTransferTime(), true).PHP_EOL;
-echo print_r($statistics->getStartTransferTime(), true).PHP_EOL;
-echo print_r($statistics->getTotalTime(), true).PHP_EOL;
+echo print_r($request->getEffectiveEndpoint(), true) . PHP_EOL;
+echo print_r($request->getEffectiveStatus(), true) . PHP_EOL;
+echo print_r($request->getEffectiveRawHeader(), true) . PHP_EOL;
+echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
+
