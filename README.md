@@ -389,6 +389,7 @@ In general you should expect that any setter method could thrown an `\InvalidArg
 - `CommonException\NetworkException\ConnectionTimeoutException` on performing a request
 - `CommonException\NetworkException\CurlException` on performing a request
 
+---
 
 ## Contribution
 

@@ -16,6 +16,7 @@ engines:
         enabled: false
       Design/TooManyPublicMethods:
         enabled: false
+ratings:
   paths:
   - "**.inc"
   - "**.js"
