@@ -308,20 +308,20 @@ $request->addAuthentication($clientCertificateAuthentication);
 If using the `BasicHttpClient` the response object is returned by the termination methods listed above. If directly using the Request instance, you can get the Response object via a getter.
 
 ```{php}
-// Getting the response BasicHttpClient\Response\ResponseInterface implementing object
+// Getting the response BasicHttpClient\Response\Response object
 $response = $request->getResponse();
 
 // Reading the HTTP status code as integer; will return `200`
-echo print_r($response->getStatusCode(), true).PHP_EOL;
+echo print_r($response->getStatusCode(), true) . PHP_EOL;
 
 // Reading the HTTP status text as string; will return `HTTP/1.1 200 OK`
-echo print_r($response->getStatusText(), true).PHP_EOL;
+echo print_r($response->getStatusText(), true) . PHP_EOL;
 
 // Reading the HTTP response headers as array of BasicHttpClient\Response\Header\Header objects
-echo print_r($response->getHeaders(), true).PHP_EOL;
+echo print_r($response->getHeaders(), true) . PHP_EOL;
 
 // Reading the HTTP response body as string
-echo print_r($response->getBody(), true).PHP_EOL;
+echo print_r($response->getBody(), true) . PHP_EOL;
 ```
 
 ---

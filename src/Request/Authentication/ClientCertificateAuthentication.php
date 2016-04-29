@@ -5,6 +5,7 @@ namespace BasicHttpClient\Request\Authentication;
 use BasicHttpClient\Exception\HttpRequestAuthenticationException;
 use BasicHttpClient\Request\RequestInterface;
 use BasicHttpClient\Request\Transport\HttpsTransport;
+use CommonException\IoException\FileNotFoundException;
 use CommonException\IoException\FileReadableException;
 
 /**
@@ -55,11 +56,15 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	/**
 	 * @param mixed $caCertPath
 	 * @return $this
+	 * @throws FileNotFoundException
 	 * @throws FileReadableException
 	 */
 	public function setCaCertPath($caCertPath)
 	{
 		if (!is_file($caCertPath)) {
+			throw new FileNotFoundException('CA certificate file not found.');
+		}
+		if (!is_readable($caCertPath)) {
 			throw new FileReadableException('CA certificate file not readable.');
 		}
 		$this->caCertPath = $caCertPath;
@@ -77,11 +82,15 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	/**
 	 * @param mixed $clientCertPath
 	 * @return $this
+	 * @throws FileNotFoundException
 	 * @throws FileReadableException
 	 */
 	public function setClientCertPath($clientCertPath)
 	{
 		if (!is_file($clientCertPath)) {
+			throw new FileNotFoundException('Client certificate file not found.');
+		}
+		if (!is_readable($clientCertPath)) {
 			throw new FileReadableException('Client certificate file not readable.');
 		}
 		$this->clientCertPath = $clientCertPath;
@@ -113,7 +122,7 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	 */
 	public function validate(RequestInterface $request)
 	{
-		if(!$request->getTransport() instanceof HttpsTransport){
+		if (!$request->getTransport() instanceof HttpsTransport) {
 			throw new HttpRequestAuthenticationException(
 				'To perform a ClientCertificateAuthentication a HttpsTransport is required.'
 			);
