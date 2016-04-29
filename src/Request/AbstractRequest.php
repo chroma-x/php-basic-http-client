@@ -325,8 +325,8 @@ abstract class AbstractRequest implements RequestInterface
 	 */
 	public function hasAuthentication(AuthenticationInterface $authentication)
 	{
-		foreach ($this->authentications as $existingAuthentication) {
-			if ($authentication == $existingAuthentication) {
+		foreach ($this->authentications as $existingAuth) {
+			if ($authentication == $existingAuth) {
 				return true;
 			}
 		}

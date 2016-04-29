@@ -14,7 +14,8 @@ engines:
     checks:
       CleanCode/ElseExpression:
         enabled: false
-ratings:
+      Design/TooManyPublicMethods:
+        enabled: false
   paths:
   - "**.inc"
   - "**.js"
