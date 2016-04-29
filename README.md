@@ -398,6 +398,7 @@ You can find more information about [PHP Common Exceptions at Github](https://gi
 
 In general you should expect that any setter method could thrown an `\InvalidArgumentException`. The following exceptions could get thrown while using PHP Basic HTTP Client.
 
+- `CommonException\IoException\FileNotFoundException` on configuring a `ClientCertificateAuthentication`instance
 - `CommonException\IoException\FileReadableException` on configuring a `ClientCertificateAuthentication`instance
 - `BasicHttpClient\Exception\HttpRequestAuthenticationException` on performing a request
 - `BasicHttpClient\Exception\HttpRequestException` on performing a request
