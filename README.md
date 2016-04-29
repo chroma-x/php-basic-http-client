@@ -301,7 +301,7 @@ $request->addAuthentication($clientCertificateAuthentication);
 
 ---
 
-## Reading from the resulting Response instance
+## Reading from the resulting Response object
 
 ### Getting the response object
 
@@ -333,11 +333,12 @@ TODO
 
 ## Getting some transactional statistics
 
-```
+```{php}
 // Getting the statistics BasicHttpClient\Response\Statistics\Statistics object
 $statistics = $request->getResponse()->getStatistics();
 
-// Reading the redirection URL if the server responds with an redirect HTTP header and followRedirects is set to false
+// Reading the redirection URL if the server responds with an redirect HTTP header and 
+// followRedirects is set to false
 echo print_r($statistics->getRedirectEndpoint(), true).PHP_EOL;
 
 // Reading the numbers of redirection as integer
