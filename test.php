@@ -9,7 +9,7 @@ use BasicHttpClient\Request\Authentication;
 use BasicHttpClient\Request\Message;
 
 // Instantiating a basic HTTP client with the endpoints URL
-$client = new BasicHttpClient\BasicHttpClient('http://requestb.in/1aipzl31');
+$client = new BasicHttpClient\BasicHttpClient('http://mb:mb@requestb.in/1aipzl31?paramName1=asd#test');
 
 // Adding an authentication method
 $client
@@ -20,8 +20,8 @@ $client
 $client
 	->getRequest()
 	->getMessage()
-	->addHeader(new Message\Header\Header('Content-Type', array('application/x-www-form-urlencoded')))
-	->addHeader(new Message\Header\Header('Accept', array('text/html', 'text/*')))
+	->setHeader(new Message\Header\Header('Content-Type', array('application/x-www-form-urlencoded')))
+	->setHeader(new Message\Header\Header('Accept', array('text/html', 'text/*')))
 	->addCookie(new Message\Cookie\Cookie('PHPSESSID', '<MY_SESSION_ID>'));
 
 $response = $client->get(array(
@@ -29,6 +29,7 @@ $response = $client->get(array(
 	'paramName2' => 'paramValue2'
 ));
 
+/*
 $client
 	->getRequest()
 	->removeQueryParameters();
@@ -40,5 +41,6 @@ $response = $client->post(array(
 		'key2' => 'value2'
 	)
 ));
+*/
 
 print_r($client->getRequest()->getEffectiveRawHeader());

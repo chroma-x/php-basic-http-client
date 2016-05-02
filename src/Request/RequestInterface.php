@@ -8,6 +8,7 @@ use BasicHttpClient\Request\Message\MessageInterface;
 use BasicHttpClient\Request\Message\Header\Header;
 use BasicHttpClient\Request\Transport\TransportInterface;
 use BasicHttpClient\Response\ResponseInterface;
+use Url\UrlInterface;
 
 /**
  * Interface RequestInterface
@@ -38,33 +39,6 @@ interface RequestInterface extends CurlConfiguratorInterface
 	/**
 	 * @return string
 	 */
-	public function getEndpoint();
-
-	/**
-	 * @param string $endpoint
-	 * @return $this
-	 */
-	public function setEndpoint($endpoint);
-
-	/**
-	 * @return int
-	 */
-	public function getPort();
-
-	/**
-	 * @return bool
-	 */
-	public function hasPort();
-
-	/**
-	 * @param int $port
-	 * @return $this
-	 */
-	public function setPort($port);
-
-	/**
-	 * @return string
-	 */
 	public function getMethod();
 
 	/**
@@ -74,32 +48,15 @@ interface RequestInterface extends CurlConfiguratorInterface
 	public function setMethod($method);
 
 	/**
-	 * @return string[]
+	 * @return UrlInterface
 	 */
-	public function getQueryParameters();
+	public function getUrl();
 
 	/**
-	 * @return bool
-	 */
-	public function hasQueryParameters();
-
-	/**
-	 * @param string $parameterName
-	 * @param string $parameterValue
+	 * @param UrlInterface $url
 	 * @return $this
 	 */
-	public function addQueryParameter($parameterName, $parameterValue);
-
-	/**
-	 * @param string[] $queryParameters
-	 * @return $this
-	 */
-	public function setQueryParameters($queryParameters);
-
-	/**
-	 * @return $this
-	 */
-	public function removeQueryParameters();
+	public function setUrl(UrlInterface $url);
 
 	/**
 	 * @return TransportInterface

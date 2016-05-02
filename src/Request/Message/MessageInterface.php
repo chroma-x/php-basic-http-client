@@ -47,13 +47,13 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function addAdditionalHeader(HeaderInterface $header);
+	public function addHeader(HeaderInterface $header);
 
 	/**
 	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function addHeader(HeaderInterface $header);
+	public function setHeader(HeaderInterface $header);
 
 	/**
 	 * @param string $name

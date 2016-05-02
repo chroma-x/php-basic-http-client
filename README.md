@@ -216,18 +216,23 @@ $message->addHeader(new Header('Custom-Header', array('CustomHeaderValue')));
 $message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
 ```
 
-#### Configuring a Request instance and perform the HTTP request
+#### Configuring an endpoints URL, build the Request instance and perform the HTTP request
+
+For more information about the usage of the URL object please take a look at the [PHP URL project](https://github.com/markenwerk/php-url-util).
 
 ```{php}
 use BasicHttpClient\Request\Authentication\BasicAuthentication;
 use BasicHttpClient\Request\Request;
+use Url\Url;
+
+// Setting up the endpoints URL
+$url = new Url('https://john:secret@yourapihere-com-98yq3775xff0.runscope.net:443/path/to/resource?arg1=123#fragment');
 
 // Configuring and performing a Request
 $request = new Request();
 $request
 	->setUserAgent('PHP Basic HTTP Client Test 1.0')
-	->setEndpoint('https://yourapihere-com-98yq3775xff0.runscope.net/')
-	->setPort(443)
+	->setUrl($url)
 	->addAuthentication(new BasicAuthentication('username', 'password'))
 	->setQueryParameters(
 		array(
@@ -244,7 +249,7 @@ $request
 The resulting HTTP request would be the following.
 
 ```{http}
-POST /?paramName1=paramValue1&paramName2=paramValue2 HTTP/1.1
+POST /?arg1=123#fragment HTTP/1.1
 Host: yourapihere-com-98yq3775xff0.runscope.net
 Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
 User-Agent: PHP Basic HTTP Client Test 1.0

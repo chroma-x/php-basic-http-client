@@ -9,7 +9,7 @@ use BasicHttpClient\Request\Request;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
 use BasicHttpClient\Response\ResponseInterface;
-use BasicHttpClient\Util\UrlUtil;
+use Url\Url;
 
 /**
  * Class BasicHttpClient
@@ -35,16 +35,16 @@ class BasicHttpClient implements HttpClientInterface
 			$argumentType = (is_object($endpoint)) ? get_class($endpoint) : gettype($endpoint);
 			throw new \InvalidArgumentException('Expected the endpoint as string. Got ' . $argumentType);
 		}
-		$urlUtil = new UrlUtil();
+		$url = new Url($endpoint);
 		$transport = new HttpTransport();
-		if ($urlUtil->getScheme($endpoint) == 'HTTPS') {
+		if (mb_strtoupper($url->getScheme()) == 'HTTPS') {
 			$transport = new HttpsTransport();
 		}
 		$this->request = new Request();
 		$this->request
 			->setTransport($transport)
 			->setMessage(new Message())
-			->setEndpoint($endpoint);
+			->setUrl(new Url($endpoint));
 	}
 
 	/**
@@ -65,8 +65,9 @@ class BasicHttpClient implements HttpClientInterface
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_GET)
-			->setQueryParameters($queryParameters)
-			->perform();
+			->getUrl()
+			->setQueryParametersFromArray($queryParameters);
+		$this->request->perform();
 		return $this->request->getResponse();
 	}
 
@@ -80,8 +81,9 @@ class BasicHttpClient implements HttpClientInterface
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_HEAD)
-			->setQueryParameters($queryParameters)
-			->perform();
+			->getUrl()
+			->setQueryParametersFromArray($queryParameters);
+		$this->request->perform();
 		return $this->request->getResponse();
 	}
 
@@ -152,8 +154,9 @@ class BasicHttpClient implements HttpClientInterface
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_DELETE)
-			->setQueryParameters($queryParameters)
-			->perform();
+			->getUrl()
+			->setQueryParametersFromArray($queryParameters);
+		$this->request->perform();
 		return $this->request->getResponse();
 	}
 

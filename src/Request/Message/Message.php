@@ -96,7 +96,7 @@ class Message implements MessageInterface
 	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function addAdditionalHeader(HeaderInterface $header)
+	public function addHeader(HeaderInterface $header)
 	{
 		$this->headers[] = $header;
 		return $this;
@@ -106,7 +106,7 @@ class Message implements MessageInterface
 	 * @param HeaderInterface $header
 	 * @return $this
 	 */
-	public function addHeader(HeaderInterface $header)
+	public function setHeader(HeaderInterface $header)
 	{
 		$this->removeHeadersByName($header->getName());
 		$this->headers[] = $header;

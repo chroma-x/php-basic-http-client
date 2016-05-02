@@ -9,6 +9,7 @@ use BasicHttpClient\Request\Message\Header\Header;
 use BasicHttpClient\Request\Message\Message;
 use BasicHttpClient\Request\Request;
 use BasicHttpClient\Request\Transport\HttpsTransport;
+use Url\Url;
 
 require_once('vendor/autoload.php');
 
@@ -38,29 +39,22 @@ $messageBody->setBodyText(
 
 $message = new Message();
 $message
-	->addHeader(new Header('Content-Type', array('application/json')))
-	->addHeader(new Header('Accept', array('application/json', 'text/*')))
-	->addHeader(new Header('Runscope-Bucket-Auth', array('7a64dde7-74d5-4eed-b170-a2ab406eff08')))
+	->setHeader(new Header('Content-Type', array('application/json')))
+	->setHeader(new Header('Accept', array('application/json', 'text/*')))
+	->setHeader(new Header('Runscope-Bucket-Auth', array('7a64dde7-74d5-4eed-b170-a2ab406eff08')))
 	->addCookie(new Cookie('PHPSESSID', '<MY_SESSION_ID>'))
 	->setBody($messageBody);
 
-$message->addHeader(new Header('Custom-Header', array('CustomHeaderValue')));
-$message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
+$message->setHeader(new Header('Custom-Header', array('CustomHeaderValue')));
+$message->addHeader(new Header('Custom-Header', array('AnotherCustomHeaderValue')));
+
+$url = new Url('https://john:secret@yourapihere-com-98yq3775xff0.runscope.net:443/path/to/resource?arg1=123#fragment');
 
 $request = new Request();
 $request
 	->setUserAgent('PHP Basic HTTP Client Test 1.0')
-	->setEndpoint('https://yourapihere-com-98yq3775xff0.runscope.net/')
-	->setPort(443)
+	->setUrl($url)
 	->addAuthentication(new BasicAuthentication('username', 'password'))
-	->setQueryParameters(
-		array(
-			'paramName1' => 'paramValue1',
-			'paramName2' => 'paramValue2',
-			'paramName3' => true,
-			'paramName4' => 42,
-		)
-	)
 	->setMethod(Request::REQUEST_METHOD_POST)
 	->setTransport($transport)
 	->setMessage($message)
@@ -85,5 +79,5 @@ echo print_r($statistics->getTotalTime(), true) . PHP_EOL . PHP_EOL;
 echo print_r($request->getEffectiveEndpoint(), true) . PHP_EOL;
 echo print_r($request->getEffectiveStatus(), true) . PHP_EOL;
 echo print_r($request->getEffectiveRawHeader(), true) . PHP_EOL;
-echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
+echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL . PHP_EOL;
 

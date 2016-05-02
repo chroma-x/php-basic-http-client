@@ -10,10 +10,10 @@ use BasicHttpClient\Request\Transport\TransportInterface;
 use BasicHttpClient\Request\Transport\HttpsTransport;
 use BasicHttpClient\Request\Transport\HttpTransport;
 use BasicHttpClient\Response\ResponseInterface;
-use BasicHttpClient\Util\UrlUtil;
 use CommonException\NetworkException\Base\NetworkException;
 use CommonException\NetworkException\ConnectionTimeoutException;
 use CommonException\NetworkException\CurlException;
+use Url\UrlInterface;
 
 /**
  * Class Request
@@ -31,22 +31,12 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @var string
 	 */
-	private $endpoint;
-
-	/**
-	 * @var int
-	 */
-	private $port;
-
-	/**
-	 * @var string
-	 */
 	private $method = self::REQUEST_METHOD_GET;
 
 	/**
-	 * @var string[]
+	 * @var UrlInterface
 	 */
-	private $queryParameters = array();
+	private $url;
 
 	/**
 	 * @var TransportInterface
@@ -117,54 +107,6 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	public function getEndpoint()
-	{
-		return $this->endpoint;
-	}
-
-	/**
-	 * @param string $endpoint
-	 * @return $this
-	 */
-	public function setEndpoint($endpoint)
-	{
-		$urlUtil = new UrlUtil();
-		if (!$urlUtil->validateUrl($endpoint)) {
-			throw new \InvalidArgumentException('The given endpoint is not a valid URL');
-		}
-		$this->endpoint = $endpoint;
-		return $this;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getPort()
-	{
-		return $this->port;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function hasPort()
-	{
-		return !is_null($this->port);
-	}
-
-	/**
-	 * @param int $port
-	 * @return $this
-	 */
-	public function setPort($port)
-	{
-		$this->port = $port;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getMethod()
 	{
 		return $this->method;
@@ -181,60 +123,20 @@ abstract class AbstractRequest implements RequestInterface
 	}
 
 	/**
-	 * @return string[]
+	 * @return UrlInterface
 	 */
-	public function getQueryParameters()
+	public function getUrl()
 	{
-		return $this->queryParameters;
+		return $this->url;
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function hasQueryParameters()
-	{
-		return count($this->queryParameters) > 0;
-	}
-
-	/**
-	 * @param string $parameterName
-	 * @param string $parameterValue
+	 * @param UrlInterface $url
 	 * @return $this
 	 */
-	public function addQueryParameter($parameterName, $parameterValue)
+	public function setUrl(UrlInterface $url)
 	{
-		if (!is_string($parameterName) || !is_string($parameterValue)) {
-			throw new \InvalidArgumentException('Query parameter names and values have to be a string.');
-		}
-		$this->queryParameters[$parameterName] = $parameterValue;
-		return $this;
-	}
-
-	/**
-	 * @param string[] $queryParameters
-	 * @return $this
-	 */
-	public function setQueryParameters($queryParameters)
-	{
-		foreach ($queryParameters as &$queryParameter) {
-			if (!is_scalar($queryParameter)) {
-				$argumentType = (is_object($queryParameter)) ? get_class($queryParameter) : gettype($queryParameter);
-				throw new \InvalidArgumentException(
-					'Expected the query parameters as array of scalar values. Got ' . $argumentType
-				);
-			}
-			$queryParameter = (string)$queryParameter;
-		}
-		$this->queryParameters = $queryParameters;
-		return $this;
-	}
-
-	/**
-	 * @return $this
-	 */
-	public function removeQueryParameters()
-	{
-		$this->queryParameters = array();
+		$this->url = $url;
 		return $this;
 	}
 
@@ -364,8 +266,8 @@ abstract class AbstractRequest implements RequestInterface
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 		curl_setopt($curl, CURLOPT_USERAGENT, $this->getUserAgent());
 		curl_setopt($curl, CURLOPT_URL, $this->calculateEndpoint());
-		if ($this->hasPort()) {
-			curl_setopt($curl, CURLOPT_PORT, $this->getPort());
+		if ($this->getUrl()->hasPort()) {
+			curl_setopt($curl, CURLOPT_PORT, $this->getUrl()->getPort());
 		}
 		// Request method
 		curl_setopt($curl, CURLOPT_HTTPGET, true);
@@ -469,12 +371,7 @@ abstract class AbstractRequest implements RequestInterface
 	 */
 	protected function calculateEndpoint()
 	{
-		$endpoint = $this->getEndpoint();
-		if ($this->hasQueryParameters()) {
-			$glueCharacter = (strpos($endpoint, '?') === false) ? '?' : '&';
-			$endpoint .= $glueCharacter . http_build_query($this->getQueryParameters());
-		}
-		return $endpoint;
+		return $this->getUrl()->buildUrl();
 	}
 
 	/**
@@ -483,8 +380,10 @@ abstract class AbstractRequest implements RequestInterface
 	 */
 	protected function prePerform()
 	{
-		$urlUtil = new UrlUtil();
-		if ($urlUtil->getScheme($this->getEndpoint()) == 'HTTPS' && !$this->getTransport() instanceof HttpsTransport) {
+		if (
+			mb_strtoupper($this->getUrl()->getScheme()) == 'HTTPS'
+			&& !$this->getTransport() instanceof HttpsTransport
+		) {
 			throw new HttpRequestException('Transport misconfiguration. Use HttpsTransport for HTTPS requests.');
 		}
 	}
