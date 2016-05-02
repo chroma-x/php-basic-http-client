@@ -218,7 +218,7 @@ $message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHe
 
 #### Configuring an endpoints URL, build the Request instance and perform the HTTP request
 
-For more information about the usage of the URL object please take a look at the [PHP URL project](https://github.com/markenwerk/php-url-util).
+For more information about the usage of the URL object please take a look at the [PHP URL Util](https://github.com/markenwerk/php-url-util) project.
 
 ```{php}
 use BasicHttpClient\Request\Authentication\BasicAuthentication;
