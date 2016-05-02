@@ -26,7 +26,7 @@ Find out more at the [„PSR-7 is imminent, and here's my issues with it“](htt
 ```{json}
 {
    	"require": {
-        "markenwerk/basic-http-client": "~1.0"
+        "markenwerk/basic-http-client": "~2.0"
     }
 }
 ```
