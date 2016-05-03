@@ -64,7 +64,8 @@ class Message implements MessageInterface
 		if (!$this->hasHeaderWithName($name)) {
 			return null;
 		}
-		return $this->findHeadersByName($name)[0];
+		$matchingHeaders = $this->findHeadersByName($name);
+		return $matchingHeaders[0];
 	}
 
 	/**
