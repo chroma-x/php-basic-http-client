@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Request\Transport;
+namespace Markenwerk\BasicHttpClient\Request\Transport;
 
 /**
  * Class HttpTransport
  *
- * @package BasicHttpClient\Request\Transport
+ * @package Markenwerk\BasicHttpClient\Request\Transport
  */
 class HttpTransport implements TransportInterface
 {

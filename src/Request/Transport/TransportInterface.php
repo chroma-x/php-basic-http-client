@@ -1,13 +1,13 @@
 <?php
 
-namespace BasicHttpClient\Request\Transport;
+namespace Markenwerk\BasicHttpClient\Request\Transport;
 
-use BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use Markenwerk\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
 
 /**
  * Interface TransportInterface
  *
- * @package BasicHttpClient\Request\Transport
+ * @package Markenwerk\BasicHttpClient\Request\Transport
  */
 interface TransportInterface extends CurlConfiguratorInterface
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace BasicHttpClient;
+namespace Markenwerk\BasicHttpClient;
 
-use BasicHttpClient\Request\RequestInterface;
-use BasicHttpClient\Response\ResponseInterface;
+use Markenwerk\BasicHttpClient\Request\RequestInterface;
+use Markenwerk\BasicHttpClient\Response\ResponseInterface;
 
 /**
  * Interface HttpClientInterface
  *
- * @package BasicHttpClient
+ * @package Markenwerk\BasicHttpClient
  */
 interface HttpClientInterface
 {

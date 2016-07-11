@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Request\Base;
+namespace Markenwerk\BasicHttpClient\Request\Base;
 
 /**
  * Interface CurlConfiguratorInterface
  *
- * @package BasicHttpClient\Request\Base
+ * @package Markenwerk\BasicHttpClient\Request\Base
  */
 interface CurlConfiguratorInterface
 {

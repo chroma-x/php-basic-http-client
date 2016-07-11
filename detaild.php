@@ -2,14 +2,14 @@
 
 namespace Project;
 
-use BasicHttpClient\Request\Authentication\BasicAuthentication;
-use BasicHttpClient\Request\Message\Body\Body;
-use BasicHttpClient\Request\Message\Cookie\Cookie;
-use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Request\Message\Message;
-use BasicHttpClient\Request\Request;
-use BasicHttpClient\Request\Transport\HttpsTransport;
-use Url\Url;
+use Markenwerk\BasicHttpClient\Request\Authentication\BasicAuthentication;
+use Markenwerk\BasicHttpClient\Request\Message\Body\Body;
+use Markenwerk\BasicHttpClient\Request\Message\Cookie\Cookie;
+use Markenwerk\BasicHttpClient\Request\Message\Header\Header;
+use Markenwerk\BasicHttpClient\Request\Message\Message;
+use Markenwerk\BasicHttpClient\Request\Request;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
+use Markenwerk\UrlUtil\Url;
 
 require_once('vendor/autoload.php');
 

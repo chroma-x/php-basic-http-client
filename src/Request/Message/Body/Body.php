@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Body;
+namespace Markenwerk\BasicHttpClient\Request\Message\Body;
 
 /**
  * Class Body
  *
- * @package BasicHttpClient\Request\Message\Body
+ * @package Markenwerk\BasicHttpClient\Request\Message\Body
  */
 class Body implements BodyInterface
 {

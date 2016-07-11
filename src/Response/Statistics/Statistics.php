@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Response\Statistics;
+namespace Markenwerk\BasicHttpClient\Response\Statistics;
 
 /**
  * Class Statistics
  *
- * @package BasicHttpClient\Response\Statistics
+ * @package Markenwerk\BasicHttpClient\Response\Statistics
  */
 class Statistics
 {

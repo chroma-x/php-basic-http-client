@@ -1,13 +1,13 @@
 <?php
 
-namespace BasicHttpClient\Response\Header;
+namespace Markenwerk\BasicHttpClient\Response\Header;
 
-use BasicHttpClient\Util\HeaderNameUtil;
+use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Header
  *
- * @package BasicHttpClient\Response\Header
+ * @package Markenwerk\BasicHttpClient\Response\Header
  */
 class Header
 {

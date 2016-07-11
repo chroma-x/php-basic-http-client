@@ -1,15 +1,15 @@
 <?php
 
-namespace BasicHttpClient\Response;
+namespace Markenwerk\BasicHttpClient\Response;
 
-use BasicHttpClient\Request\RequestInterface;
-use BasicHttpClient\Response\Header\Header;
-use BasicHttpClient\Response\Statistics\Statistics;
+use Markenwerk\BasicHttpClient\Request\RequestInterface;
+use Markenwerk\BasicHttpClient\Response\Header\Header;
+use Markenwerk\BasicHttpClient\Response\Statistics\Statistics;
 
 /**
  * Class AbstractResponse
  *
- * @package BasicHttpClient\Response
+ * @package Markenwerk\BasicHttpClient\Response
  */
 abstract class AbstractResponse implements ResponseInterface
 {

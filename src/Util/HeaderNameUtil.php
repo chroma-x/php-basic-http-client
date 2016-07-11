@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Util;
+namespace Markenwerk\BasicHttpClient\Util;
 
 /**
  * Class HeaderNameUtil
  *
- * @package BasicHttpClient\Util
+ * @package Markenwerk\BasicHttpClient\Util
  */
 class HeaderNameUtil
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace BasicHttpClient\Request\Authentication;
+namespace Markenwerk\BasicHttpClient\Request\Authentication;
 
-use BasicHttpClient\Request\RequestInterface;
+use Markenwerk\BasicHttpClient\Request\RequestInterface;
 
 /**
  * Class BasicAuthentication
  *
- * @package BasicHttpClient\Request\Authentication
+ * @package Markenwerk\BasicHttpClient\Request\Authentication
  */
 class BasicAuthentication implements AuthenticationInterface
 {

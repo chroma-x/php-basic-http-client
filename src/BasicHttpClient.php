@@ -1,20 +1,22 @@
 <?php
 
-namespace BasicHttpClient;
+namespace Markenwerk\BasicHttpClient;
 
-use BasicHttpClient\Request\RequestInterface;
-use BasicHttpClient\Request\Message\Body\Body;
-use BasicHttpClient\Request\Message\Message;
-use BasicHttpClient\Request\Request;
-use BasicHttpClient\Request\Transport\HttpsTransport;
-use BasicHttpClient\Request\Transport\HttpTransport;
-use BasicHttpClient\Response\ResponseInterface;
-use Url\Url;
+use Markenwerk\BasicHttpClient\Request\RequestInterface;
+use Markenwerk\BasicHttpClient\Request\Message\Body\Body;
+use Markenwerk\BasicHttpClient\Request\Message\Message;
+use Markenwerk\BasicHttpClient\Request\Request;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpTransport;
+use Markenwerk\BasicHttpClient\Response\ResponseInterface;
+use Markenwerk\CommonException\NetworkException\Base\NetworkException;
+use Markenwerk\CommonException\NetworkException\ConnectionTimeoutException;
+use Markenwerk\UrlUtil\Url;
 
 /**
  * Class BasicHttpClient
  *
- * @package BasicHttpClient
+ * @package Markenwerk\BasicHttpClient
  */
 class BasicHttpClient implements HttpClientInterface
 {
@@ -58,8 +60,8 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
-	 * @throws \CommonException\NetworkException\Base\NetworkException
-	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws ConnectionTimeoutException
 	 */
 	public function get(array $queryParameters = null)
 	{
@@ -74,8 +76,8 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
-	 * @throws \CommonException\NetworkException\Base\NetworkException
-	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws ConnectionTimeoutException
 	 */
 	public function head(array $queryParameters = null)
 	{
@@ -90,8 +92,8 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param array $postData
 	 * @return ResponseInterface
-	 * @throws \CommonException\NetworkException\Base\NetworkException
-	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws ConnectionTimeoutException
 	 */
 	public function post(array $postData = null)
 	{
@@ -109,8 +111,8 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param array $putData
 	 * @return ResponseInterface
-	 * @throws \CommonException\NetworkException\Base\NetworkException
-	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws ConnectionTimeoutException
 	 */
 	public function put(array $putData = null)
 	{
@@ -128,8 +130,8 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param array $patchData
 	 * @return ResponseInterface
-	 * @throws \CommonException\NetworkException\Base\NetworkException
-	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws ConnectionTimeoutException
 	 */
 	public function patch(array $patchData = null)
 	{
@@ -147,8 +149,8 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
-	 * @throws \CommonException\NetworkException\Base\NetworkException
-	 * @throws \CommonException\NetworkException\ConnectionTimeoutException
+	 * @throws NetworkException
+	 * @throws ConnectionTimeoutException
 	 */
 	public function delete(array $queryParameters = null)
 	{

@@ -1,14 +1,14 @@
 <?php
 
-namespace BasicHttpClient\Request;
+namespace Markenwerk\BasicHttpClient\Request;
 
-use BasicHttpClient\Response\Response;
-use BasicHttpClient\Response\ResponseInterface;
+use Markenwerk\BasicHttpClient\Response\Response;
+use Markenwerk\BasicHttpClient\Response\ResponseInterface;
 
 /**
  * Class Request
  *
- * @package BasicHttpClient\Request
+ * @package Markenwerk\BasicHttpClient\Request
  */
 class Request extends AbstractRequest
 {

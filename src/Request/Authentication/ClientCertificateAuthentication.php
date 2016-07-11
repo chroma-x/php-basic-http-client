@@ -1,17 +1,17 @@
 <?php
 
-namespace BasicHttpClient\Request\Authentication;
+namespace Markenwerk\BasicHttpClient\Request\Authentication;
 
-use BasicHttpClient\Exception\HttpRequestAuthenticationException;
-use BasicHttpClient\Request\RequestInterface;
-use BasicHttpClient\Request\Transport\HttpsTransport;
-use CommonException\IoException\FileNotFoundException;
-use CommonException\IoException\FileReadableException;
+use Markenwerk\BasicHttpClient\Exception\HttpRequestAuthenticationException;
+use Markenwerk\BasicHttpClient\Request\RequestInterface;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
+use Markenwerk\CommonException\IoException\FileNotFoundException;
+use Markenwerk\CommonException\IoException\FileReadableException;
 
 /**
  * Class ClientCertificateAuthentication
  *
- * @package BasicHttpClient\Request\Authentication
+ * @package Markenwerk\BasicHttpClient\Request\Authentication
  */
 class ClientCertificateAuthentication implements AuthenticationInterface
 {

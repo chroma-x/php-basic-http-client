@@ -4,9 +4,9 @@ namespace Project;
 
 require_once('vendor/autoload.php');
 
-use BasicHttpClient;
-use BasicHttpClient\Request\Authentication;
-use BasicHttpClient\Request\Message;
+use Markenwerk\BasicHttpClient;
+use Markenwerk\BasicHttpClient\Request\Authentication;
+use Markenwerk\BasicHttpClient\Request\Message;
 
 // Instantiating a basic HTTP client with the endpoints URL
 $client = new BasicHttpClient\BasicHttpClient('http://mb:mb@requestb.in/1aipzl31?paramName1=asd#test');
@@ -24,7 +24,7 @@ $client
 	->setHeader(new Message\Header\Header('Accept', array('text/html', 'text/*')))
 	->addCookie(new Message\Cookie\Cookie('PHPSESSID', '<MY_SESSION_ID>'));
 
-$response = $client->get(array(
+$client->get(array(
 	'paramName1' => 'paramValue1',
 	'paramName2' => 'paramValue2'
 ));

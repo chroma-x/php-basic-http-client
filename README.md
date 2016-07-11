@@ -44,9 +44,9 @@ require_once('path/to/vendor/autoload.php');
 #### Preparing the HTTP client
 
 ```{php}
-use BasicHttpClient;
-use BasicHttpClient\Request\Authentication;
-use BasicHttpClient\Request\Message;
+use Markenwerk\BasicHttpClient;
+use Markenwerk\BasicHttpClient\Request\Authentication;
+use Markenwerk\BasicHttpClient\Request\Message;
 
 // Instantiating a basic HTTP client with the endpoints URL
 // If the endpoint uses the `HTTPS` schema a `HttpsTransport` instance will be used automatically.
@@ -134,7 +134,7 @@ The following example shows the usage with a more detailed configuration.
 #### Configuring a HTTP Transport instance
 
 ```{php}
-use BasicHttpClient\Request\Transport\HttpTransport;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpTransport;
 
 // Configuring a Transport instance
 $transport = new HttpTransport();
@@ -150,7 +150,7 @@ $transport
 #### Configuring a HTTPS Transport instance
 
 ```{php}
-use BasicHttpClient\Request\Transport\HttpsTransport;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
 
 // Configuring a Transport instance
 $transport = new HttpsTransport();
@@ -167,10 +167,10 @@ $transport
 #### Configuring a Message instance with Body
 
 ```{php}
-use BasicHttpClient\Request\Message\Body\Body;
-use BasicHttpClient\Request\Message\Cookie\Cookie;
-use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Request\Message\Message;
+use Markenwerk\BasicHttpClient\Request\Message\Body\Body;
+use Markenwerk\BasicHttpClient\Request\Message\Cookie\Cookie;
+use Markenwerk\BasicHttpClient\Request\Message\Header\Header;
+use Markenwerk\BasicHttpClient\Request\Message\Message;
 
 // Configuring a message Body instance
 $messageBody = new Body();
@@ -221,9 +221,9 @@ $message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHe
 For more information about the usage of the URL object please take a look at the [PHP URL Util](https://github.com/markenwerk/php-url-util) project.
 
 ```{php}
-use BasicHttpClient\Request\Authentication\BasicAuthentication;
-use BasicHttpClient\Request\Request;
-use Url\Url;
+use Markenwerk\BasicHttpClient\Request\Authentication\BasicAuthentication;
+use Markenwerk\BasicHttpClient\Request\Request;
+use Markenwerk\UrlUtil\Url;
 
 // Setting up the endpoints URL
 $url = new Url('https://john:secret@yourapihere-com-98yq3775xff0.runscope.net:443/path/to/resource?arg1=123#fragment');
@@ -273,8 +273,8 @@ You can add one or more Authentication instances to every Request instance. At t
 Required credentials are a *username* and a *password* that get provided to the class constructor as arguments.
 
 ```{php}
-use BasicHttpClient\Request\Authentication\BasicAuthentication;
-use BasicHttpClient\Request\Request;
+use Markenwerk\BasicHttpClient\Request\Authentication\BasicAuthentication;
+use Markenwerk\BasicHttpClient\Request\Request;
 
 // Configuring the authentication
 $basicAuthentication = new BasicAuthentication('username', 'password');
@@ -289,8 +289,8 @@ $request->addAuthentication($basicAuthentication);
 Required credentials are a *Certificate Authority Certificate*, a *Client Certificate* and the password that is used to decrypt the Client Certificate that get provided to the class constructor as arguments.
 
 ```{php}
-use BasicHttpClient\Request\Authentication\ClientCertificateAuthentication;
-use BasicHttpClient\Request\Request;
+use Markenwerk\BasicHttpClient\Request\Authentication\ClientCertificateAuthentication;
+use Markenwerk\BasicHttpClient\Request\Request;
 
 // Configuring the authentication
 $clientCertificateAuthentication = new ClientCertificateAuthentication(
@@ -313,7 +313,7 @@ $request->addAuthentication($clientCertificateAuthentication);
 If using the `BasicHttpClient` the response object is returned by the termination methods listed above. If directly using the Request instance, you can get the Response object via a getter.
 
 ```{php}
-// Getting the response BasicHttpClient\Response\Response object
+// Getting the response Markenwerk\BasicHttpClient\Response\Response object
 $response = $request->getResponse();
 
 // Reading the HTTP status code as integer; will return `200`
@@ -322,7 +322,7 @@ echo print_r($response->getStatusCode(), true) . PHP_EOL;
 // Reading the HTTP status text as string; will return `HTTP/1.1 200 OK`
 echo print_r($response->getStatusText(), true) . PHP_EOL;
 
-// Reading the HTTP response headers as array of BasicHttpClient\Response\Header\Header objects
+// Reading the HTTP response headers as array of Markenwerk\BasicHttpClient\Response\Header\Header objects
 echo print_r($response->getHeaders(), true) . PHP_EOL;
 
 // Reading the HTTP response body as string
@@ -345,7 +345,7 @@ echo print_r($request->getEffectiveStatus(), true) . PHP_EOL;
 // Getting the effective raw request headers as string
 echo print_r($request->getEffectiveRawHeader(), true) . PHP_EOL;
 
-// Getting the effective request headers as array of `BasicHttpClient\Request\Message\Header\Header` objects
+// Getting the effective request headers as array of `Markenwerk\BasicHttpClient\Request\Message\Header\Header` objects
 echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
 ```
 
@@ -354,7 +354,7 @@ echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
 ## Getting some transactional statistics
 
 ```{php}
-// Getting the statistics BasicHttpClient\Response\Statistics\Statistics object
+// Getting the statistics Markenwerk\BasicHttpClient\Response\Statistics\Statistics object
 $statistics = $request->getResponse()->getStatistics();
 
 // Reading the redirection URL if the server responds with an redirect HTTP header and 
@@ -403,12 +403,12 @@ You can find more information about [PHP Common Exceptions at Github](https://gi
 
 In general you should expect that any setter method could thrown an `\InvalidArgumentException`. The following exceptions could get thrown while using PHP Basic HTTP Client.
 
-- `CommonException\IoException\FileNotFoundException` on configuring a `ClientCertificateAuthentication`instance
-- `CommonException\IoException\FileReadableException` on configuring a `ClientCertificateAuthentication`instance
-- `BasicHttpClient\Exception\HttpRequestAuthenticationException` on performing a request
-- `BasicHttpClient\Exception\HttpRequestException` on performing a request
-- `CommonException\NetworkException\ConnectionTimeoutException` on performing a request
-- `CommonException\NetworkException\CurlException` on performing a request
+- `Markenwerk\CommonException\IoException\FileNotFoundException` on configuring a `ClientCertificateAuthentication`instance
+- `Markenwerk\CommonException\IoException\FileReadableException` on configuring a `ClientCertificateAuthentication`instance
+- `Markenwerk\BasicHttpClient\Exception\HttpRequestAuthenticationException` on performing a request
+- `Markenwerk\BasicHttpClient\Exception\HttpRequestException` on performing a request
+- `Markenwerk\CommonException\NetworkException\ConnectionTimeoutException` on performing a request
+- `Markenwerk\CommonException\NetworkException\CurlException` on performing a request
 
 ---
 

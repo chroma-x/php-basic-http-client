@@ -1,16 +1,16 @@
 <?php
 
-namespace BasicHttpClient\Request\Message;
+namespace Markenwerk\BasicHttpClient\Request\Message;
 
-use BasicHttpClient\Request\Message\Body\BodyInterface;
-use BasicHttpClient\Request\Message\Cookie\CookieInterface;
-use BasicHttpClient\Request\Message\Header\HeaderInterface;
-use BasicHttpClient\Util\HeaderNameUtil;
+use Markenwerk\BasicHttpClient\Request\Message\Body\BodyInterface;
+use Markenwerk\BasicHttpClient\Request\Message\Cookie\CookieInterface;
+use Markenwerk\BasicHttpClient\Request\Message\Header\HeaderInterface;
+use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Message
  *
- * @package BasicHttpClient\Request\Message
+ * @package Markenwerk\BasicHttpClient\Request\Message
  */
 class Message implements MessageInterface
 {

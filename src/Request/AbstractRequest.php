@@ -1,24 +1,24 @@
 <?php
 
-namespace BasicHttpClient\Request;
+namespace Markenwerk\BasicHttpClient\Request;
 
-use BasicHttpClient\Exception\HttpRequestException;
-use BasicHttpClient\Request\Authentication\AuthenticationInterface;
-use BasicHttpClient\Request\Message\MessageInterface;
-use BasicHttpClient\Request\Message\Header\Header;
-use BasicHttpClient\Request\Transport\TransportInterface;
-use BasicHttpClient\Request\Transport\HttpsTransport;
-use BasicHttpClient\Request\Transport\HttpTransport;
-use BasicHttpClient\Response\ResponseInterface;
-use CommonException\NetworkException\Base\NetworkException;
-use CommonException\NetworkException\ConnectionTimeoutException;
-use CommonException\NetworkException\CurlException;
-use Url\UrlInterface;
+use Markenwerk\BasicHttpClient\Exception\HttpRequestException;
+use Markenwerk\BasicHttpClient\Request\Authentication\AuthenticationInterface;
+use Markenwerk\BasicHttpClient\Request\Message\MessageInterface;
+use Markenwerk\BasicHttpClient\Request\Message\Header\Header;
+use Markenwerk\BasicHttpClient\Request\Transport\TransportInterface;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
+use Markenwerk\BasicHttpClient\Request\Transport\HttpTransport;
+use Markenwerk\BasicHttpClient\Response\ResponseInterface;
+use Markenwerk\CommonException\NetworkException\Base\NetworkException;
+use Markenwerk\CommonException\NetworkException\ConnectionTimeoutException;
+use Markenwerk\CommonException\NetworkException\CurlException;
+use Markenwerk\UrlUtil\UrlInterface;
 
 /**
  * Class Request
  *
- * @package BasicHttpClient\Request
+ * @package Markenwerk\BasicHttpClient\Request
  */
 abstract class AbstractRequest implements RequestInterface
 {

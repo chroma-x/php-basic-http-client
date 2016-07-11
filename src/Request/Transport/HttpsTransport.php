@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Request\Transport;
+namespace Markenwerk\BasicHttpClient\Request\Transport;
 
 /**
  * Class HttpsTransport
  *
- * @package BasicHttpClient\Request\Transport
+ * @package Markenwerk\BasicHttpClient\Request\Transport
  */
 class HttpsTransport extends HttpTransport
 {

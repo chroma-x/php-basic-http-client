@@ -1,13 +1,13 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Header;
+namespace Markenwerk\BasicHttpClient\Request\Message\Header;
 
-use BasicHttpClient\Util\HeaderNameUtil;
+use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Header
  *
- * @package BasicHttpClient\Request\Message\Header
+ * @package Markenwerk\BasicHttpClient\Request\Message\Header
  */
 class Header implements HeaderInterface
 {

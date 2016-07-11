@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Cookie;
+namespace Markenwerk\BasicHttpClient\Request\Message\Cookie;
 
 /**
  * Class Cookie
  *
- * @package BasicHttpClient\Request\Message\Cookie
+ * @package Markenwerk\BasicHttpClient\Request\Message\Cookie
  */
 class Cookie implements CookieInterface
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace BasicHttpClient\Exception;
+namespace Markenwerk\BasicHttpClient\Exception;
 
 /**
  * Class HttpRequestException
  *
- * @package BasicHttpClient\Exception
+ * @package Markenwerk\BasicHttpClient\Exception
  */
 class HttpRequestException extends \Exception
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace BasicHttpClient\Request\Message\Body;
+namespace Markenwerk\BasicHttpClient\Request\Message\Body;
 
-use BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use Markenwerk\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
 
 /**
  * Interface BodyInterface
  *
- * @package BasicHttpClient\Request\Message\Body
+ * @package Markenwerk\BasicHttpClient\Request\Message\Body
  */
 interface BodyInterface extends CurlConfiguratorInterface
 {
