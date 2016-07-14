@@ -5,6 +5,7 @@ namespace Markenwerk\BasicHttpClient\Response;
 use Markenwerk\BasicHttpClient\Request\RequestInterface;
 use Markenwerk\BasicHttpClient\Response\Header\Header;
 use Markenwerk\BasicHttpClient\Response\Statistics\Statistics;
+use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class AbstractResponse
@@ -105,6 +106,32 @@ abstract class AbstractResponse implements ResponseInterface
 	public function getHeaders()
 	{
 		return $this->headers;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function hasHeader($name)
+	{
+		return !is_null($this->getHeader($name));
+	}
+
+	/**
+	 * @param string $name
+	 * @return Header
+	 */
+	public function getHeader($name)
+	{
+		$headers = $this->getHeaders();
+		$headerNameUtil = new HeaderNameUtil();
+		$name = $headerNameUtil->normalizeHeaderName($name);
+		foreach ($headers as $header) {
+			if ($header->getNormalizedName() == $name) {
+				return $header;
+			}
+		}
+		return null;
 	}
 
 	/**

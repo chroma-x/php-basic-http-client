@@ -49,6 +49,18 @@ interface ResponseInterface
 	public function getHeaders();
 
 	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function hasHeader($name);
+
+	/**
+	 * @param string $name
+	 * @return Header
+	 */
+	public function getHeader($name);
+
+	/**
 	 * @return string
 	 */
 	public function getBody();
