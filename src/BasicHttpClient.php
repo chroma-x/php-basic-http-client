@@ -63,7 +63,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function get(array $queryParameters = null)
+	public function get(array $queryParameters = array())
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_GET)
@@ -79,7 +79,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function head(array $queryParameters = null)
+	public function head(array $queryParameters = array())
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_HEAD)
@@ -95,7 +95,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function post(array $postData = null)
+	public function post(array $postData = array())
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($postData);
@@ -114,7 +114,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function put(array $putData = null)
+	public function put(array $putData = array())
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($putData);
@@ -133,7 +133,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function patch(array $patchData = null)
+	public function patch(array $patchData = array())
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($patchData);
@@ -152,7 +152,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function delete(array $queryParameters = null)
+	public function delete(array $queryParameters = array())
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_DELETE)

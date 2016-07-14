@@ -22,36 +22,36 @@ interface HttpClientInterface
 	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 */
-	public function get(array $queryParameters = null);
+	public function get(array $queryParameters = array());
 
 	/**
 	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 */
-	public function head(array $queryParameters = null);
+	public function head(array $queryParameters = array());
 
 	/**
 	 * @param array $postData
 	 * @return ResponseInterface
 	 */
-	public function post(array $postData = null);
+	public function post(array $postData = array());
 
 	/**
 	 * @param array $putData
 	 * @return ResponseInterface
 	 */
-	public function put(array $putData = null);
+	public function put(array $putData = array());
 
 	/**
 	 * @param array $patchData
 	 * @return ResponseInterface
 	 */
-	public function patch(array $patchData = null);
+	public function patch(array $patchData = array());
 
 	/**
 	 * @param mixed[] $queryParameters
 	 * @return ResponseInterface
 	 */
-	public function delete(array $queryParameters = null);
+	public function delete(array $queryParameters = array());
 
 }
