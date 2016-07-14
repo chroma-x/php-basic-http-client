@@ -251,9 +251,11 @@ class Message implements MessageInterface
 			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
 			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
 		}
-		for ($i = 0; $i < count($this->cookies); $i++) {
+		$cookieCount = count($this->cookies);
+		for ($i = 0; $i < $cookieCount; $i++) {
 			if ($this->cookies[$i]->getName() !== $name) {
 				unset($this->cookies[$i]);
+				$this->cookies = array_values($this->cookies);
 				return $this;
 			}
 		}
@@ -266,9 +268,11 @@ class Message implements MessageInterface
 	 */
 	public function removeCookie(CookieInterface $cookie)
 	{
-		for ($i = 0; $i < count($this->cookies); $i++) {
+		$cookieCount = count($this->cookies);
+		for ($i = 0; $i < $cookieCount; $i++) {
 			if ($cookie == $this->cookies[$i]) {
 				unset($this->cookies[$i]);
+				$this->cookies = array_values($this->cookies);
 				return $this;
 			}
 		}
@@ -415,7 +419,8 @@ class Message implements MessageInterface
 	 */
 	private function findHeaderIndex(HeaderInterface $header)
 	{
-		for ($i = 0; $i < count($this->headers); $i++) {
+		$headerCount = count($this->headers);
+		for ($i = 0; $i < $headerCount; $i++) {
 			if ($this->headers[$i] === $header) {
 				return $i;
 			}

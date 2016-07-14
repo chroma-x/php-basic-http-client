@@ -212,9 +212,11 @@ abstract class AbstractRequest implements RequestInterface
 	 */
 	public function removeAuthentication(AuthenticationInterface $authentication)
 	{
-		for ($i = 0; $i < count($this->authentications); $i++) {
+		$authenticationCount = count($this->authentications);
+		for ($i = 0; $i < $authenticationCount; $i++) {
 			if ($this->authentications[$i] == $authentication) {
 				unset($this->authentications[$i]);
+				$this->authentications = array_values($this->authentications);
 				return $this;
 			}
 		}
@@ -295,7 +297,8 @@ abstract class AbstractRequest implements RequestInterface
 		$this->configureCurl($curl);
 		$this->getTransport()->configureCurl($curl);
 		$this->getMessage()->configureCurl($curl);
-		for ($i = 0; $i < count($this->authentications); $i++) {
+		$authenticationCount = count($this->authentications);
+		for ($i = 0; $i < $authenticationCount; $i++) {
 			$this->authentications[$i]
 				->validate($this)
 				->configureCurl($curl);
