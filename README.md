@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/markenwerk/php-basic-http-client.svg?branch=master)](https://travis-ci.org/markenwerk/php-basic-http-client)
 [![Test Coverage](https://codeclimate.com/github/markenwerk/php-basic-http-client/badges/coverage.svg)](https://codeclimate.com/github/markenwerk/php-basic-http-client/coverage)
 [![Dependency Status](https://www.versioneye.com/user/projects/571f8827fcd19a00415b2836/badge.svg)](https://www.versioneye.com/user/projects/571f8827fcd19a00415b2836)
-[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/e3b9fdca-01a7-463c-90e0-5989234eb096.svg)](https://insight.sensiolabs.com/projects/e3b9fdca-01a7-463c-90e0-5989234eb096)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/0bc596c2-5849-4e0f-a46f-a7b94d28f97c.svg)](https://insight.sensiolabs.com/projects/0bc596c2-5849-4e0f-a46f-a7b94d28f97c)
 [![Code Climate](https://codeclimate.com/github/markenwerk/php-basic-http-client/badges/gpa.svg)](https://codeclimate.com/github/markenwerk/php-basic-http-client)
 [![Latest Stable Version](https://poser.pugx.org/markenwerk/basic-http-client/v/stable)](https://packagist.org/packages/markenwerk/basic-http-client)
 [![Total Downloads](https://poser.pugx.org/markenwerk/basic-http-client/downloads)](https://packagist.org/packages/markenwerk/basic-http-client)
