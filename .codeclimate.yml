@@ -16,6 +16,8 @@ engines:
         enabled: false
       Design/TooManyPublicMethods:
         enabled: false
+      Naming/BooleanGetMethodName:
+        enabled: false
 ratings:
   paths:
   - "**.inc"
