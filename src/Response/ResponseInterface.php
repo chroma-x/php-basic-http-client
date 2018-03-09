@@ -61,7 +61,7 @@ interface ResponseInterface
 	public function getHeader($name);
 
 	/**
-	 * @return string
+	 * @return mixed
 	 */
 	public function getBody();
 

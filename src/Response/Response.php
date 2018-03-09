@@ -10,4 +10,12 @@ namespace Markenwerk\BasicHttpClient\Response;
 class Response extends AbstractResponse
 {
 
+	/**
+	 * @return string
+	 */
+	public function getBody()
+	{
+		return parent::getBody();
+	}
+
 }
