@@ -16,28 +16,28 @@ interface CookieInterface
 	 * @param string $name
 	 * @param string $value
 	 */
-	public function __construct($name, $value);
+	public function __construct(string $name, string $value);
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
 	 * @param string $name
 	 * @return $this
 	 */
-	public function setName($name);
+	public function setName(string $name);
 
 	/**
 	 * @return string
 	 */
-	public function getValue();
+	public function getValue(): string;
 
 	/**
 	 * @param string $value
 	 * @return $this
 	 */
-	public function setValue($value);
+	public function setValue(string $value);
 
 }

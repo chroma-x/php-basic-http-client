@@ -18,19 +18,19 @@ interface MessageInterface extends CurlConfiguratorInterface
 	/**
 	 * @return HeaderInterface[]
 	 */
-	public function getHeaders();
+	public function getHeaders(): array;
 
 	/**
 	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
-	public function getHeadersByName($name);
+	public function getHeadersByName(string $name): array;
 
 	/**
 	 * @param string $name
 	 * @return HeaderInterface
 	 */
-	public function getHeaderByName($name);
+	public function getHeaderByName(string $name): ?HeaderInterface;
 
 	/**
 	 * @return $this
@@ -59,7 +59,7 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function removeHeadersByName($name);
+	public function removeHeadersByName(string $name);
 
 	/**
 	 * @param HeaderInterface $header
@@ -71,34 +71,34 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 * @param $name
 	 * @return bool
 	 */
-	public function hasHeaderWithName($name);
+	public function hasHeaderWithName(string $name): bool;
 
 	/**
 	 * @param HeaderInterface $header
 	 * @return bool
 	 */
-	public function hasHeader(HeaderInterface $header);
+	public function hasHeader(HeaderInterface $header): bool;
 
 	/**
 	 * @return bool
 	 */
-	public function hasHeaders();
+	public function hasHeaders(): bool;
 
 	/**
 	 * @return int
 	 */
-	public function getHeaderCount();
+	public function getHeaderCount(): int;
 
 	/**
 	 * @return CookieInterface[]
 	 */
-	public function getCookies();
+	public function getCookies(): array;
 
 	/**
 	 * @param $name
 	 * @return CookieInterface
 	 */
-	public function getCookieByName($name);
+	public function getCookieByName(string $name): ?CookieInterface;
 
 	/**
 	 * @return $this
@@ -109,7 +109,7 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 * @param CookieInterface[] $cookies
 	 * @return $this
 	 */
-	public function setCookies($cookies);
+	public function setCookies(array $cookies);
 
 	/**
 	 * @param CookieInterface $cookie
@@ -121,7 +121,7 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function removeCookieByName($name);
+	public function removeCookieByName(string $name);
 
 	/**
 	 * @param CookieInterface $cookie
@@ -133,28 +133,28 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 * @param $name
 	 * @return bool
 	 */
-	public function hasCookieWithName($name);
+	public function hasCookieWithName(string $name): bool;
 
 	/**
 	 * @param CookieInterface $cookie
 	 * @return bool
 	 */
-	public function hasCookie(CookieInterface $cookie);
+	public function hasCookie(CookieInterface $cookie): bool;
 
 	/**
 	 * @return bool
 	 */
-	public function hasCookies();
+	public function hasCookies(): bool;
 
 	/**
 	 * @return int
 	 */
-	public function getCookieCount();
+	public function getCookieCount(): int;
 
 	/**
 	 * @return BodyInterface
 	 */
-	public function getBody();
+	public function getBody(): ?BodyInterface;
 
 	/**
 	 * @param BodyInterface $body
@@ -165,7 +165,7 @@ interface MessageInterface extends CurlConfiguratorInterface
 	/**
 	 * @return bool
 	 */
-	public function hasBody();
+	public function hasBody(): bool;
 
 	/**
 	 * @return $this

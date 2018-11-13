@@ -28,7 +28,7 @@ class Header implements HeaderInterface
 	 * @param string $name
 	 * @param string[] $values
 	 */
-	public function __construct($name, array $values)
+	public function __construct(string $name, array $values)
 	{
 		$this->setName($name);
 		$this->setValues($values);
@@ -37,7 +37,7 @@ class Header implements HeaderInterface
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -45,7 +45,7 @@ class Header implements HeaderInterface
 	/**
 	 * @return string
 	 */
-	public function getNormalizedName()
+	public function getNormalizedName(): string
 	{
 		$headerNameUtil = new HeaderNameUtil();
 		return $headerNameUtil->normalizeHeaderName($this->name);
@@ -55,12 +55,8 @@ class Header implements HeaderInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		$this->name = trim($name);
 		return $this;
 	}
@@ -68,7 +64,7 @@ class Header implements HeaderInterface
 	/**
 	 * @return string[]
 	 */
-	public function getValues()
+	public function getValues(): array
 	{
 		return $this->values;
 	}
@@ -76,7 +72,7 @@ class Header implements HeaderInterface
 	/**
 	 * @return string
 	 */
-	public function getValuesAsString()
+	public function getValuesAsString(): string
 	{
 		return implode(', ', $this->values);
 	}
@@ -85,12 +81,12 @@ class Header implements HeaderInterface
 	 * @param string[] $values
 	 * @return $this
 	 */
-	public function setValues($values)
+	public function setValues(array $values)
 	{
 		foreach ($values as $value) {
 			if (!is_string($value)) {
 				$argumentType = (is_object($value)) ? get_class($value) : gettype($value);
-				throw new \InvalidArgumentException('Expected the values as array of strings. Got ' . $argumentType);
+				throw new \TypeError('Expected the values as array of strings. Got ' . $argumentType);
 			}
 		}
 		foreach ($values as $value) {

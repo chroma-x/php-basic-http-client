@@ -58,7 +58,7 @@ class Statistics
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
 		$this->totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
 		$this->hostLookupTime = curl_getinfo($curl, CURLINFO_NAMELOOKUP_TIME);
@@ -74,7 +74,7 @@ class Statistics
 	/**
 	 * @return float
 	 */
-	public function getTotalTime()
+	public function getTotalTime(): float
 	{
 		return $this->totalTime;
 	}
@@ -82,7 +82,7 @@ class Statistics
 	/**
 	 * @return float
 	 */
-	public function getHostLookupTime()
+	public function getHostLookupTime(): float
 	{
 		return $this->hostLookupTime;
 	}
@@ -90,7 +90,7 @@ class Statistics
 	/**
 	 * @return float
 	 */
-	public function getConnectionEstablishTime()
+	public function getConnectionEstablishTime(): float
 	{
 		return $this->connectionEstablishTime;
 	}
@@ -98,7 +98,7 @@ class Statistics
 	/**
 	 * @return float
 	 */
-	public function getPreTransferTime()
+	public function getPreTransferTime(): float
 	{
 		return $this->preTransferTime;
 	}
@@ -106,7 +106,7 @@ class Statistics
 	/**
 	 * @return float
 	 */
-	public function getStartTransferTime()
+	public function getStartTransferTime(): float
 	{
 		return $this->startTransferTime;
 	}
@@ -114,7 +114,7 @@ class Statistics
 	/**
 	 * @return int
 	 */
-	public function getRedirectCount()
+	public function getRedirectCount(): int
 	{
 		return $this->redirectCount;
 	}
@@ -122,7 +122,7 @@ class Statistics
 	/**
 	 * @return float
 	 */
-	public function getRedirectTime()
+	public function getRedirectTime(): float
 	{
 		return $this->redirectTime;
 	}
@@ -130,7 +130,7 @@ class Statistics
 	/**
 	 * @return string
 	 */
-	public function getRedirectEndpoint()
+	public function getRedirectEndpoint(): string
 	{
 		return $this->redirectEndpoint;
 	}

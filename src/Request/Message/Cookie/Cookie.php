@@ -26,7 +26,7 @@ class Cookie implements CookieInterface
 	 * @param string $name
 	 * @param string $value
 	 */
-	public function __construct($name, $value)
+	public function __construct(string $name, string $value)
 	{
 		$this->name = $name;
 		$this->value = $value;
@@ -35,7 +35,7 @@ class Cookie implements CookieInterface
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -44,12 +44,8 @@ class Cookie implements CookieInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function setName($name)
+	public function setName(string $name)
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		$this->name = $name;
 		return $this;
 	}
@@ -57,7 +53,7 @@ class Cookie implements CookieInterface
 	/**
 	 * @return string
 	 */
-	public function getValue()
+	public function getValue(): string
 	{
 		return $this->value;
 	}
@@ -66,12 +62,8 @@ class Cookie implements CookieInterface
 	 * @param string $value
 	 * @return $this
 	 */
-	public function setValue($value)
+	public function setValue(string $value)
 	{
-		if (!is_string($value)) {
-			$argumentType = (is_object($value)) ? get_class($value) : gettype($value);
-			throw new \InvalidArgumentException('Expected the value as string. Got ' . $argumentType);
-		}
 		$this->value = $value;
 		return $this;
 	}

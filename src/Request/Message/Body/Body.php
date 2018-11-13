@@ -20,7 +20,7 @@ class Body implements BodyInterface
 	 *
 	 * @param string $bodyText
 	 */
-	public function __construct($bodyText = null)
+	public function __construct(?string $bodyText = null)
 	{
 		$this->bodyText = $bodyText;
 	}
@@ -28,7 +28,7 @@ class Body implements BodyInterface
 	/**
 	 * @return string
 	 */
-	public function getBodyText()
+	public function getBodyText(): ?string
 	{
 		return $this->bodyText;
 	}
@@ -37,12 +37,8 @@ class Body implements BodyInterface
 	 * @param string $bodyText
 	 * @return $this
 	 */
-	public function setBodyText($bodyText)
+	public function setBodyText(string $bodyText)
 	{
-		if (!is_string($bodyText)) {
-			$argumentType = (is_object($bodyText)) ? get_class($bodyText) : gettype($bodyText);
-			throw new \InvalidArgumentException('Expected the body text as string. Got ' . $argumentType);
-		}
 		$this->bodyText = $bodyText;
 		return $this;
 	}
@@ -65,7 +61,7 @@ class Body implements BodyInterface
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $this->bodyText);
 		return $this;

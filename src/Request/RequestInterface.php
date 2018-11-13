@@ -18,39 +18,39 @@ use Markenwerk\UrlUtil\UrlInterface;
 interface RequestInterface extends CurlConfiguratorInterface
 {
 
-	const REQUEST_METHOD_GET = 'GET';
-	const REQUEST_METHOD_HEAD = 'HEAD';
-	const REQUEST_METHOD_POST = 'POST';
-	const REQUEST_METHOD_PUT = 'PUT';
-	const REQUEST_METHOD_PATCH = 'PATCH';
-	const REQUEST_METHOD_DELETE = 'DELETE';
+	public const REQUEST_METHOD_GET = 'GET';
+	public const REQUEST_METHOD_HEAD = 'HEAD';
+	public const REQUEST_METHOD_POST = 'POST';
+	public const REQUEST_METHOD_PUT = 'PUT';
+	public const REQUEST_METHOD_PATCH = 'PATCH';
+	public const REQUEST_METHOD_DELETE = 'DELETE';
 
 	/**
 	 * @return string
 	 */
-	public function getUserAgent();
+	public function getUserAgent(): string;
 
 	/**
 	 * @param string $userAgent
 	 * @return $this
 	 */
-	public function setUserAgent($userAgent);
+	public function setUserAgent(string $userAgent);
 
 	/**
 	 * @return string
 	 */
-	public function getMethod();
+	public function getMethod(): string;
 
 	/**
 	 * @param string $method
 	 * @return $this
 	 */
-	public function setMethod($method);
+	public function setMethod(string $method);
 
 	/**
 	 * @return UrlInterface
 	 */
-	public function getUrl();
+	public function getUrl(): ?UrlInterface;
 
 	/**
 	 * @param UrlInterface $url
@@ -61,7 +61,7 @@ interface RequestInterface extends CurlConfiguratorInterface
 	/**
 	 * @return TransportInterface
 	 */
-	public function getTransport();
+	public function getTransport(): ?TransportInterface;
 
 	/**
 	 * @param TransportInterface $transport
@@ -72,7 +72,7 @@ interface RequestInterface extends CurlConfiguratorInterface
 	/**
 	 * @return MessageInterface
 	 */
-	public function getMessage();
+	public function getMessage(): ?MessageInterface;
 
 	/**
 	 * @param MessageInterface $message
@@ -83,7 +83,7 @@ interface RequestInterface extends CurlConfiguratorInterface
 	/**
 	 * @return AuthenticationInterface[]
 	 */
-	public function getAuthentications();
+	public function getAuthentications(): array;
 
 	/**
 	 * @param AuthenticationInterface[] $authentications
@@ -107,17 +107,17 @@ interface RequestInterface extends CurlConfiguratorInterface
 	 * @param AuthenticationInterface $authentication
 	 * @return bool
 	 */
-	public function hasAuthentication(AuthenticationInterface $authentication);
+	public function hasAuthentication(AuthenticationInterface $authentication): bool;
 
 	/**
 	 * @return bool
 	 */
-	public function hasAuthentications();
+	public function hasAuthentications(): bool;
 
 	/**
 	 * @return int
 	 */
-	public function countAuthentications();
+	public function countAuthentications(): int;
 
 	/**
 	 * @return $this
@@ -127,26 +127,26 @@ interface RequestInterface extends CurlConfiguratorInterface
 	/**
 	 * @return ResponseInterface
 	 */
-	public function getResponse();
+	public function getResponse(): ?ResponseInterface;
 
 	/**
 	 * @return string
 	 */
-	public function getEffectiveStatus();
+	public function getEffectiveStatus(): ?string;
 
 	/**
 	 * @return string
 	 */
-	public function getEffectiveEndpoint();
+	public function getEffectiveEndpoint(): ?string;
 
 	/**
 	 * @return string
 	 */
-	public function getEffectiveRawHeader();
+	public function getEffectiveRawHeader(): ?string;
 
 	/**
 	 * @return Header[]
 	 */
-	public function getEffectiveHeaders();
+	public function getEffectiveHeaders(): ?array;
 
 }

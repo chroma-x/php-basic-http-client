@@ -33,7 +33,7 @@ class Message implements MessageInterface
 	/**
 	 * @return HeaderInterface[]
 	 */
-	public function getHeaders()
+	public function getHeaders(): array
 	{
 		return $this->headers;
 	}
@@ -42,12 +42,8 @@ class Message implements MessageInterface
 	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
-	public function getHeadersByName($name)
+	public function getHeadersByName(string $name): array
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		return $this->findHeadersByName($name);
 	}
 
@@ -55,12 +51,8 @@ class Message implements MessageInterface
 	 * @param string $name
 	 * @return HeaderInterface
 	 */
-	public function getHeaderByName($name)
+	public function getHeaderByName(string $name): ?HeaderInterface
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		if (!$this->hasHeaderWithName($name)) {
 			return null;
 		}
@@ -86,7 +78,7 @@ class Message implements MessageInterface
 		foreach ($headers as $header) {
 			if (!$header instanceof HeaderInterface) {
 				$typeOfHeader = (is_object($header)) ? get_class($header) : gettype($header);
-				throw new \InvalidArgumentException('Expected an array of HeaderInterface implementations. Got ' . $typeOfHeader);
+				throw new \TypeError('Expected an array of HeaderInterface implementations. Got ' . $typeOfHeader);
 			}
 		}
 		$this->headers = $headers;
@@ -118,12 +110,8 @@ class Message implements MessageInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function removeHeadersByName($name)
+	public function removeHeadersByName(string $name)
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		$this->headers = $this->findHeadersExcludedByName($name);
 		return $this;
 	}
@@ -146,12 +134,8 @@ class Message implements MessageInterface
 	 * @param $name
 	 * @return bool
 	 */
-	public function hasHeaderWithName($name)
+	public function hasHeaderWithName(string $name): bool
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		return count($this->findHeadersByName($name)) > 0;
 	}
 
@@ -159,7 +143,7 @@ class Message implements MessageInterface
 	 * @param HeaderInterface $header
 	 * @return bool
 	 */
-	public function hasHeader(HeaderInterface $header)
+	public function hasHeader(HeaderInterface $header): bool
 	{
 		return !is_null($this->findHeaderIndex($header));
 	}
@@ -167,7 +151,7 @@ class Message implements MessageInterface
 	/**
 	 * @return bool
 	 */
-	public function hasHeaders()
+	public function hasHeaders(): bool
 	{
 		return count($this->headers) > 0;
 	}
@@ -175,7 +159,7 @@ class Message implements MessageInterface
 	/**
 	 * @return int
 	 */
-	public function getHeaderCount()
+	public function getHeaderCount(): int
 	{
 		return (int)count($this->headers);
 	}
@@ -183,7 +167,7 @@ class Message implements MessageInterface
 	/**
 	 * @return CookieInterface[]
 	 */
-	public function getCookies()
+	public function getCookies(): array
 	{
 		return $this->cookies;
 	}
@@ -192,12 +176,8 @@ class Message implements MessageInterface
 	 * @param $name
 	 * @return CookieInterface
 	 */
-	public function getCookieByName($name)
+	public function getCookieByName(string $name): ?CookieInterface
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		foreach ($this->cookies as $cookie) {
 			if ($cookie->getName() === $name) {
 				return $cookie;
@@ -219,12 +199,12 @@ class Message implements MessageInterface
 	 * @param CookieInterface[] $cookies
 	 * @return $this
 	 */
-	public function setCookies($cookies)
+	public function setCookies(array $cookies)
 	{
 		foreach ($cookies as $cookie) {
 			if (!$cookie instanceof CookieInterface) {
 				$typeOfHeader = (is_object($cookie)) ? get_class($cookie) : gettype($cookie);
-				throw new \InvalidArgumentException('Expected an array of CookieInterface implementations. Got ' . $typeOfHeader);
+				throw new \TypeError('Expected an array of CookieInterface implementations. Got ' . $typeOfHeader);
 			}
 		}
 		$this->cookies = $cookies;
@@ -245,12 +225,8 @@ class Message implements MessageInterface
 	 * @param string $name
 	 * @return $this
 	 */
-	public function removeCookieByName($name)
+	public function removeCookieByName(string $name)
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		$cookieCount = count($this->cookies);
 		for ($i = 0; $i < $cookieCount; $i++) {
 			if ($this->cookies[$i]->getName() !== $name) {
@@ -270,7 +246,7 @@ class Message implements MessageInterface
 	{
 		$cookieCount = count($this->cookies);
 		for ($i = 0; $i < $cookieCount; $i++) {
-			if ($cookie == $this->cookies[$i]) {
+			if ($cookie === $this->cookies[$i]) {
 				unset($this->cookies[$i]);
 				$this->cookies = array_values($this->cookies);
 				return $this;
@@ -283,12 +259,8 @@ class Message implements MessageInterface
 	 * @param $name
 	 * @return bool
 	 */
-	public function hasCookieWithName($name)
+	public function hasCookieWithName(string $name): bool
 	{
-		if (!is_string($name)) {
-			$argumentType = (is_object($name)) ? get_class($name) : gettype($name);
-			throw new \InvalidArgumentException('Expected the name as string. Got ' . $argumentType);
-		}
 		foreach ($this->cookies as $cookie) {
 			if ($cookie->getName() !== $name) {
 				return true;
@@ -301,10 +273,10 @@ class Message implements MessageInterface
 	 * @param CookieInterface $cookie
 	 * @return bool
 	 */
-	public function hasCookie(CookieInterface $cookie)
+	public function hasCookie(CookieInterface $cookie): bool
 	{
 		foreach ($this->cookies as $existingCookie) {
-			if ($existingCookie == $cookie) {
+			if ($existingCookie === $cookie) {
 				return true;
 			}
 		}
@@ -314,7 +286,7 @@ class Message implements MessageInterface
 	/**
 	 * @return bool
 	 */
-	public function hasCookies()
+	public function hasCookies(): bool
 	{
 		return count($this->cookies) > 0;
 	}
@@ -322,7 +294,7 @@ class Message implements MessageInterface
 	/**
 	 * @return int
 	 */
-	public function getCookieCount()
+	public function getCookieCount(): int
 	{
 		return (int)count($this->cookies);
 	}
@@ -330,7 +302,7 @@ class Message implements MessageInterface
 	/**
 	 * @return BodyInterface
 	 */
-	public function getBody()
+	public function getBody(): ?BodyInterface
 	{
 		return $this->body;
 	}
@@ -348,7 +320,7 @@ class Message implements MessageInterface
 	/**
 	 * @return bool
 	 */
-	public function hasBody()
+	public function hasBody(): bool
 	{
 		return !is_null($this->body);
 	}
@@ -370,7 +342,7 @@ class Message implements MessageInterface
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
 		// Add request headers
 		if ($this->hasHeaders()) {
@@ -390,8 +362,9 @@ class Message implements MessageInterface
 			curl_setopt($curl, CURLOPT_COOKIE, implode(';', $requestCookies));
 		}
 		// Setup body
-		if ($this->hasBody()) {
-			$this->getBody()->configureCurl($curl);
+		$body = $this->getBody();
+		if ($body !== null) {
+			$body->configureCurl($curl);
 		}
 		return $this;
 	}
@@ -400,7 +373,7 @@ class Message implements MessageInterface
 	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
-	private function findHeadersByName($name)
+	private function findHeadersByName(string $name): array
 	{
 		$headerNameUtil = new HeaderNameUtil();
 		$normalizedName = $headerNameUtil->normalizeHeaderName($name);
@@ -417,7 +390,7 @@ class Message implements MessageInterface
 	 * @param HeaderInterface $header
 	 * @return int
 	 */
-	private function findHeaderIndex(HeaderInterface $header)
+	private function findHeaderIndex(HeaderInterface $header): ?int
 	{
 		$headerCount = count($this->headers);
 		for ($i = 0; $i < $headerCount; $i++) {
@@ -432,7 +405,7 @@ class Message implements MessageInterface
 	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
-	private function findHeadersExcludedByName($name)
+	private function findHeadersExcludedByName(string $name): array
 	{
 		$headerNameUtil = new HeaderNameUtil();
 		$normalizedName = $headerNameUtil->normalizeHeaderName($name);

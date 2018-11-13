@@ -10,11 +10,11 @@ namespace Markenwerk\BasicHttpClient\Request\Transport;
 class HttpTransport implements TransportInterface
 {
 
-	const HTTP_VERSION_1_0 = CURL_HTTP_VERSION_1_0;
-	const HTTP_VERSION_1_1 = CURL_HTTP_VERSION_1_1;
+	public const HTTP_VERSION_1_0 = CURL_HTTP_VERSION_1_0;
+	public const HTTP_VERSION_1_1 = CURL_HTTP_VERSION_1_1;
 
 	/**
-	 * @var string
+	 * @var int
 	 */
 	private $httpVersion = self::HTTP_VERSION_1_1;
 
@@ -44,23 +44,19 @@ class HttpTransport implements TransportInterface
 	private $maxRedirects = 5;
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getHttpVersion()
+	public function getHttpVersion(): int
 	{
 		return $this->httpVersion;
 	}
 
 	/**
-	 * @param string $httpVersion
+	 * @param int $httpVersion
 	 * @return $this
 	 */
-	public function setHttpVersion($httpVersion)
+	public function setHttpVersion(int $httpVersion)
 	{
-		if (!is_int($httpVersion)) {
-			$argumentType = (is_object($httpVersion)) ? get_class($httpVersion) : gettype($httpVersion);
-			throw new \InvalidArgumentException('Expected the HTTP version as int represented by a Curl constant. Got ' . $argumentType);
-		}
 		$this->httpVersion = $httpVersion;
 		return $this;
 	}
@@ -68,7 +64,7 @@ class HttpTransport implements TransportInterface
 	/**
 	 * @return int
 	 */
-	public function getTimeout()
+	public function getTimeout(): int
 	{
 		return $this->timeout;
 	}
@@ -77,78 +73,62 @@ class HttpTransport implements TransportInterface
 	 * @param int $timeout
 	 * @return $this
 	 */
-	public function setTimeout($timeout)
+	public function setTimeout(int $timeout)
 	{
-		if (!is_int($timeout)) {
-			$argumentType = (is_object($timeout)) ? get_class($timeout) : gettype($timeout);
-			throw new \InvalidArgumentException('Expected the timeout as int. Got ' . $argumentType);
-		}
 		$this->timeout = $timeout;
 		return $this;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function getReuseConnection()
+	public function getReuseConnection(): bool
 	{
 		return $this->reuseConnection;
 	}
 
 	/**
-	 * @param boolean $reuseConnection
+	 * @param bool $reuseConnection
 	 * @return $this
 	 */
-	public function setReuseConnection($reuseConnection)
+	public function setReuseConnection(bool $reuseConnection)
 	{
-		if (!is_bool($reuseConnection)) {
-			$argumentType = (is_object($reuseConnection)) ? get_class($reuseConnection) : gettype($reuseConnection);
-			throw new \InvalidArgumentException('Expected the reuse connection value as bool. Got ' . $argumentType);
-		}
 		$this->reuseConnection = $reuseConnection;
 		return $this;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function getAllowCaching()
+	public function getAllowCaching(): bool
 	{
 		return $this->allowCaching;
 	}
 
 	/**
-	 * @param boolean $allowCaching
+	 * @param bool $allowCaching
 	 * @return $this
 	 */
-	public function setAllowCaching($allowCaching)
+	public function setAllowCaching(bool $allowCaching)
 	{
-		if (!is_bool($allowCaching)) {
-			$argumentType = (is_object($allowCaching)) ? get_class($allowCaching) : gettype($allowCaching);
-			throw new \InvalidArgumentException('Expected the allow caching value as bool. Got ' . $argumentType);
-		}
 		$this->allowCaching = $allowCaching;
 		return $this;
 	}
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function getFollowRedirects()
+	public function getFollowRedirects(): bool
 	{
 		return $this->followRedirects;
 	}
 
 	/**
-	 * @param boolean $followRedirects
+	 * @param bool $followRedirects
 	 * @return $this
 	 */
-	public function setFollowRedirects($followRedirects)
+	public function setFollowRedirects(bool $followRedirects)
 	{
-		if (!is_bool($followRedirects)) {
-			$argumentType = (is_object($followRedirects)) ? get_class($followRedirects) : gettype($followRedirects);
-			throw new \InvalidArgumentException('Expected the follow redirects value as bool. Got ' . $argumentType);
-		}
 		$this->followRedirects = $followRedirects;
 		return $this;
 	}
@@ -156,7 +136,7 @@ class HttpTransport implements TransportInterface
 	/**
 	 * @return int
 	 */
-	public function getMaxRedirects()
+	public function getMaxRedirects(): int
 	{
 		return $this->maxRedirects;
 	}
@@ -165,12 +145,8 @@ class HttpTransport implements TransportInterface
 	 * @param int $maxRedirects
 	 * @return $this
 	 */
-	public function setMaxRedirects($maxRedirects)
+	public function setMaxRedirects(int $maxRedirects)
 	{
-		if (!is_int($maxRedirects)) {
-			$argumentType = (is_object($maxRedirects)) ? get_class($maxRedirects) : gettype($maxRedirects);
-			throw new \InvalidArgumentException('Expected the max redirects value as int. Got ' . $argumentType);
-		}
 		$this->maxRedirects = $maxRedirects;
 		return $this;
 	}
@@ -183,7 +159,7 @@ class HttpTransport implements TransportInterface
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
 		// HTTP version
 		curl_setopt($curl, CURLOPT_HTTP_VERSION, $this->getHttpVersion());

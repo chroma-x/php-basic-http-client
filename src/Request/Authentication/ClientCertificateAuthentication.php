@@ -37,8 +37,10 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	 * @param string $caCertPath
 	 * @param string $clientCertPath
 	 * @param string $clientCertPassword
+	 * @throws FileNotFoundException
+	 * @throws FileReadableException
 	 */
-	public function __construct($caCertPath, $clientCertPath, $clientCertPassword)
+	public function __construct(string $caCertPath, string $clientCertPath, string $clientCertPassword)
 	{
 		$this->setCaCertPath($caCertPath);
 		$this->setClientCertPath($clientCertPath);
@@ -46,20 +48,20 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getCaCertPath()
+	public function getCaCertPath():string
 	{
 		return $this->caCertPath;
 	}
 
 	/**
-	 * @param mixed $caCertPath
+	 * @param string $caCertPath
 	 * @return $this
 	 * @throws FileNotFoundException
 	 * @throws FileReadableException
 	 */
-	public function setCaCertPath($caCertPath)
+	public function setCaCertPath(string $caCertPath)
 	{
 		if (!is_file($caCertPath)) {
 			throw new FileNotFoundException('CA certificate file not found.');
@@ -72,20 +74,20 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getClientCertPath()
+	public function getClientCertPath():string
 	{
 		return $this->clientCertPath;
 	}
 
 	/**
-	 * @param mixed $clientCertPath
+	 * @param string $clientCertPath
 	 * @return $this
 	 * @throws FileNotFoundException
 	 * @throws FileReadableException
 	 */
-	public function setClientCertPath($clientCertPath)
+	public function setClientCertPath(string $clientCertPath)
 	{
 		if (!is_file($clientCertPath)) {
 			throw new FileNotFoundException('Client certificate file not found.');
@@ -98,18 +100,18 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	}
 
 	/**
-	 * @return mixed
+	 * @return string
 	 */
-	public function getClientCertPassword()
+	public function getClientCertPassword():string
 	{
 		return $this->clientCertPassword;
 	}
 
 	/**
-	 * @param mixed $clientCertPassword
+	 * @param string $clientCertPassword
 	 * @return $this
 	 */
-	public function setClientCertPassword($clientCertPassword)
+	public function setClientCertPassword(string $clientCertPassword)
 	{
 		$this->clientCertPassword = $clientCertPassword;
 		return $this;
@@ -138,7 +140,7 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
 		curl_setopt($curl, CURLOPT_CAINFO, $this->caCertPath);
 		curl_setopt($curl, CURLOPT_SSLCERT, $this->clientCertPath);

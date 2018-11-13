@@ -31,15 +31,11 @@ class BasicHttpClient implements HttpClientInterface
 	 *
 	 * @param string $endpoint
 	 */
-	public function __construct($endpoint)
+	public function __construct(string $endpoint)
 	{
-		if (!is_string($endpoint)) {
-			$argumentType = (is_object($endpoint)) ? get_class($endpoint) : gettype($endpoint);
-			throw new \InvalidArgumentException('Expected the endpoint as string. Got ' . $argumentType);
-		}
 		$url = new Url($endpoint);
 		$transport = new HttpTransport();
-		if (mb_strtoupper($url->getScheme()) == 'HTTPS') {
+		if (mb_strtoupper($url->getScheme()) === 'HTTPS') {
 			$transport = new HttpsTransport();
 		}
 		$this->request = new Request();
@@ -52,7 +48,7 @@ class BasicHttpClient implements HttpClientInterface
 	/**
 	 * @return RequestInterface
 	 */
-	public function getRequest()
+	public function getRequest(): RequestInterface
 	{
 		return $this->request;
 	}
@@ -63,7 +59,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function get(array $queryParameters = array())
+	public function get(array $queryParameters = array()): ResponseInterface
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_GET)
@@ -79,7 +75,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function head(array $queryParameters = array())
+	public function head(array $queryParameters = array()): ResponseInterface
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_HEAD)
@@ -95,7 +91,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function post(array $postData = array())
+	public function post(array $postData = array()): ResponseInterface
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($postData);
@@ -114,7 +110,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function put(array $putData = array())
+	public function put(array $putData = array()): ResponseInterface
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($putData);
@@ -133,7 +129,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function patch(array $patchData = array())
+	public function patch(array $patchData = array()): ResponseInterface
 	{
 		$body = new Body();
 		$body->setBodyTextFromArray($patchData);
@@ -152,7 +148,7 @@ class BasicHttpClient implements HttpClientInterface
 	 * @throws NetworkException
 	 * @throws ConnectionTimeoutException
 	 */
-	public function delete(array $queryParameters = array())
+	public function delete(array $queryParameters = array()): ResponseInterface
 	{
 		$this->request
 			->setMethod(RequestInterface::REQUEST_METHOD_DELETE)

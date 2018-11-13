@@ -26,39 +26,39 @@ interface ResponseInterface
 	 * @param string $responseBody
 	 * @return $this
 	 */
-	public function populateFromCurlResult($curl, $responseBody);
+	public function populateFromCurlResult($curl, string $responseBody);
 
 	/**
 	 * @return RequestInterface
 	 */
-	public function getRequest();
+	public function getRequest(): RequestInterface;
 
 	/**
 	 * @return int
 	 */
-	public function getStatusCode();
+	public function getStatusCode(): ?int;
 
 	/**
 	 * @return string
 	 */
-	public function getStatusText();
+	public function getStatusText(): ?string;
 
 	/**
 	 * @return Header[]
 	 */
-	public function getHeaders();
+	public function getHeaders(): ?array;
 
 	/**
 	 * @param string $name
 	 * @return bool
 	 */
-	public function hasHeader($name);
+	public function hasHeader(string $name): bool;
 
 	/**
 	 * @param string $name
 	 * @return Header
 	 */
-	public function getHeader($name);
+	public function getHeader(string $name): ?Header;
 
 	/**
 	 * @return mixed
@@ -68,6 +68,6 @@ interface ResponseInterface
 	/**
 	 * @return Statistics
 	 */
-	public function getStatistics();
+	public function getStatistics(): ?Statistics;
 
 }

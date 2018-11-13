@@ -16,38 +16,38 @@ interface HeaderInterface
 	 * @param string $name
 	 * @param string[] $values
 	 */
-	public function __construct($name, array $values);
+	public function __construct(string $name, array $values);
 
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName(): string;
 
 	/**
 	 * @return string
 	 */
-	public function getNormalizedName();
+	public function getNormalizedName(): string;
 
 	/**
 	 * @param string $name
 	 * @return $this
 	 */
-	public function setName($name);
+	public function setName(string $name);
 
 	/**
 	 * @return string[]
 	 */
-	public function getValues();
+	public function getValues(): array;
 
 	/**
 	 * @return string
 	 */
-	public function getValuesAsString();
+	public function getValuesAsString(): string;
 
 	/**
 	 * @param string[] $values
 	 * @return $this
 	 */
-	public function setValues($values);
+	public function setValues(array $values);
 
 }

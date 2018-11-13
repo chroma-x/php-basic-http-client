@@ -16,7 +16,7 @@ class Request extends AbstractRequest
 	/**
 	 * @return ResponseInterface
 	 */
-	protected function buildResponse()
+	protected function buildResponse(): ResponseInterface
 	{
 		return new Response($this);
 	}

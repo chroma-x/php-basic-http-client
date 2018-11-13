@@ -89,7 +89,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	public function getUserAgent()
+	public function getUserAgent(): string
 	{
 		return $this->userAgent;
 	}
@@ -98,7 +98,7 @@ abstract class AbstractRequest implements RequestInterface
 	 * @param string $userAgent
 	 * @return $this
 	 */
-	public function setUserAgent($userAgent)
+	public function setUserAgent(string $userAgent)
 	{
 		$this->userAgent = $userAgent;
 		return $this;
@@ -107,7 +107,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	public function getMethod()
+	public function getMethod(): string
 	{
 		return $this->method;
 	}
@@ -116,7 +116,7 @@ abstract class AbstractRequest implements RequestInterface
 	 * @param string $method
 	 * @return $this
 	 */
-	public function setMethod($method)
+	public function setMethod(string $method)
 	{
 		$this->method = $method;
 		return $this;
@@ -125,7 +125,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return UrlInterface
 	 */
-	public function getUrl()
+	public function getUrl(): ?UrlInterface
 	{
 		return $this->url;
 	}
@@ -143,7 +143,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return TransportInterface
 	 */
-	public function getTransport()
+	public function getTransport(): ?TransportInterface
 	{
 		return $this->transport;
 	}
@@ -161,7 +161,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return MessageInterface
 	 */
-	public function getMessage()
+	public function getMessage(): ?MessageInterface
 	{
 		return $this->message;
 	}
@@ -179,7 +179,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return AuthenticationInterface[]
 	 */
-	public function getAuthentications()
+	public function getAuthentications(): array
 	{
 		return $this->authentications;
 	}
@@ -214,7 +214,7 @@ abstract class AbstractRequest implements RequestInterface
 	{
 		$authenticationCount = count($this->authentications);
 		for ($i = 0; $i < $authenticationCount; $i++) {
-			if ($this->authentications[$i] == $authentication) {
+			if ($this->authentications[$i] === $authentication) {
 				unset($this->authentications[$i]);
 				$this->authentications = array_values($this->authentications);
 				return $this;
@@ -227,10 +227,10 @@ abstract class AbstractRequest implements RequestInterface
 	 * @param AuthenticationInterface $authentication
 	 * @return bool
 	 */
-	public function hasAuthentication(AuthenticationInterface $authentication)
+	public function hasAuthentication(AuthenticationInterface $authentication): bool
 	{
 		foreach ($this->authentications as $existingAuth) {
-			if ($authentication == $existingAuth) {
+			if ($authentication === $existingAuth) {
 				return true;
 			}
 		}
@@ -240,7 +240,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return bool
 	 */
-	public function hasAuthentications()
+	public function hasAuthentications(): bool
 	{
 		return count($this->authentications) > 0;
 	}
@@ -248,7 +248,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return int
 	 */
-	public function countAuthentications()
+	public function countAuthentications(): int
 	{
 		return count($this->authentications);
 	}
@@ -256,24 +256,29 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @param resource $curl
 	 * @return $this
+	 * @throws HttpRequestException
 	 */
 	public function configureCurl($curl)
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		}
+		$url = $this->getUrl();
+		if ($url === null) {
+			throw new HttpRequestException('No URL available');
 		}
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HEADER, true);
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 		curl_setopt($curl, CURLOPT_USERAGENT, $this->getUserAgent());
 		curl_setopt($curl, CURLOPT_URL, $this->calculateEndpoint());
-		if ($this->getUrl()->hasPort()) {
-			curl_setopt($curl, CURLOPT_PORT, $this->getUrl()->getPort());
+		if ($url->hasPort()) {
+			curl_setopt($curl, CURLOPT_PORT, $url->getPort());
 		}
 		// Request method
 		curl_setopt($curl, CURLOPT_HTTPGET, true);
-		if ($this->getMethod() != self::REQUEST_METHOD_GET) {
+		if ($this->getMethod() !== self::REQUEST_METHOD_GET) {
 			curl_setopt($curl, CURLOPT_HTTPGET, false);
 			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->getMethod());
 		}
@@ -295,8 +300,16 @@ abstract class AbstractRequest implements RequestInterface
 		// Curl basic setup
 		$curl = curl_init();
 		$this->configureCurl($curl);
-		$this->getTransport()->configureCurl($curl);
-		$this->getMessage()->configureCurl($curl);
+		$transport = $this->getTransport();
+		if ($transport === null) {
+			throw new HttpRequestException('No Transport available');
+		}
+		$transport->configureCurl($curl);
+		$message = $this->getMessage();
+		if ($message === null) {
+			throw new HttpRequestException('No Message available');
+		}
+		$message->configureCurl($curl);
 		$authenticationCount = count($this->authentications);
 		for ($i = 0; $i < $authenticationCount; $i++) {
 			$this->authentications[$i]
@@ -314,25 +327,21 @@ abstract class AbstractRequest implements RequestInterface
 			return $this;
 		}
 		curl_close($curl);
-		switch ($curlErrorCode) {
-			case CURLE_OPERATION_TIMEOUTED:
-				throw new ConnectionTimeoutException('The request timed out with message: ' . $curlErrorMessage);
-				break;
-			default:
-				throw new CurlException('The request failed with message: ' . $curlErrorMessage);
-				break;
+		if ($curlErrorCode === CURLE_OPERATION_TIMEOUTED) {
+			throw new ConnectionTimeoutException('The request timed out with message: ' . $curlErrorMessage);
 		}
+		throw new CurlException('The request failed with message: ' . $curlErrorMessage);
 	}
 
 	/**
 	 * @return ResponseInterface
 	 */
-	abstract protected function buildResponse();
+	abstract protected function buildResponse(): ResponseInterface;
 
 	/**
 	 * @return ResponseInterface
 	 */
-	public function getResponse()
+	public function getResponse(): ?ResponseInterface
 	{
 		return $this->response;
 	}
@@ -340,7 +349,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	public function getEffectiveStatus()
+	public function getEffectiveStatus(): ?string
 	{
 		return $this->effectiveStatus;
 	}
@@ -348,7 +357,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	public function getEffectiveEndpoint()
+	public function getEffectiveEndpoint(): ?string
 	{
 		return $this->effectiveEndpoint;
 	}
@@ -356,7 +365,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	public function getEffectiveRawHeader()
+	public function getEffectiveRawHeader(): ?string
 	{
 		return $this->effectiveRawHeader;
 	}
@@ -364,7 +373,7 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return Header[]
 	 */
-	public function getEffectiveHeaders()
+	public function getEffectiveHeaders(): ?array
 	{
 		return $this->effectiveHeaders;
 	}
@@ -372,19 +381,27 @@ abstract class AbstractRequest implements RequestInterface
 	/**
 	 * @return string
 	 */
-	protected function calculateEndpoint()
+	protected function calculateEndpoint(): ?string
 	{
-		return $this->getUrl()->buildUrl();
+		$url = $this->getUrl();
+		if ($url === null) {
+			return null;
+		}
+		return $url->buildUrl();
 	}
 
 	/**
 	 * @throws \Exception
 	 * @return void
 	 */
-	protected function prePerform()
+	protected function prePerform(): void
 	{
+		$url = $this->getUrl();
+		if ($url === null) {
+			throw new HttpRequestException('No URL available');
+		}
 		if (
-			mb_strtoupper($this->getUrl()->getScheme()) == 'HTTPS'
+			mb_strtoupper($url->getScheme()) === 'HTTPS'
 			&& !$this->getTransport() instanceof HttpsTransport
 		) {
 			throw new HttpRequestException('Transport misconfiguration. Use HttpsTransport for HTTPS requests.');

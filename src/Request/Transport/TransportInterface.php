@@ -13,69 +13,69 @@ interface TransportInterface extends CurlConfiguratorInterface
 {
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getHttpVersion();
+	public function getHttpVersion(): int;
 
 	/**
-	 * @param string $httpVersion
+	 * @param int $httpVersion
 	 * @return $this
 	 */
-	public function setHttpVersion($httpVersion);
+	public function setHttpVersion(int $httpVersion);
 
 	/**
 	 * @return int
 	 */
-	public function getTimeout();
+	public function getTimeout(): int;
 
 	/**
 	 * @param int $timeout
 	 * @return $this
 	 */
-	public function setTimeout($timeout);
+	public function setTimeout(int $timeout);
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function getReuseConnection();
+	public function getReuseConnection(): bool;
 
 	/**
-	 * @param boolean $reuseConnection
+	 * @param bool $reuseConnection
 	 * @return $this
 	 */
-	public function setReuseConnection($reuseConnection);
+	public function setReuseConnection(bool $reuseConnection);
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function getAllowCaching();
+	public function getAllowCaching(): bool;
 
 	/**
-	 * @param boolean $allowCaching
+	 * @param bool $allowCaching
 	 * @return $this
 	 */
-	public function setAllowCaching($allowCaching);
+	public function setAllowCaching(bool $allowCaching);
 
 	/**
-	 * @return boolean
+	 * @return bool
 	 */
-	public function getFollowRedirects();
+	public function getFollowRedirects(): bool;
 
 	/**
-	 * @param boolean $followRedirects
+	 * @param bool $followRedirects
 	 * @return $this
 	 */
-	public function setFollowRedirects($followRedirects);
+	public function setFollowRedirects(bool $followRedirects);
 
 	/**
 	 * @return int
 	 */
-	public function getMaxRedirects();
+	public function getMaxRedirects(): int;
 
 	/**
 	 * @param int $maxRedirects
 	 * @return $this
 	 */
-	public function setMaxRedirects($maxRedirects);
+	public function setMaxRedirects(int $maxRedirects);
 
 }

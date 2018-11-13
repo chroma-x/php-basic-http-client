@@ -28,7 +28,7 @@ class BasicAuthentication implements AuthenticationInterface
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function __construct($username, $password)
+	public function __construct(string $username, string $password)
 	{
 
 		$this->username = $username;
@@ -38,7 +38,7 @@ class BasicAuthentication implements AuthenticationInterface
 	/**
 	 * @return string
 	 */
-	public function getUsername()
+	public function getUsername():string
 	{
 		return $this->username;
 	}
@@ -47,7 +47,7 @@ class BasicAuthentication implements AuthenticationInterface
 	 * @param string $username
 	 * @return $this
 	 */
-	public function setUsername($username)
+	public function setUsername(string $username)
 	{
 		$this->username = $username;
 		return $this;
@@ -56,7 +56,7 @@ class BasicAuthentication implements AuthenticationInterface
 	/**
 	 * @return string
 	 */
-	public function getPassword()
+	public function getPassword():string
 	{
 		return $this->password;
 	}
@@ -65,7 +65,7 @@ class BasicAuthentication implements AuthenticationInterface
 	 * @param string $password
 	 * @return $this
 	 */
-	public function setPassword($password)
+	public function setPassword(string $password)
 	{
 		$this->password = $password;
 		return $this;
@@ -88,7 +88,7 @@ class BasicAuthentication implements AuthenticationInterface
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
 		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 		curl_setopt($curl, CURLOPT_USERPWD, $this->username . ':' . $this->password);

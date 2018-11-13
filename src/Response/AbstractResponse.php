@@ -60,17 +60,13 @@ abstract class AbstractResponse implements ResponseInterface
 	 * @param string $responseBody
 	 * @return $this
 	 */
-	public function populateFromCurlResult($curl, $responseBody)
+	public function populateFromCurlResult($curl, string $responseBody)
 	{
 		if (!is_resource($curl)) {
 			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \InvalidArgumentException('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
 		}
-		if (!is_string($responseBody)) {
-			$argumentType = (is_object($responseBody)) ? get_class($responseBody) : gettype($responseBody);
-			throw new \InvalidArgumentException('Expected the response body as string. Got ' . $argumentType);
-		}
-		$this->statusCode = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
+		$this->statusCode = (int)curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		$this->setStatistics($curl);
 		$this->setResponseData($responseBody);
 		return $this;
@@ -79,7 +75,7 @@ abstract class AbstractResponse implements ResponseInterface
 	/**
 	 * @return RequestInterface
 	 */
-	public function getRequest()
+	public function getRequest(): RequestInterface
 	{
 		return $this->request;
 	}
@@ -87,7 +83,7 @@ abstract class AbstractResponse implements ResponseInterface
 	/**
 	 * @return int
 	 */
-	public function getStatusCode()
+	public function getStatusCode(): ?int
 	{
 		return $this->statusCode;
 	}
@@ -95,7 +91,7 @@ abstract class AbstractResponse implements ResponseInterface
 	/**
 	 * @return string
 	 */
-	public function getStatusText()
+	public function getStatusText(): ?string
 	{
 		return $this->statusText;
 	}
@@ -103,7 +99,7 @@ abstract class AbstractResponse implements ResponseInterface
 	/**
 	 * @return Header[]
 	 */
-	public function getHeaders()
+	public function getHeaders(): ?array
 	{
 		return $this->headers;
 	}
@@ -112,7 +108,7 @@ abstract class AbstractResponse implements ResponseInterface
 	 * @param string $name
 	 * @return bool
 	 */
-	public function hasHeader($name)
+	public function hasHeader(string $name): bool
 	{
 		return !is_null($this->getHeader($name));
 	}
@@ -121,13 +117,13 @@ abstract class AbstractResponse implements ResponseInterface
 	 * @param string $name
 	 * @return Header
 	 */
-	public function getHeader($name)
+	public function getHeader(string $name): ?Header
 	{
 		$headers = $this->getHeaders();
 		$headerNameUtil = new HeaderNameUtil();
 		$name = $headerNameUtil->normalizeHeaderName($name);
 		foreach ($headers as $header) {
-			if ($header->getNormalizedName() == $name) {
+			if ($header->getNormalizedName() === $name) {
 				return $header;
 			}
 		}
@@ -145,7 +141,7 @@ abstract class AbstractResponse implements ResponseInterface
 	/**
 	 * @return Statistics
 	 */
-	public function getStatistics()
+	public function getStatistics(): ?Statistics
 	{
 		return $this->statistics;
 	}
@@ -165,13 +161,14 @@ abstract class AbstractResponse implements ResponseInterface
 	 * @param string $responseBody
 	 * @return $this
 	 */
-	protected function setResponseData($responseBody)
+	protected function setResponseData(string $responseBody)
 	{
 		// Parse response
 		$responseHeaders = array();
 		$responseStatusText = null;
 		$responseStatusCode = null;
 		if (strpos($responseBody, "\r\n\r\n") !== false) {
+			/** @noinspection SuspiciousBinaryOperationInspection */
 			do {
 				list($responseHeader, $responseBody) = explode("\r\n\r\n", $responseBody, 2);
 				$responseHeaderLines = explode("\r\n", $responseHeader);
@@ -205,7 +202,7 @@ abstract class AbstractResponse implements ResponseInterface
 	 * @param int $statusCode
 	 * @return $this
 	 */
-	protected function setStatusCode($statusCode)
+	protected function setStatusCode(int $statusCode)
 	{
 		$this->statusCode = $statusCode;
 		return $this;
@@ -215,7 +212,7 @@ abstract class AbstractResponse implements ResponseInterface
 	 * @param string $statusText
 	 * @return $this
 	 */
-	protected function setStatusText($statusText)
+	protected function setStatusText(string $statusText)
 	{
 		$this->statusText = $statusText;
 		return $this;
