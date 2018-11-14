@@ -429,7 +429,8 @@ abstract class AbstractRequest implements RequestInterface
 				$headerValue = mb_substr($requestHeader, strpos($requestHeader, ':') + 1);
 				$headerValues = explode(',', $headerValue);
 				$this->effectiveHeaders[] = new Header($headerName, $headerValues);
-			} else {
+			}
+			if (strpos($requestHeader, ':') === false) {
 				$this->effectiveStatus = $requestHeader;
 			}
 		}
