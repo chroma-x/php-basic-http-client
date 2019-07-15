@@ -280,8 +280,8 @@ abstract class AbstractRequest implements RequestInterface
 		curl_setopt($curl, CURLOPT_HTTPGET, true);
 		if ($this->getMethod() !== self::REQUEST_METHOD_GET) {
 			curl_setopt($curl, CURLOPT_HTTPGET, false);
-			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->getMethod());
 		}
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->getMethod());
 		return $this;
 	}
 
@@ -391,8 +391,8 @@ abstract class AbstractRequest implements RequestInterface
 	}
 
 	/**
-	 * @throws \Exception
 	 * @return void
+	 * @throws \Exception
 	 */
 	protected function prePerform(): void
 	{
