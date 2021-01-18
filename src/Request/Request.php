@@ -1,14 +1,14 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request;
+namespace ChromaX\BasicHttpClient\Request;
 
-use Markenwerk\BasicHttpClient\Response\Response;
-use Markenwerk\BasicHttpClient\Response\ResponseInterface;
+use ChromaX\BasicHttpClient\Response\Response;
+use ChromaX\BasicHttpClient\Response\ResponseInterface;
 
 /**
  * Class Request
  *
- * @package Markenwerk\BasicHttpClient\Request
+ * @package ChromaX\BasicHttpClient\Request
  */
 class Request extends AbstractRequest
 {

@@ -1,5 +1,5 @@
 {
-	"name": "markenwerk/basic-http-client",
+	"name": "chroma-x/basic-http-client",
 	"type": "library",
 	"description": "A basic yet extensible HTTP client library providing different authentication methods written in PHP.",
 	"keywords": [
@@ -10,25 +10,25 @@
 		"Basic Auth",
 		"Client Certificate Auth"
 	],
-	"homepage": "http://markenwerk.net/",
+	"homepage": "http://chroma-x.de/",
 	"license": "MIT",
 	"authors": [
 		{
 			"name": "Martin Brecht-Precht",
-			"email": "mb@markenwerk.net",
-			"homepage": "http://markenwerk.net"
+			"email": "mb@chroma-x.de",
+			"homepage": "http://chroma-x.de"
 		}
 	],
 	"autoload": {
 		"psr-4": {
-			"Markenwerk\\BasicHttpClient\\": "src/"
+			"ChromaX\\BasicHttpClient\\": "src/"
 		}
 	},
 	"require": {
 		"php": "^7.1",
 		"ext-curl": "*",
 		"ext-mbstring": "*",
-		"markenwerk/url-util": "~2.0",
-		"markenwerk/common-exceptions": "~3.0"
+		"chroma-x/url-util": "~2.0",
+		"chroma-x/common-exceptions": "~3.0"
 	}
 }

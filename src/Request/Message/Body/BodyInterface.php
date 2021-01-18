@@ -1,13 +1,13 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Message\Body;
+namespace ChromaX\BasicHttpClient\Request\Message\Body;
 
-use Markenwerk\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use ChromaX\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
 
 /**
  * Interface BodyInterface
  *
- * @package Markenwerk\BasicHttpClient\Request\Message\Body
+ * @package ChromaX\BasicHttpClient\Request\Message\Body
  */
 interface BodyInterface extends CurlConfiguratorInterface
 {

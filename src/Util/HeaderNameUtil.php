@@ -1,11 +1,11 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Util;
+namespace ChromaX\BasicHttpClient\Util;
 
 /**
  * Class HeaderNameUtil
  *
- * @package Markenwerk\BasicHttpClient\Util
+ * @package ChromaX\BasicHttpClient\Util
  */
 class HeaderNameUtil
 {

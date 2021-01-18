@@ -1,13 +1,13 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Message\Header;
+namespace ChromaX\BasicHttpClient\Request\Message\Header;
 
-use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
+use ChromaX\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Header
  *
- * @package Markenwerk\BasicHttpClient\Request\Message\Header
+ * @package ChromaX\BasicHttpClient\Request\Message\Header
  */
 class Header implements HeaderInterface
 {

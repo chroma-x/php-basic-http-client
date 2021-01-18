@@ -1,11 +1,11 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Message\Header;
+namespace ChromaX\BasicHttpClient\Request\Message\Header;
 
 /**
  * Interface HeaderInterface
  *
- * @package Markenwerk\BasicHttpClient\Request\Message\Header
+ * @package ChromaX\BasicHttpClient\Request\Message\Header
  */
 interface HeaderInterface
 {

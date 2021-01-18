@@ -1,11 +1,11 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Response;
+namespace ChromaX\BasicHttpClient\Response;
 
 /**
  * Class Response
  *
- * @package Markenwerk\BasicHttpClient\Response
+ * @package ChromaX\BasicHttpClient\Response
  */
 class Response extends AbstractResponse
 {

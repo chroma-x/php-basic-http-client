@@ -1,11 +1,11 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Exception;
+namespace ChromaX\BasicHttpClient\Exception;
 
 /**
  * Class HttpRequestMessageException
  *
- * @package Markenwerk\BasicHttpClient\Exception
+ * @package ChromaX\BasicHttpClient\Exception
  */
 class HttpRequestMessageException extends \Exception
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Authentication;
+namespace ChromaX\BasicHttpClient\Request\Authentication;
 
-use Markenwerk\BasicHttpClient\Exception\HttpRequestAuthenticationException;
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
-use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
-use Markenwerk\CommonException\IoException\FileNotFoundException;
-use Markenwerk\CommonException\IoException\FileReadableException;
+use ChromaX\BasicHttpClient\Exception\HttpRequestAuthenticationException;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Request\Transport\HttpsTransport;
+use ChromaX\CommonException\IoException\FileNotFoundException;
+use ChromaX\CommonException\IoException\FileReadableException;
 
 /**
  * Class ClientCertificateAuthentication
  *
- * @package Markenwerk\BasicHttpClient\Request\Authentication
+ * @package ChromaX\BasicHttpClient\Request\Authentication
  */
 class ClientCertificateAuthentication implements AuthenticationInterface
 {

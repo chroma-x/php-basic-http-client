@@ -1,15 +1,15 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Response;
+namespace ChromaX\BasicHttpClient\Response;
 
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
-use Markenwerk\BasicHttpClient\Response\Header\Header;
-use Markenwerk\BasicHttpClient\Response\Statistics\Statistics;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Response\Header\Header;
+use ChromaX\BasicHttpClient\Response\Statistics\Statistics;
 
 /**
  * Interface ResponseInterface
  *
- * @package Markenwerk\BasicHttpClient\Response\Base
+ * @package ChromaX\BasicHttpClient\Response\Base
  */
 interface ResponseInterface
 {

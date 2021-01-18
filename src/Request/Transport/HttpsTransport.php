@@ -1,11 +1,11 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Transport;
+namespace ChromaX\BasicHttpClient\Request\Transport;
 
 /**
  * Class HttpsTransport
  *
- * @package Markenwerk\BasicHttpClient\Request\Transport
+ * @package ChromaX\BasicHttpClient\Request\Transport
  */
 class HttpsTransport extends HttpTransport
 {

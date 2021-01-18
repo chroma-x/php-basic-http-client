@@ -1,16 +1,16 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Message;
+namespace ChromaX\BasicHttpClient\Request\Message;
 
-use Markenwerk\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
-use Markenwerk\BasicHttpClient\Request\Message\Body\BodyInterface;
-use Markenwerk\BasicHttpClient\Request\Message\Cookie\CookieInterface;
-use Markenwerk\BasicHttpClient\Request\Message\Header\HeaderInterface;
+use ChromaX\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use ChromaX\BasicHttpClient\Request\Message\Body\BodyInterface;
+use ChromaX\BasicHttpClient\Request\Message\Cookie\CookieInterface;
+use ChromaX\BasicHttpClient\Request\Message\Header\HeaderInterface;
 
 /**
  * Interface MessageInterface
  *
- * @package Markenwerk\BasicHttpClient\Request\Message
+ * @package ChromaX\BasicHttpClient\Request\Message
  */
 interface MessageInterface extends CurlConfiguratorInterface
 {

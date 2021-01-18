@@ -1,22 +1,22 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient;
+namespace ChromaX\BasicHttpClient;
 
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
-use Markenwerk\BasicHttpClient\Request\Message\Body\Body;
-use Markenwerk\BasicHttpClient\Request\Message\Message;
-use Markenwerk\BasicHttpClient\Request\Request;
-use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
-use Markenwerk\BasicHttpClient\Request\Transport\HttpTransport;
-use Markenwerk\BasicHttpClient\Response\ResponseInterface;
-use Markenwerk\CommonException\NetworkException\Base\NetworkException;
-use Markenwerk\CommonException\NetworkException\ConnectionTimeoutException;
-use Markenwerk\UrlUtil\Url;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Request\Message\Body\Body;
+use ChromaX\BasicHttpClient\Request\Message\Message;
+use ChromaX\BasicHttpClient\Request\Request;
+use ChromaX\BasicHttpClient\Request\Transport\HttpsTransport;
+use ChromaX\BasicHttpClient\Request\Transport\HttpTransport;
+use ChromaX\BasicHttpClient\Response\ResponseInterface;
+use ChromaX\CommonException\NetworkException\Base\NetworkException;
+use ChromaX\CommonException\NetworkException\ConnectionTimeoutException;
+use ChromaX\UrlUtil\Url;
 
 /**
  * Class BasicHttpClient
  *
- * @package Markenwerk\BasicHttpClient
+ * @package ChromaX\BasicHttpClient
  */
 class BasicHttpClient implements HttpClientInterface
 {

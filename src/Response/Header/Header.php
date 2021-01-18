@@ -1,13 +1,13 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Response\Header;
+namespace ChromaX\BasicHttpClient\Response\Header;
 
-use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
+use ChromaX\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class Header
  *
- * @package Markenwerk\BasicHttpClient\Response\Header
+ * @package ChromaX\BasicHttpClient\Response\Header
  */
 class Header
 {

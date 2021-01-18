@@ -1,24 +1,24 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request;
+namespace ChromaX\BasicHttpClient\Request;
 
-use Markenwerk\BasicHttpClient\Exception\HttpRequestException;
-use Markenwerk\BasicHttpClient\Request\Authentication\AuthenticationInterface;
-use Markenwerk\BasicHttpClient\Request\Message\MessageInterface;
-use Markenwerk\BasicHttpClient\Request\Message\Header\Header;
-use Markenwerk\BasicHttpClient\Request\Transport\TransportInterface;
-use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
-use Markenwerk\BasicHttpClient\Request\Transport\HttpTransport;
-use Markenwerk\BasicHttpClient\Response\ResponseInterface;
-use Markenwerk\CommonException\NetworkException\Base\NetworkException;
-use Markenwerk\CommonException\NetworkException\ConnectionTimeoutException;
-use Markenwerk\CommonException\NetworkException\CurlException;
-use Markenwerk\UrlUtil\UrlInterface;
+use ChromaX\BasicHttpClient\Exception\HttpRequestException;
+use ChromaX\BasicHttpClient\Request\Authentication\AuthenticationInterface;
+use ChromaX\BasicHttpClient\Request\Message\MessageInterface;
+use ChromaX\BasicHttpClient\Request\Message\Header\Header;
+use ChromaX\BasicHttpClient\Request\Transport\TransportInterface;
+use ChromaX\BasicHttpClient\Request\Transport\HttpsTransport;
+use ChromaX\BasicHttpClient\Request\Transport\HttpTransport;
+use ChromaX\BasicHttpClient\Response\ResponseInterface;
+use ChromaX\CommonException\NetworkException\Base\NetworkException;
+use ChromaX\CommonException\NetworkException\ConnectionTimeoutException;
+use ChromaX\CommonException\NetworkException\CurlException;
+use ChromaX\UrlUtil\UrlInterface;
 
 /**
  * Class Request
  *
- * @package Markenwerk\BasicHttpClient\Request
+ * @package ChromaX\BasicHttpClient\Request
  */
 abstract class AbstractRequest implements RequestInterface
 {

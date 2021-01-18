@@ -1,14 +1,14 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Authentication;
+namespace ChromaX\BasicHttpClient\Request\Authentication;
 
-use Markenwerk\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
 
 /**
  * Interface AuthenticationInterface
  *
- * @package Markenwerk\BasicHttpClient\Request\Authentication
+ * @package ChromaX\BasicHttpClient\Request\Authentication
  */
 interface AuthenticationInterface extends CurlConfiguratorInterface
 {

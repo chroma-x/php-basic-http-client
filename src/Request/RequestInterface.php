@@ -1,19 +1,19 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request;
+namespace ChromaX\BasicHttpClient\Request;
 
-use Markenwerk\BasicHttpClient\Request\Authentication\AuthenticationInterface;
-use Markenwerk\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
-use Markenwerk\BasicHttpClient\Request\Message\MessageInterface;
-use Markenwerk\BasicHttpClient\Request\Message\Header\Header;
-use Markenwerk\BasicHttpClient\Request\Transport\TransportInterface;
-use Markenwerk\BasicHttpClient\Response\ResponseInterface;
-use Markenwerk\UrlUtil\UrlInterface;
+use ChromaX\BasicHttpClient\Request\Authentication\AuthenticationInterface;
+use ChromaX\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
+use ChromaX\BasicHttpClient\Request\Message\MessageInterface;
+use ChromaX\BasicHttpClient\Request\Message\Header\Header;
+use ChromaX\BasicHttpClient\Request\Transport\TransportInterface;
+use ChromaX\BasicHttpClient\Response\ResponseInterface;
+use ChromaX\UrlUtil\UrlInterface;
 
 /**
  * Interface RequestInterface
  *
- * @package Markenwerk\BasicHttpClient\Request
+ * @package ChromaX\BasicHttpClient\Request
  */
 interface RequestInterface extends CurlConfiguratorInterface
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Response;
+namespace ChromaX\BasicHttpClient\Response;
 
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
-use Markenwerk\BasicHttpClient\Response\Header\Header;
-use Markenwerk\BasicHttpClient\Response\Statistics\Statistics;
-use Markenwerk\BasicHttpClient\Util\HeaderNameUtil;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Response\Header\Header;
+use ChromaX\BasicHttpClient\Response\Statistics\Statistics;
+use ChromaX\BasicHttpClient\Util\HeaderNameUtil;
 
 /**
  * Class AbstractResponse
  *
- * @package Markenwerk\BasicHttpClient\Response
+ * @package ChromaX\BasicHttpClient\Response
  */
 abstract class AbstractResponse implements ResponseInterface
 {

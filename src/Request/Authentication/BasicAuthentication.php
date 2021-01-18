@@ -1,13 +1,13 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Authentication;
+namespace ChromaX\BasicHttpClient\Request\Authentication;
 
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
 
 /**
  * Class BasicAuthentication
  *
- * @package Markenwerk\BasicHttpClient\Request\Authentication
+ * @package ChromaX\BasicHttpClient\Request\Authentication
  */
 class BasicAuthentication implements AuthenticationInterface
 {

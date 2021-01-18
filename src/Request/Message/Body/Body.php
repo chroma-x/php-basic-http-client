@@ -1,11 +1,11 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient\Request\Message\Body;
+namespace ChromaX\BasicHttpClient\Request\Message\Body;
 
 /**
  * Class Body
  *
- * @package Markenwerk\BasicHttpClient\Request\Message\Body
+ * @package ChromaX\BasicHttpClient\Request\Message\Body
  */
 class Body implements BodyInterface
 {

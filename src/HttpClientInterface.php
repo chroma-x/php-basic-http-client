@@ -1,14 +1,14 @@
 <?php
 
-namespace Markenwerk\BasicHttpClient;
+namespace ChromaX\BasicHttpClient;
 
-use Markenwerk\BasicHttpClient\Request\RequestInterface;
-use Markenwerk\BasicHttpClient\Response\ResponseInterface;
+use ChromaX\BasicHttpClient\Request\RequestInterface;
+use ChromaX\BasicHttpClient\Response\ResponseInterface;
 
 /**
  * Interface HttpClientInterface
  *
- * @package Markenwerk\BasicHttpClient
+ * @package ChromaX\BasicHttpClient
  */
 interface HttpClientInterface
 {

@@ -1,12 +1,12 @@
 # PHP Basic HTTP Client
 
-[![Build Status](https://travis-ci.org/markenwerk/php-basic-http-client.svg?branch=master)](https://travis-ci.org/markenwerk/php-basic-http-client)
+[![Build Status](https://travis-ci.org/chroma-x/php-basic-http-client.svg?branch=master)](https://travis-ci.org/chroma-x/php-basic-http-client)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/0bc596c2-5849-4e0f-a46f-a7b94d28f97c.svg)](https://insight.sensiolabs.com/projects/0bc596c2-5849-4e0f-a46f-a7b94d28f97c)
-[![Code Climate](https://codeclimate.com/github/markenwerk/php-basic-http-client/badges/gpa.svg)](https://codeclimate.com/github/markenwerk/php-basic-http-client)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/03db69a367dd4bbbbbd03e4612dfdbe5)](https://www.codacy.com/app/Bonscho/php-basic-http-client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=markenwerk/php-basic-http-client&amp;utm_campaign=Badge_Grade)
-[![Latest Stable Version](https://poser.pugx.org/markenwerk/basic-http-client/v/stable)](https://packagist.org/packages/markenwerk/basic-http-client)
-[![Total Downloads](https://poser.pugx.org/markenwerk/basic-http-client/downloads)](https://packagist.org/packages/markenwerk/basic-http-client)
-[![License](https://poser.pugx.org/markenwerk/basic-http-client/license)](https://packagist.org/packages/markenwerk/basic-http-client)
+[![Code Climate](https://codeclimate.com/github/chroma-x/php-basic-http-client/badges/gpa.svg)](https://codeclimate.com/github/chroma-x/php-basic-http-client)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/03db69a367dd4bbbbbd03e4612dfdbe5)](https://www.codacy.com/app/Bonscho/php-basic-http-client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=chroma-x/php-basic-http-client&amp;utm_campaign=Badge_Grade)
+[![Latest Stable Version](https://poser.pugx.org/chroma-x/basic-http-client/v/stable)](https://packagist.org/packages/chroma-x/basic-http-client)
+[![Total Downloads](https://poser.pugx.org/chroma-x/basic-http-client/downloads)](https://packagist.org/packages/chroma-x/basic-http-client)
+[![License](https://poser.pugx.org/chroma-x/basic-http-client/license)](https://packagist.org/packages/chroma-x/basic-http-client)
 
 A basic yet extensible HTTP client library providing different authentication methods written in PHP.
 
@@ -26,7 +26,7 @@ Find out more at the [„PSR-7 is imminent, and here's my issues with it“](htt
 ```{json}
 {
    	"require": {
-        "markenwerk/basic-http-client": "~3.0"
+        "chroma-x/basic-http-client": "~3.0"
     }
 }
 ```
@@ -44,9 +44,9 @@ require_once('path/to/vendor/autoload.php');
 #### Preparing the HTTP client
 
 ```{php}
-use Markenwerk\BasicHttpClient;
-use Markenwerk\BasicHttpClient\Request\Authentication;
-use Markenwerk\BasicHttpClient\Request\Message;
+use ChromaX\BasicHttpClient;
+use ChromaX\BasicHttpClient\Request\Authentication;
+use ChromaX\BasicHttpClient\Request\Message;
 
 // Instantiating a basic HTTP client with the endpoints URL
 // If the endpoint uses the `HTTPS` schema a `HttpsTransport` instance will be used automatically.
@@ -134,7 +134,7 @@ The following example shows the usage with a more detailed configuration.
 #### Configuring a HTTP Transport instance
 
 ```{php}
-use Markenwerk\BasicHttpClient\Request\Transport\HttpTransport;
+use ChromaX\BasicHttpClient\Request\Transport\HttpTransport;
 
 // Configuring a Transport instance
 $transport = new HttpTransport();
@@ -150,7 +150,7 @@ $transport
 #### Configuring a HTTPS Transport instance
 
 ```{php}
-use Markenwerk\BasicHttpClient\Request\Transport\HttpsTransport;
+use ChromaX\BasicHttpClient\Request\Transport\HttpsTransport;
 
 // Configuring a Transport instance
 $transport = new HttpsTransport();
@@ -167,10 +167,10 @@ $transport
 #### Configuring a Message instance with Body
 
 ```{php}
-use Markenwerk\BasicHttpClient\Request\Message\Body\Body;
-use Markenwerk\BasicHttpClient\Request\Message\Cookie\Cookie;
-use Markenwerk\BasicHttpClient\Request\Message\Header\Header;
-use Markenwerk\BasicHttpClient\Request\Message\Message;
+use ChromaX\BasicHttpClient\Request\Message\Body\Body;
+use ChromaX\BasicHttpClient\Request\Message\Cookie\Cookie;
+use ChromaX\BasicHttpClient\Request\Message\Header\Header;
+use ChromaX\BasicHttpClient\Request\Message\Message;
 
 // Configuring a message Body instance
 $messageBody = new Body();
@@ -218,12 +218,12 @@ $message->addAdditionalHeader(new Header('Custom-Header', array('AnotherCustomHe
 
 #### Configuring an endpoints URL, build the Request instance and perform the HTTP request
 
-For more information about the usage of the URL object please take a look at the [PHP URL Util](https://github.com/markenwerk/php-url-util) project.
+For more information about the usage of the URL object please take a look at the [PHP URL Util](https://github.com/chroma-x/php-url-util) project.
 
 ```{php}
-use Markenwerk\BasicHttpClient\Request\Authentication\BasicAuthentication;
-use Markenwerk\BasicHttpClient\Request\Request;
-use Markenwerk\UrlUtil\Url;
+use ChromaX\BasicHttpClient\Request\Authentication\BasicAuthentication;
+use ChromaX\BasicHttpClient\Request\Request;
+use ChromaX\UrlUtil\Url;
 
 // Setting up the endpoints URL
 $url = new Url('https://john:secret@yourapihere-com-98yq3775xff0.runscope.net:443/path/to/resource?arg1=123#fragment');
@@ -273,8 +273,8 @@ You can add one or more Authentication instances to every Request instance. At t
 Required credentials are a *username* and a *password* that get provided to the class constructor as arguments.
 
 ```{php}
-use Markenwerk\BasicHttpClient\Request\Authentication\BasicAuthentication;
-use Markenwerk\BasicHttpClient\Request\Request;
+use ChromaX\BasicHttpClient\Request\Authentication\BasicAuthentication;
+use ChromaX\BasicHttpClient\Request\Request;
 
 // Configuring the authentication
 $basicAuthentication = new BasicAuthentication('username', 'password');
@@ -289,8 +289,8 @@ $request->addAuthentication($basicAuthentication);
 Required credentials are a *Certificate Authority Certificate*, a *Client Certificate* and the password that is used to decrypt the Client Certificate that get provided to the class constructor as arguments.
 
 ```{php}
-use Markenwerk\BasicHttpClient\Request\Authentication\ClientCertificateAuthentication;
-use Markenwerk\BasicHttpClient\Request\Request;
+use ChromaX\BasicHttpClient\Request\Authentication\ClientCertificateAuthentication;
+use ChromaX\BasicHttpClient\Request\Request;
 
 // Configuring the authentication
 $clientCertificateAuthentication = new ClientCertificateAuthentication(
@@ -313,7 +313,7 @@ $request->addAuthentication($clientCertificateAuthentication);
 If using the `BasicHttpClient` the response object is returned by the termination methods listed above. If directly using the Request instance, you can get the Response object via a getter.
 
 ```{php}
-// Getting the response Markenwerk\BasicHttpClient\Response\Response object
+// Getting the response ChromaX\BasicHttpClient\Response\Response object
 $response = $request->getResponse();
 
 // Reading the HTTP status code as integer; will return `200`
@@ -322,7 +322,7 @@ echo print_r($response->getStatusCode(), true) . PHP_EOL;
 // Reading the HTTP status text as string; will return `HTTP/1.1 200 OK`
 echo print_r($response->getStatusText(), true) . PHP_EOL;
 
-// Reading the HTTP response headers as array of Markenwerk\BasicHttpClient\Response\Header\Header objects
+// Reading the HTTP response headers as array of ChromaX\BasicHttpClient\Response\Header\Header objects
 echo print_r($response->getHeaders(), true) . PHP_EOL;
 
 // Reading the HTTP response body as string
@@ -345,7 +345,7 @@ echo print_r($request->getEffectiveStatus(), true) . PHP_EOL;
 // Getting the effective raw request headers as string
 echo print_r($request->getEffectiveRawHeader(), true) . PHP_EOL;
 
-// Getting the effective request headers as array of `Markenwerk\BasicHttpClient\Request\Message\Header\Header` objects
+// Getting the effective request headers as array of `ChromaX\BasicHttpClient\Request\Message\Header\Header` objects
 echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
 ```
 
@@ -354,7 +354,7 @@ echo print_r($request->getEffectiveHeaders(), true) . PHP_EOL.PHP_EOL;
 ## Getting some transactional statistics
 
 ```{php}
-// Getting the statistics Markenwerk\BasicHttpClient\Response\Statistics\Statistics object
+// Getting the statistics ChromaX\BasicHttpClient\Response\Statistics\Statistics object
 $statistics = $request->getResponse()->getStatistics();
 
 // Reading the redirection URL if the server responds with an redirect HTTP header and 
@@ -390,32 +390,32 @@ echo print_r($statistics->getTotalTime(), true).PHP_EOL;
 Every part of the client is based upon proper interfaces. Most class instances can get injected into the client itself. 
 If you want to extend the client just write some classes implementing the according interface and you´re done with that. 
 
-Take a look at the [PHP JSON HTTP Client](https://github.com/markenwerk/php-json-http-client) which is an extension of the PHP Basic HTTP Client.
+Take a look at the [PHP JSON HTTP Client](https://github.com/chroma-x/php-json-http-client) which is an extension of the PHP Basic HTTP Client.
 
 ---
 
 ## Exception handling
 
 PHP Basic HTTP Client provides different exceptions – also provided by the PHP Common Exceptions project – for proper handling.  
-You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
+You can find more information about [PHP Common Exceptions at Github](https://github.com/chroma-x/php-common-exceptions).
 
 ### Exceptions to be expected
 
 In general you should expect that any setter method could thrown an `\InvalidArgumentException`. The following exceptions could get thrown while using PHP Basic HTTP Client.
 
-- `Markenwerk\CommonException\IoException\FileNotFoundException` on configuring a `ClientCertificateAuthentication`instance
-- `Markenwerk\CommonException\IoException\FileReadableException` on configuring a `ClientCertificateAuthentication`instance
-- `Markenwerk\BasicHttpClient\Exception\HttpRequestAuthenticationException` on performing a request
-- `Markenwerk\BasicHttpClient\Exception\HttpRequestException` on performing a request
-- `Markenwerk\CommonException\NetworkException\ConnectionTimeoutException` on performing a request
-- `Markenwerk\CommonException\NetworkException\CurlException` on performing a request
+- `ChromaX\CommonException\IoException\FileNotFoundException` on configuring a `ClientCertificateAuthentication`instance
+- `ChromaX\CommonException\IoException\FileReadableException` on configuring a `ClientCertificateAuthentication`instance
+- `ChromaX\BasicHttpClient\Exception\HttpRequestAuthenticationException` on performing a request
+- `ChromaX\BasicHttpClient\Exception\HttpRequestException` on performing a request
+- `ChromaX\CommonException\NetworkException\ConnectionTimeoutException` on performing a request
+- `ChromaX\CommonException\NetworkException\CurlException` on performing a request
 
 ---
 
 ## Contribution
 
 Contributing to our projects is always very appreciated.  
-**But: please follow the contribution guidelines written down in the [CONTRIBUTING.md](https://github.com/markenwerk/php-basic-http-client/blob/master/CONTRIBUTING.md) document.**
+**But: please follow the contribution guidelines written down in the [CONTRIBUTING.md](https://github.com/chroma-x/php-basic-http-client/blob/master/CONTRIBUTING.md) document.**
 
 ## License
 
