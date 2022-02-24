@@ -15,7 +15,31 @@ class HttpsTransport extends HttpTransport
 	 *
 	 * @var bool
 	 */
+	protected $verifyHost = true;
+
+	/**
+	 * Whether to verify the peer SSL certificate
+	 *
+	 * @var bool
+	 */
 	protected $verifyPeer = true;
+
+	/**
+	 * @return bool
+	 */
+	public function getVerifyHost(): bool
+	{
+		return $this->verifyHost;
+	}
+
+	/**
+	 * @param bool $verifyHost
+	 */
+	public function setVerifyHost(bool $verifyHost)
+	{
+		$this->verifyHost = $verifyHost;
+		return $this;
+	}
 
 	/**
 	 * @return bool
@@ -42,6 +66,8 @@ class HttpsTransport extends HttpTransport
 	public function configureCurl($curl)
 	{
 		parent::configureCurl($curl);
+		// Verify host
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $this->verifyHost ? 2 : 0);
 		// Verify peer
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verifyPeer);
 		return $this;

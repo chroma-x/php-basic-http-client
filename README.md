@@ -131,7 +131,7 @@ The same mechanic is offered to perform `PUT` and `PATCH` requests wich all are 
 
 The following example shows the usage with a more detailed configuration. 
 
-#### Configuring a HTTP Transport instance
+#### Configuring an HTTP Transport instance
 
 ```{php}
 use ChromaX\BasicHttpClient\Request\Transport\HttpTransport;
@@ -147,7 +147,7 @@ $transport
 	->setMaxRedirects(10);
 ```
 
-#### Configuring a HTTPS Transport instance
+#### Configuring an HTTPS Transport instance
 
 ```{php}
 use ChromaX\BasicHttpClient\Request\Transport\HttpsTransport;
@@ -161,6 +161,7 @@ $transport
 	->setAllowCaching(true)
 	->setFollowRedirects(true)
 	->setMaxRedirects(10)
+	->setVerifyHost(true)
 	->setVerifyPeer(true);
 ```
 
