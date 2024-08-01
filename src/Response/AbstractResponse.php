@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Response;
 
 use ChromaX\BasicHttpClient\Request\RequestInterface;
@@ -15,56 +17,30 @@ use ChromaX\BasicHttpClient\Util\HeaderNameUtil;
 abstract class AbstractResponse implements ResponseInterface
 {
 
-	/**
-	 * @var RequestInterface
-	 */
-	private $request;
+	private RequestInterface $request;
 
-	/**
-	 * @var int
-	 */
-	private $statusCode;
+	private int $statusCode;
 
-	/**
-	 * @var string
-	 */
-	private $statusText;
+	private string $statusText;
 
 	/**
 	 * @var Header[]
 	 */
-	private $headers;
+	private ?array $headers = null;
 
-	/**
-	 * @var mixed
-	 */
-	private $body;
+	private mixed $body;
 
-	/**
-	 * @var Statistics
-	 */
-	private $statistics;
+	private ?Statistics $statistics = null;
 
-	/**
-	 * Response constructor.
-	 *
-	 * @param RequestInterface $request
-	 */
 	public function __construct(RequestInterface $request)
 	{
 		$this->request = $request;
 	}
 
-	/**
-	 * @param resource $curl
-	 * @param string $responseBody
-	 * @return $this
-	 */
-	public function populateFromCurlResult($curl, string $responseBody)
+	public function populateFromCurlResult(\CurlHandle|false $curl, string $responseBody): self
 	{
-		if (!is_resource($curl)) {
-			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		if ($curl === false) {
+			throw new \TypeError('cURL is not a valid CurlHandle class.');
 		}
 		$this->statusCode = (int)curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		$this->setStatistics($curl);
@@ -72,51 +48,34 @@ abstract class AbstractResponse implements ResponseInterface
 		return $this;
 	}
 
-	/**
-	 * @return RequestInterface
-	 */
 	public function getRequest(): RequestInterface
 	{
 		return $this->request;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getStatusCode(): ?int
 	{
 		return $this->statusCode;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getStatusText(): ?string
 	{
 		return $this->statusText;
 	}
 
 	/**
-	 * @return Header[]
+	 * @return ?Header[]
 	 */
 	public function getHeaders(): ?array
 	{
 		return $this->headers;
 	}
 
-	/**
-	 * @param string $name
-	 * @return bool
-	 */
 	public function hasHeader(string $name): bool
 	{
 		return !is_null($this->getHeader($name));
 	}
 
-	/**
-	 * @param string $name
-	 * @return Header
-	 */
 	public function getHeader(string $name): ?Header
 	{
 		$headers = $this->getHeaders();
@@ -130,38 +89,24 @@ abstract class AbstractResponse implements ResponseInterface
 		return null;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getBody()
+	public function getBody(): mixed
 	{
 		return $this->body;
 	}
 
-	/**
-	 * @return Statistics
-	 */
 	public function getStatistics(): ?Statistics
 	{
 		return $this->statistics;
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	protected function setStatistics($curl)
+	protected function setStatistics(\CurlHandle $curl): self
 	{
 		$this->statistics = new Statistics();
 		$this->statistics->populateFromCurlResult($curl);
 		return $this;
 	}
 
-	/**
-	 * @param string $responseBody
-	 * @return $this
-	 */
-	protected function setResponseData(string $responseBody)
+	protected function setResponseData(string $responseBody): self
 	{
 		// Parse response
 		$responseHeaders = array();
@@ -185,7 +130,7 @@ abstract class AbstractResponse implements ResponseInterface
 					|| !$responseStatusCode >= 400
 				)
 			);
-			$responseHeaders = preg_split('/\r\n/', $responseHeader, null, PREG_SPLIT_NO_EMPTY);
+			$responseHeaders = preg_split('/\r\n/', $responseHeader, 0, PREG_SPLIT_NO_EMPTY);
 		}
 		$this->setResponseHeader($responseHeaders);
 		if (!is_null($responseStatusCode)) {
@@ -198,31 +143,19 @@ abstract class AbstractResponse implements ResponseInterface
 		return $this;
 	}
 
-	/**
-	 * @param int $statusCode
-	 * @return $this
-	 */
-	protected function setStatusCode(int $statusCode)
+	protected function setStatusCode(int $statusCode): self
 	{
 		$this->statusCode = $statusCode;
 		return $this;
 	}
 
-	/**
-	 * @param string $statusText
-	 * @return $this
-	 */
-	protected function setStatusText(string $statusText)
+	protected function setStatusText(string $statusText): self
 	{
 		$this->statusText = $statusText;
 		return $this;
 	}
 
-	/**
-	 * @param mixed $body
-	 * @return $this
-	 */
-	protected function setBody($body)
+	protected function setBody(mixed $body): self
 	{
 		$this->body = $body;
 		return $this;
@@ -230,12 +163,11 @@ abstract class AbstractResponse implements ResponseInterface
 
 	/**
 	 * @param string[] $responseHeaders
-	 * @return $this
 	 */
-	protected function setResponseHeader(array $responseHeaders)
+	protected function setResponseHeader(array $responseHeaders): self
 	{
 		foreach ($responseHeaders as $responseHeader) {
-			if (strpos($responseHeader, ':') !== false) {
+			if (str_contains($responseHeader, ':')) {
 				$headerName = mb_substr($responseHeader, 0, strpos($responseHeader, ':'));
 				$headerValue = mb_substr($responseHeader, strpos($responseHeader, ':') + 1);
 				$headerValues = explode(',', $headerValue);

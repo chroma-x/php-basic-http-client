@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Message\Header;
 
 use ChromaX\BasicHttpClient\Util\HeaderNameUtil;
@@ -12,50 +14,31 @@ use ChromaX\BasicHttpClient\Util\HeaderNameUtil;
 class Header implements HeaderInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $name;
+	private string $name;
 
 	/**
 	 * @var string[]
 	 */
-	private $values;
+	private array $values;
 
-	/**
-	 * Header constructor.
-	 *
-	 * @param string $name
-	 * @param string[] $values
-	 */
 	public function __construct(string $name, array $values)
 	{
 		$this->setName($name);
 		$this->setValues($values);
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getNormalizedName(): string
 	{
 		$headerNameUtil = new HeaderNameUtil();
 		return $headerNameUtil->normalizeHeaderName($this->name);
 	}
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName(string $name)
+	public function setName(string $name): self
 	{
 		$this->name = trim($name);
 		return $this;
@@ -69,9 +52,6 @@ class Header implements HeaderInterface
 		return $this->values;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getValuesAsString(): string
 	{
 		return implode(', ', $this->values);
@@ -79,9 +59,8 @@ class Header implements HeaderInterface
 
 	/**
 	 * @param string[] $values
-	 * @return $this
 	 */
-	public function setValues(array $values)
+	public function setValues(array $values): self
 	{
 		foreach ($values as $value) {
 			if (!is_string($value)) {

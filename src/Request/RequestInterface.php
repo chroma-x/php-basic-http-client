@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request;
 
 use ChromaX\BasicHttpClient\Request\Authentication\AuthenticationInterface;
@@ -18,67 +20,32 @@ use ChromaX\UrlUtil\UrlInterface;
 interface RequestInterface extends CurlConfiguratorInterface
 {
 
-	public const REQUEST_METHOD_GET = 'GET';
-	public const REQUEST_METHOD_HEAD = 'HEAD';
-	public const REQUEST_METHOD_POST = 'POST';
-	public const REQUEST_METHOD_PUT = 'PUT';
-	public const REQUEST_METHOD_PATCH = 'PATCH';
-	public const REQUEST_METHOD_DELETE = 'DELETE';
+	public const string REQUEST_METHOD_GET = 'GET';
+	public const string REQUEST_METHOD_HEAD = 'HEAD';
+	public const string REQUEST_METHOD_POST = 'POST';
+	public const string REQUEST_METHOD_PUT = 'PUT';
+	public const string REQUEST_METHOD_PATCH = 'PATCH';
+	public const string REQUEST_METHOD_DELETE = 'DELETE';
 
-	/**
-	 * @return string
-	 */
 	public function getUserAgent(): string;
 
-	/**
-	 * @param string $userAgent
-	 * @return $this
-	 */
-	public function setUserAgent(string $userAgent);
+	public function setUserAgent(string $userAgent): self;
 
-	/**
-	 * @return string
-	 */
 	public function getMethod(): string;
 
-	/**
-	 * @param string $method
-	 * @return $this
-	 */
-	public function setMethod(string $method);
+	public function setMethod(string $method): self;
 
-	/**
-	 * @return UrlInterface
-	 */
 	public function getUrl(): ?UrlInterface;
 
-	/**
-	 * @param UrlInterface $url
-	 * @return $this
-	 */
-	public function setUrl(UrlInterface $url);
+	public function setUrl(UrlInterface $url): self;
 
-	/**
-	 * @return TransportInterface
-	 */
 	public function getTransport(): ?TransportInterface;
 
-	/**
-	 * @param TransportInterface $transport
-	 * @return $this
-	 */
-	public function setTransport(TransportInterface $transport);
+	public function setTransport(TransportInterface $transport): self;
 
-	/**
-	 * @return MessageInterface
-	 */
 	public function getMessage(): ?MessageInterface;
 
-	/**
-	 * @param MessageInterface $message
-	 * @return $this
-	 */
-	public function setMessage(MessageInterface $message);
+	public function setMessage(MessageInterface $message): self;
 
 	/**
 	 * @return AuthenticationInterface[]
@@ -87,65 +54,31 @@ interface RequestInterface extends CurlConfiguratorInterface
 
 	/**
 	 * @param AuthenticationInterface[] $authentications
-	 * @return $this
 	 */
-	public function setAuthentications(array $authentications);
+	public function setAuthentications(array $authentications): self;
 
-	/**
-	 * @param AuthenticationInterface $authentication
-	 * @return $this
-	 */
-	public function addAuthentication(AuthenticationInterface $authentication);
+	public function addAuthentication(AuthenticationInterface $authentication): self;
 
-	/**
-	 * @param AuthenticationInterface $authentication
-	 * @return $this
-	 */
-	public function removeAuthentication(AuthenticationInterface $authentication);
+	public function removeAuthentication(AuthenticationInterface $authentication): self;
 
-	/**
-	 * @param AuthenticationInterface $authentication
-	 * @return bool
-	 */
 	public function hasAuthentication(AuthenticationInterface $authentication): bool;
 
-	/**
-	 * @return bool
-	 */
 	public function hasAuthentications(): bool;
 
-	/**
-	 * @return int
-	 */
 	public function countAuthentications(): int;
 
-	/**
-	 * @return $this
-	 */
-	public function perform();
+	public function perform(): self;
 
-	/**
-	 * @return ResponseInterface
-	 */
 	public function getResponse(): ?ResponseInterface;
 
-	/**
-	 * @return string
-	 */
 	public function getEffectiveStatus(): ?string;
 
-	/**
-	 * @return string
-	 */
 	public function getEffectiveEndpoint(): ?string;
 
-	/**
-	 * @return string
-	 */
 	public function getEffectiveRawHeader(): ?string;
 
 	/**
-	 * @return Header[]
+	 * @return ?Header[]
 	 */
 	public function getEffectiveHeaders(): ?array;
 

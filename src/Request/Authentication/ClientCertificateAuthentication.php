@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Authentication;
 
 use ChromaX\BasicHttpClient\Exception\HttpRequestAuthenticationException;
@@ -16,30 +18,12 @@ use ChromaX\CommonException\IoException\FileReadableException;
 class ClientCertificateAuthentication implements AuthenticationInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $caCertPath;
+	private string $caCertPath;
 
-	/**
-	 * @var string
-	 */
-	private $clientCertPath;
+	private string $clientCertPath;
 
-	/**
-	 * @var string
-	 */
-	private $clientCertPassword;
+	private string $clientCertPassword;
 
-	/**
-	 * ClientCertificateAuthentication constructor.
-	 *
-	 * @param string $caCertPath
-	 * @param string $clientCertPath
-	 * @param string $clientCertPassword
-	 * @throws FileNotFoundException
-	 * @throws FileReadableException
-	 */
 	public function __construct(string $caCertPath, string $clientCertPath, string $clientCertPassword)
 	{
 		$this->setCaCertPath($caCertPath);
@@ -47,21 +31,12 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 		$this->setClientCertPassword($clientCertPassword);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getCaCertPath():string
+	public function getCaCertPath(): string
 	{
 		return $this->caCertPath;
 	}
 
-	/**
-	 * @param string $caCertPath
-	 * @return $this
-	 * @throws FileNotFoundException
-	 * @throws FileReadableException
-	 */
-	public function setCaCertPath(string $caCertPath)
+	public function setCaCertPath(string $caCertPath): self
 	{
 		if (!is_file($caCertPath)) {
 			throw new FileNotFoundException('CA certificate file not found.');
@@ -73,21 +48,12 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getClientCertPath():string
+	public function getClientCertPath(): string
 	{
 		return $this->clientCertPath;
 	}
 
-	/**
-	 * @param string $clientCertPath
-	 * @return $this
-	 * @throws FileNotFoundException
-	 * @throws FileReadableException
-	 */
-	public function setClientCertPath(string $clientCertPath)
+	public function setClientCertPath(string $clientCertPath): self
 	{
 		if (!is_file($clientCertPath)) {
 			throw new FileNotFoundException('Client certificate file not found.');
@@ -99,30 +65,18 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getClientCertPassword():string
+	public function getClientCertPassword(): string
 	{
 		return $this->clientCertPassword;
 	}
 
-	/**
-	 * @param string $clientCertPassword
-	 * @return $this
-	 */
-	public function setClientCertPassword(string $clientCertPassword)
+	public function setClientCertPassword(string $clientCertPassword): self
 	{
 		$this->clientCertPassword = $clientCertPassword;
 		return $this;
 	}
 
-	/**
-	 * @param RequestInterface $request
-	 * @return $this
-	 * @throws HttpRequestAuthenticationException
-	 */
-	public function validate(RequestInterface $request)
+	public function validate(RequestInterface $request): self
 	{
 		if (!$request->getTransport() instanceof HttpsTransport) {
 			throw new HttpRequestAuthenticationException(
@@ -132,15 +86,10 @@ class ClientCertificateAuthentication implements AuthenticationInterface
 		return $this;
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return mixed
-	 */
-	public function configureCurl($curl)
+	public function configureCurl(\CurlHandle|false $curl): self
 	{
-		if (!is_resource($curl)) {
-			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		if ($curl === false) {
+			throw new \TypeError('cURL is not a valid CurlHandle class.');
 		}
 		curl_setopt($curl, CURLOPT_CAINFO, $this->caCertPath);
 		curl_setopt($curl, CURLOPT_SSLCERT, $this->clientCertPath);

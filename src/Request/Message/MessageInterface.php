@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Message;
 
 use ChromaX\BasicHttpClient\Request\Base\CurlConfiguratorInterface;
@@ -21,72 +23,33 @@ interface MessageInterface extends CurlConfiguratorInterface
 	public function getHeaders(): array;
 
 	/**
-	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
 	public function getHeadersByName(string $name): array;
 
-	/**
-	 * @param string $name
-	 * @return HeaderInterface
-	 */
 	public function getHeaderByName(string $name): ?HeaderInterface;
 
-	/**
-	 * @return $this
-	 */
-	public function clearHeaders();
+	public function clearHeaders(): self;
 
 	/**
 	 * @param HeaderInterface[] $headers
-	 * @return $this
 	 */
-	public function setHeaders(array $headers);
+	public function setHeaders(array $headers): self;
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return $this
-	 */
-	public function addHeader(HeaderInterface $header);
+	public function addHeader(HeaderInterface $header): self;
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return $this
-	 */
-	public function setHeader(HeaderInterface $header);
+	public function setHeader(HeaderInterface $header): self;
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function removeHeadersByName(string $name);
+	public function removeHeadersByName(string $name): self;
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return $this
-	 */
-	public function removeHeader(HeaderInterface $header);
+	public function removeHeader(HeaderInterface $header): self;
 
-	/**
-	 * @param $name
-	 * @return bool
-	 */
 	public function hasHeaderWithName(string $name): bool;
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return bool
-	 */
 	public function hasHeader(HeaderInterface $header): bool;
 
-	/**
-	 * @return bool
-	 */
 	public function hasHeaders(): bool;
 
-	/**
-	 * @return int
-	 */
 	public function getHeaderCount(): int;
 
 	/**
@@ -94,82 +57,35 @@ interface MessageInterface extends CurlConfiguratorInterface
 	 */
 	public function getCookies(): array;
 
-	/**
-	 * @param $name
-	 * @return CookieInterface
-	 */
 	public function getCookieByName(string $name): ?CookieInterface;
 
-	/**
-	 * @return $this
-	 */
-	public function clearCookies();
+	public function clearCookies(): self;
 
 	/**
 	 * @param CookieInterface[] $cookies
-	 * @return $this
 	 */
-	public function setCookies(array $cookies);
+	public function setCookies(array $cookies): self;
 
-	/**
-	 * @param CookieInterface $cookie
-	 * @return $this
-	 */
-	public function addCookie(CookieInterface $cookie);
+	public function addCookie(CookieInterface $cookie): self;
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function removeCookieByName(string $name);
+	public function removeCookieByName(string $name): self;
 
-	/**
-	 * @param CookieInterface $cookie
-	 * @return $this
-	 */
-	public function removeCookie(CookieInterface $cookie);
+	public function removeCookie(CookieInterface $cookie): self;
 
-	/**
-	 * @param $name
-	 * @return bool
-	 */
 	public function hasCookieWithName(string $name): bool;
 
-	/**
-	 * @param CookieInterface $cookie
-	 * @return bool
-	 */
 	public function hasCookie(CookieInterface $cookie): bool;
 
-	/**
-	 * @return bool
-	 */
 	public function hasCookies(): bool;
 
-	/**
-	 * @return int
-	 */
 	public function getCookieCount(): int;
 
-	/**
-	 * @return BodyInterface
-	 */
 	public function getBody(): ?BodyInterface;
 
-	/**
-	 * @param BodyInterface $body
-	 * @return $this
-	 */
-	public function setBody(BodyInterface $body);
+	public function setBody(BodyInterface $body): self;
 
-	/**
-	 * @return bool
-	 */
 	public function hasBody(): bool;
 
-	/**
-	 * @return $this
-	 */
-	public function removeBody();
+	public function removeBody(): self;
 
 }

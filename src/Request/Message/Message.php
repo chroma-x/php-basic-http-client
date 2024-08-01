@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Message;
 
 use ChromaX\BasicHttpClient\Request\Message\Body\BodyInterface;
@@ -18,17 +20,14 @@ class Message implements MessageInterface
 	/**
 	 * @var HeaderInterface[]
 	 */
-	private $headers = array();
+	private array $headers = [];
 
 	/**
 	 * @var CookieInterface[]
 	 */
-	private $cookies = array();
+	private array $cookies = [];
 
-	/**
-	 * @var BodyInterface
-	 */
-	private $body;
+	private ?BodyInterface $body = null;
 
 	/**
 	 * @return HeaderInterface[]
@@ -47,10 +46,6 @@ class Message implements MessageInterface
 		return $this->findHeadersByName($name);
 	}
 
-	/**
-	 * @param string $name
-	 * @return HeaderInterface
-	 */
 	public function getHeaderByName(string $name): ?HeaderInterface
 	{
 		if (!$this->hasHeaderWithName($name)) {
@@ -60,10 +55,7 @@ class Message implements MessageInterface
 		return $matchingHeaders[0];
 	}
 
-	/**
-	 * @return $this
-	 */
-	public function clearHeaders()
+	public function clearHeaders(): self
 	{
 		$this->headers = array();
 		return $this;
@@ -71,9 +63,8 @@ class Message implements MessageInterface
 
 	/**
 	 * @param HeaderInterface[] $headers
-	 * @return $this
 	 */
-	public function setHeaders(array $headers)
+	public function setHeaders(array $headers): self
 	{
 		foreach ($headers as $header) {
 			if (!$header instanceof HeaderInterface) {
@@ -85,42 +76,26 @@ class Message implements MessageInterface
 		return $this;
 	}
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return $this
-	 */
-	public function addHeader(HeaderInterface $header)
+	public function addHeader(HeaderInterface $header): self
 	{
 		$this->headers[] = $header;
 		return $this;
 	}
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return $this
-	 */
-	public function setHeader(HeaderInterface $header)
+	public function setHeader(HeaderInterface $header): self
 	{
 		$this->removeHeadersByName($header->getName());
 		$this->headers[] = $header;
 		return $this;
 	}
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function removeHeadersByName(string $name)
+	public function removeHeadersByName(string $name): self
 	{
 		$this->headers = $this->findHeadersExcludedByName($name);
 		return $this;
 	}
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return $this
-	 */
-	public function removeHeader(HeaderInterface $header)
+	public function removeHeader(HeaderInterface $header): self
 	{
 		if (!$this->hasHeader($header)) {
 			return $this;
@@ -130,52 +105,31 @@ class Message implements MessageInterface
 		return $this;
 	}
 
-	/**
-	 * @param $name
-	 * @return bool
-	 */
 	public function hasHeaderWithName(string $name): bool
 	{
 		return count($this->findHeadersByName($name)) > 0;
 	}
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return bool
-	 */
 	public function hasHeader(HeaderInterface $header): bool
 	{
 		return !is_null($this->findHeaderIndex($header));
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function hasHeaders(): bool
 	{
 		return count($this->headers) > 0;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getHeaderCount(): int
 	{
-		return (int)count($this->headers);
+		return count($this->headers);
 	}
 
-	/**
-	 * @return CookieInterface[]
-	 */
 	public function getCookies(): array
 	{
 		return $this->cookies;
 	}
 
-	/**
-	 * @param $name
-	 * @return CookieInterface
-	 */
 	public function getCookieByName(string $name): ?CookieInterface
 	{
 		foreach ($this->cookies as $cookie) {
@@ -186,10 +140,7 @@ class Message implements MessageInterface
 		return null;
 	}
 
-	/**
-	 * @return $this
-	 */
-	public function clearCookies()
+	public function clearCookies(): self
 	{
 		$this->cookies = array();
 		return $this;
@@ -197,9 +148,8 @@ class Message implements MessageInterface
 
 	/**
 	 * @param CookieInterface[] $cookies
-	 * @return $this
 	 */
-	public function setCookies(array $cookies)
+	public function setCookies(array $cookies): self
 	{
 		foreach ($cookies as $cookie) {
 			if (!$cookie instanceof CookieInterface) {
@@ -211,21 +161,13 @@ class Message implements MessageInterface
 		return $this;
 	}
 
-	/**
-	 * @param CookieInterface $cookie
-	 * @return $this
-	 */
-	public function addCookie(CookieInterface $cookie)
+	public function addCookie(CookieInterface $cookie): self
 	{
 		$this->cookies[] = $cookie;
 		return $this;
 	}
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function removeCookieByName(string $name)
+	public function removeCookieByName(string $name): self
 	{
 		$cookieCount = count($this->cookies);
 		for ($i = 0; $i < $cookieCount; $i++) {
@@ -238,11 +180,7 @@ class Message implements MessageInterface
 		return $this;
 	}
 
-	/**
-	 * @param CookieInterface $cookie
-	 * @return $this
-	 */
-	public function removeCookie(CookieInterface $cookie)
+	public function removeCookie(CookieInterface $cookie): self
 	{
 		$cookieCount = count($this->cookies);
 		for ($i = 0; $i < $cookieCount; $i++) {
@@ -255,10 +193,6 @@ class Message implements MessageInterface
 		return $this;
 	}
 
-	/**
-	 * @param $name
-	 * @return bool
-	 */
 	public function hasCookieWithName(string $name): bool
 	{
 		foreach ($this->cookies as $cookie) {
@@ -269,80 +203,50 @@ class Message implements MessageInterface
 		return false;
 	}
 
-	/**
-	 * @param CookieInterface $cookie
-	 * @return bool
-	 */
 	public function hasCookie(CookieInterface $cookie): bool
 	{
-		foreach ($this->cookies as $existingCookie) {
-			if ($existingCookie === $cookie) {
-				return true;
-			}
+		if (in_array($cookie, $this->cookies, true)) {
+			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function hasCookies(): bool
 	{
 		return count($this->cookies) > 0;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getCookieCount(): int
 	{
-		return (int)count($this->cookies);
+		return count($this->cookies);
 	}
 
-	/**
-	 * @return BodyInterface
-	 */
 	public function getBody(): ?BodyInterface
 	{
 		return $this->body;
 	}
 
-	/**
-	 * @param BodyInterface $body
-	 * @return $this
-	 */
-	public function setBody(BodyInterface $body)
+	public function setBody(BodyInterface $body): self
 	{
 		$this->body = $body;
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function hasBody(): bool
 	{
 		return !is_null($this->body);
 	}
 
-	/**
-	 * @return $this
-	 */
-	public function removeBody()
+	public function removeBody(): self
 	{
 		$this->body = null;
 		return $this;
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	public function configureCurl($curl)
+	public function configureCurl(\CurlHandle|false $curl): self
 	{
-		if (!is_resource($curl)) {
-			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		if ($curl === false) {
+			throw new \TypeError('cURL is not a valid CurlHandle class.');
 		}
 		// Add request headers
 		if ($this->hasHeaders()) {
@@ -363,14 +267,11 @@ class Message implements MessageInterface
 		}
 		// Setup body
 		$body = $this->getBody();
-		if ($body !== null) {
-			$body->configureCurl($curl);
-		}
+		$body?->configureCurl($curl);
 		return $this;
 	}
 
 	/**
-	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
 	private function findHeadersByName(string $name): array
@@ -386,10 +287,6 @@ class Message implements MessageInterface
 		return $matchingHeaders;
 	}
 
-	/**
-	 * @param HeaderInterface $header
-	 * @return int
-	 */
 	private function findHeaderIndex(HeaderInterface $header): ?int
 	{
 		$headerCount = count($this->headers);
@@ -402,7 +299,6 @@ class Message implements MessageInterface
 	}
 
 	/**
-	 * @param string $name
 	 * @return HeaderInterface[]
 	 */
 	private function findHeadersExcludedByName(string $name): array
