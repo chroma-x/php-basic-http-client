@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request;
 
 use ChromaX\BasicHttpClient\Exception\HttpRequestException;
@@ -10,7 +12,6 @@ use ChromaX\BasicHttpClient\Request\Transport\TransportInterface;
 use ChromaX\BasicHttpClient\Request\Transport\HttpsTransport;
 use ChromaX\BasicHttpClient\Request\Transport\HttpTransport;
 use ChromaX\BasicHttpClient\Response\ResponseInterface;
-use ChromaX\CommonException\NetworkException\Base\NetworkException;
 use ChromaX\CommonException\NetworkException\ConnectionTimeoutException;
 use ChromaX\CommonException\NetworkException\CurlException;
 use ChromaX\UrlUtil\UrlInterface;
@@ -23,60 +24,33 @@ use ChromaX\UrlUtil\UrlInterface;
 abstract class AbstractRequest implements RequestInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $userAgent = 'PHP Basic HTTP Client 1.0';
+	private string $userAgent = 'PHP Basic HTTP Client 1.0';
 
-	/**
-	 * @var string
-	 */
-	private $method = self::REQUEST_METHOD_GET;
+	private string $method = self::REQUEST_METHOD_GET;
 
-	/**
-	 * @var UrlInterface
-	 */
-	private $url;
+	private UrlInterface $url;
 
-	/**
-	 * @var TransportInterface
-	 */
-	private $transport;
+	private TransportInterface $transport;
 
 	/**
 	 * @var AuthenticationInterface[]
 	 */
-	private $authentications = array();
+	private array $authentications = [];
 
-	/**
-	 * @var MessageInterface
-	 */
-	private $message;
+	private MessageInterface $message;
 
-	/**
-	 * @var ResponseInterface
-	 */
-	private $response;
+	private ?ResponseInterface $response = null;
 
-	/**
-	 * @var string
-	 */
-	private $effectiveStatus;
+	private string $effectiveStatus;
 
-	/**
-	 * @var string
-	 */
-	private $effectiveEndpoint;
+	private string $effectiveEndpoint;
 
-	/**
-	 * @var string
-	 */
-	private $effectiveRawHeader;
+	private string $effectiveRawHeader;
 
 	/**
 	 * @var Header[]
 	 */
-	private $effectiveHeaders = array();
+	private array $effectiveHeaders = [];
 
 	/**
 	 * Request constructor.
@@ -86,91 +60,56 @@ abstract class AbstractRequest implements RequestInterface
 		$this->transport = new HttpTransport();
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getUserAgent(): string
 	{
 		return $this->userAgent;
 	}
 
-	/**
-	 * @param string $userAgent
-	 * @return $this
-	 */
-	public function setUserAgent(string $userAgent)
+	public function setUserAgent(string $userAgent): self
 	{
 		$this->userAgent = $userAgent;
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getMethod(): string
 	{
 		return $this->method;
 	}
 
-	/**
-	 * @param string $method
-	 * @return $this
-	 */
-	public function setMethod(string $method)
+	public function setMethod(string $method): self
 	{
 		$this->method = $method;
 		return $this;
 	}
 
-	/**
-	 * @return UrlInterface
-	 */
 	public function getUrl(): ?UrlInterface
 	{
 		return $this->url;
 	}
 
-	/**
-	 * @param UrlInterface $url
-	 * @return $this
-	 */
-	public function setUrl(UrlInterface $url)
+	public function setUrl(UrlInterface $url): self
 	{
 		$this->url = $url;
 		return $this;
 	}
 
-	/**
-	 * @return TransportInterface
-	 */
 	public function getTransport(): ?TransportInterface
 	{
 		return $this->transport;
 	}
 
-	/**
-	 * @param TransportInterface $transport
-	 * @return $this
-	 */
-	public function setTransport(TransportInterface $transport)
+	public function setTransport(TransportInterface $transport): self
 	{
 		$this->transport = $transport;
 		return $this;
 	}
 
-	/**
-	 * @return MessageInterface
-	 */
 	public function getMessage(): ?MessageInterface
 	{
 		return $this->message;
 	}
 
-	/**
-	 * @param MessageInterface $message
-	 * @return $this
-	 */
-	public function setMessage(MessageInterface $message)
+	public function setMessage(MessageInterface $message): self
 	{
 		$this->message = $message;
 		return $this;
@@ -186,19 +125,14 @@ abstract class AbstractRequest implements RequestInterface
 
 	/**
 	 * @param AuthenticationInterface[] $authentications
-	 * @return $this
 	 */
-	public function setAuthentications(array $authentications)
+	public function setAuthentications(array $authentications): self
 	{
 		$this->authentications = $authentications;
 		return $this;
 	}
 
-	/**
-	 * @param AuthenticationInterface $authentication
-	 * @return $this
-	 */
-	public function addAuthentication(AuthenticationInterface $authentication)
+	public function addAuthentication(AuthenticationInterface $authentication): self
 	{
 		if (!$this->hasAuthentication($authentication)) {
 			$this->authentications[] = $authentication;
@@ -206,11 +140,7 @@ abstract class AbstractRequest implements RequestInterface
 		return $this;
 	}
 
-	/**
-	 * @param AuthenticationInterface $authentication
-	 * @return $this
-	 */
-	public function removeAuthentication(AuthenticationInterface $authentication)
+	public function removeAuthentication(AuthenticationInterface $authentication): self
 	{
 		$authenticationCount = count($this->authentications);
 		for ($i = 0; $i < $authenticationCount; $i++) {
@@ -223,46 +153,28 @@ abstract class AbstractRequest implements RequestInterface
 		return $this;
 	}
 
-	/**
-	 * @param AuthenticationInterface $authentication
-	 * @return bool
-	 */
 	public function hasAuthentication(AuthenticationInterface $authentication): bool
 	{
-		foreach ($this->authentications as $existingAuth) {
-			if ($authentication === $existingAuth) {
-				return true;
-			}
+		if (in_array($authentication, $this->authentications, true)) {
+			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function hasAuthentications(): bool
 	{
 		return count($this->authentications) > 0;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function countAuthentications(): int
 	{
 		return count($this->authentications);
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 * @throws HttpRequestException
-	 */
-	public function configureCurl($curl)
+	public function configureCurl(\CurlHandle|false $curl): self
 	{
-		if (!is_resource($curl)) {
-			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		if ($curl === false) {
+			throw new \TypeError('cURL is not a valid CurlHandle class.');
 		}
 		$url = $this->getUrl();
 		if ($url === null) {
@@ -285,13 +197,7 @@ abstract class AbstractRequest implements RequestInterface
 		return $this;
 	}
 
-	/**
-	 * @return $this
-	 * @throws ConnectionTimeoutException
-	 * @throws NetworkException
-	 * @throws \Exception
-	 */
-	public function perform()
+	public function perform(): self
 	{
 		// Reset former result
 		$this->response = null;
@@ -333,67 +239,42 @@ abstract class AbstractRequest implements RequestInterface
 		throw new CurlException('The request failed with message: ' . $curlErrorMessage);
 	}
 
-	/**
-	 * @return ResponseInterface
-	 */
 	abstract protected function buildResponse(): ResponseInterface;
 
-	/**
-	 * @return ResponseInterface
-	 */
 	public function getResponse(): ?ResponseInterface
 	{
 		return $this->response;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEffectiveStatus(): ?string
 	{
 		return $this->effectiveStatus;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEffectiveEndpoint(): ?string
 	{
 		return $this->effectiveEndpoint;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getEffectiveRawHeader(): ?string
 	{
 		return $this->effectiveRawHeader;
 	}
 
 	/**
-	 * @return Header[]
+	 * @return ?Header[]
 	 */
 	public function getEffectiveHeaders(): ?array
 	{
 		return $this->effectiveHeaders;
 	}
 
-	/**
-	 * @return string
-	 */
 	protected function calculateEndpoint(): ?string
 	{
 		$url = $this->getUrl();
-		if ($url === null) {
-			return null;
-		}
-		return $url->buildUrl();
+		return $url?->buildUrl();
 	}
 
-	/**
-	 * @return void
-	 * @throws \Exception
-	 */
 	protected function prePerform(): void
 	{
 		$url = $this->getUrl();
@@ -408,11 +289,7 @@ abstract class AbstractRequest implements RequestInterface
 		}
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	private function setEffectiveProperties($curl)
+	private function setEffectiveProperties(\CurlHandle $curl): self
 	{
 		$this->effectiveEndpoint = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
 		$this->effectiveRawHeader = curl_getinfo($curl, CURLINFO_HEADER_OUT);
@@ -420,17 +297,17 @@ abstract class AbstractRequest implements RequestInterface
 		$requestHeaders = preg_split(
 			'/\r\n/',
 			$this->effectiveRawHeader,
-			null,
+			0,
 			PREG_SPLIT_NO_EMPTY
 		);
 		foreach ($requestHeaders as $requestHeader) {
-			if (strpos($requestHeader, ':') !== false) {
+			if (str_contains($requestHeader, ':')) {
 				$headerName = mb_substr($requestHeader, 0, strpos($requestHeader, ':'));
 				$headerValue = mb_substr($requestHeader, strpos($requestHeader, ':') + 1);
 				$headerValues = explode(',', $headerValue);
 				$this->effectiveHeaders[] = new Header($headerName, $headerValues);
 			}
-			if (strpos($requestHeader, ':') === false) {
+			if (!str_contains($requestHeader, ':')) {
 				$this->effectiveStatus = $requestHeader;
 			}
 		}

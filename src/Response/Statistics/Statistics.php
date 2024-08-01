@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Response\Statistics;
 
 /**
@@ -10,55 +12,26 @@ namespace ChromaX\BasicHttpClient\Response\Statistics;
 class Statistics
 {
 
-	/**
-	 * @var float
-	 */
-	private $totalTime;
+	private float $totalTime;
 
-	/**
-	 * @var float
-	 */
-	private $hostLookupTime;
+	private float $hostLookupTime;
 
-	/**
-	 * @var float
-	 */
-	private $connectionEstablishTime;
+	private float $connectionEstablishTime;
 
-	/**
-	 * @var float
-	 */
-	private $preTransferTime;
+	private float $preTransferTime;
 
-	/**
-	 * @var float
-	 */
-	private $startTransferTime;
+	private float $startTransferTime;
 
-	/**
-	 * @var int
-	 */
-	private $redirectCount;
+	private int $redirectCount;
 
-	/**
-	 * @var float
-	 */
-	private $redirectTime;
+	private float $redirectTime;
 
-	/**
-	 * @var string
-	 */
-	private $redirectEndpoint;
+	private string $redirectEndpoint;
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	public function populateFromCurlResult($curl)
+	public function populateFromCurlResult(\CurlHandle|false $curl): self
 	{
-		if (!is_resource($curl)) {
-			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		if ($curl === false) {
+			throw new \TypeError('cURL is not a valid CurlHandle class.');
 		}
 		$this->totalTime = curl_getinfo($curl, CURLINFO_TOTAL_TIME);
 		$this->hostLookupTime = curl_getinfo($curl, CURLINFO_NAMELOOKUP_TIME);

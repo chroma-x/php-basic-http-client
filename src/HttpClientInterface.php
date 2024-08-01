@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient;
 
 use ChromaX\BasicHttpClient\Request\RequestInterface;
@@ -13,45 +15,17 @@ use ChromaX\BasicHttpClient\Response\ResponseInterface;
 interface HttpClientInterface
 {
 
-	/**
-	 * @return RequestInterface
-	 */
 	public function getRequest(): RequestInterface;
 
-	/**
-	 * @param mixed[] $queryParameters
-	 * @return ResponseInterface
-	 */
-	public function get(array $queryParameters = array()): ResponseInterface;
+	public function get(array $queryParameters = []): ResponseInterface;
 
-	/**
-	 * @param mixed[] $queryParameters
-	 * @return ResponseInterface
-	 */
-	public function head(array $queryParameters = array()): ResponseInterface;
+	public function head(array $queryParameters = []): ResponseInterface;
 
-	/**
-	 * @param array $postData
-	 * @return ResponseInterface
-	 */
-	public function post(array $postData = array()): ResponseInterface;
+	public function post(array $postData = []): ResponseInterface;
 
-	/**
-	 * @param array $putData
-	 * @return ResponseInterface
-	 */
-	public function put(array $putData = array()): ResponseInterface;
+	public function put(array $putData = []): ResponseInterface;
 
-	/**
-	 * @param array $patchData
-	 * @return ResponseInterface
-	 */
-	public function patch(array $patchData = array()): ResponseInterface;
+	public function patch(array $patchData = []): ResponseInterface;
 
-	/**
-	 * @param mixed[] $queryParameters
-	 * @return ResponseInterface
-	 */
-	public function delete(array $queryParameters = array()): ResponseInterface;
-
+	public function delete(array $queryParameters = []): ResponseInterface;
 }

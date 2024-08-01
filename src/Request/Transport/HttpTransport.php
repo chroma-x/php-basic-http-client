@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Transport;
 
 /**
@@ -10,156 +12,91 @@ namespace ChromaX\BasicHttpClient\Request\Transport;
 class HttpTransport implements TransportInterface
 {
 
-	public const HTTP_VERSION_1_0 = CURL_HTTP_VERSION_1_0;
-	public const HTTP_VERSION_1_1 = CURL_HTTP_VERSION_1_1;
+	public const int HTTP_VERSION_1_0 = CURL_HTTP_VERSION_1_0;
+	public const int HTTP_VERSION_1_1 = CURL_HTTP_VERSION_1_1;
 
-	/**
-	 * @var int
-	 */
-	private $httpVersion = self::HTTP_VERSION_1_1;
+	private int $httpVersion = self::HTTP_VERSION_1_1;
 
-	/**
-	 * @var int
-	 */
-	private $timeout = 20;
+	private int $timeout = 20;
 
-	/**
-	 * @var bool
-	 */
-	private $reuseConnection = true;
+	private bool $reuseConnection = true;
 
-	/**
-	 * @var bool
-	 */
-	private $allowCaching = true;
+	private bool $allowCaching = true;
 
-	/**
-	 * @var bool
-	 */
-	private $followRedirects = false;
+	private bool $followRedirects = false;
 
-	/**
-	 * @var int
-	 */
-	private $maxRedirects = 5;
+	private int $maxRedirects = 5;
 
-	/**
-	 * @return int
-	 */
 	public function getHttpVersion(): int
 	{
 		return $this->httpVersion;
 	}
 
-	/**
-	 * @param int $httpVersion
-	 * @return $this
-	 */
-	public function setHttpVersion(int $httpVersion)
+	public function setHttpVersion(int $httpVersion): self
 	{
 		$this->httpVersion = $httpVersion;
 		return $this;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getTimeout(): int
 	{
 		return $this->timeout;
 	}
 
-	/**
-	 * @param int $timeout
-	 * @return $this
-	 */
-	public function setTimeout(int $timeout)
+	public function setTimeout(int $timeout): self
 	{
 		$this->timeout = $timeout;
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function getReuseConnection(): bool
 	{
 		return $this->reuseConnection;
 	}
 
-	/**
-	 * @param bool $reuseConnection
-	 * @return $this
-	 */
-	public function setReuseConnection(bool $reuseConnection)
+	public function setReuseConnection(bool $reuseConnection): self
 	{
 		$this->reuseConnection = $reuseConnection;
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function getAllowCaching(): bool
 	{
 		return $this->allowCaching;
 	}
 
-	/**
-	 * @param bool $allowCaching
-	 * @return $this
-	 */
-	public function setAllowCaching(bool $allowCaching)
+	public function setAllowCaching(bool $allowCaching): self
 	{
 		$this->allowCaching = $allowCaching;
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function getFollowRedirects(): bool
 	{
 		return $this->followRedirects;
 	}
 
-	/**
-	 * @param bool $followRedirects
-	 * @return $this
-	 */
-	public function setFollowRedirects(bool $followRedirects)
+	public function setFollowRedirects(bool $followRedirects): self
 	{
 		$this->followRedirects = $followRedirects;
 		return $this;
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getMaxRedirects(): int
 	{
 		return $this->maxRedirects;
 	}
 
-	/**
-	 * @param int $maxRedirects
-	 * @return $this
-	 */
-	public function setMaxRedirects(int $maxRedirects)
+	public function setMaxRedirects(int $maxRedirects): self
 	{
 		$this->maxRedirects = $maxRedirects;
 		return $this;
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	public function configureCurl($curl)
+	public function configureCurl(\CurlHandle|false $curl): self
 	{
-		if (!is_resource($curl)) {
-			$argumentType = (is_object($curl)) ? get_class($curl) : gettype($curl);
-			throw new \TypeError('curl argument invalid. Expected a valid resource. Got ' . $argumentType);
+		if ($curl === false) {
+			throw new \TypeError('cURL is not a valid CurlHandle class.');
 		}
 		// HTTP version
 		curl_setopt($curl, CURLOPT_HTTP_VERSION, $this->getHttpVersion());

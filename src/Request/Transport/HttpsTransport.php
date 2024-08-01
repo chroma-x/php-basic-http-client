@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Transport;
 
 /**
@@ -13,16 +15,14 @@ class HttpsTransport extends HttpTransport
 	/**
 	 * Whether to verify the peer SSL certificate
 	 *
-	 * @var bool
 	 */
-	protected $verifyHost = true;
+	protected bool $verifyHost = true;
 
 	/**
 	 * Whether to verify the peer SSL certificate
 	 *
-	 * @var bool
 	 */
-	protected $verifyPeer = true;
+	protected bool $verifyPeer = true;
 
 	/**
 	 * @return bool
@@ -32,38 +32,24 @@ class HttpsTransport extends HttpTransport
 		return $this->verifyHost;
 	}
 
-	/**
-	 * @param bool $verifyHost
-	 */
-	public function setVerifyHost(bool $verifyHost)
+	public function setVerifyHost(bool $verifyHost): self
 	{
 		$this->verifyHost = $verifyHost;
 		return $this;
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function getVerifyPeer(): bool
 	{
 		return $this->verifyPeer;
 	}
 
-	/**
-	 * @param bool $verifyPeer
-	 * @return $this
-	 */
-	public function setVerifyPeer(bool $verifyPeer)
+	public function setVerifyPeer(bool $verifyPeer): self
 	{
 		$this->verifyPeer = $verifyPeer;
 		return $this;
 	}
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	public function configureCurl($curl)
+	public function configureCurl(\CurlHandle|false $curl): self
 	{
 		parent::configureCurl($curl);
 		// Verify host

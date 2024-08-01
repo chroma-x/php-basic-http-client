@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request;
 
 use ChromaX\BasicHttpClient\Response\Response;
@@ -13,9 +15,6 @@ use ChromaX\BasicHttpClient\Response\ResponseInterface;
 class Request extends AbstractRequest
 {
 
-	/**
-	 * @return ResponseInterface
-	 */
 	protected function buildResponse(): ResponseInterface
 	{
 		return new Response($this);

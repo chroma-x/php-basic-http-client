@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Base;
 
 /**
@@ -10,10 +12,6 @@ namespace ChromaX\BasicHttpClient\Request\Base;
 interface CurlConfiguratorInterface
 {
 
-	/**
-	 * @param resource $curl
-	 * @return $this
-	 */
-	public function configureCurl($curl);
+	public function configureCurl(\CurlHandle|false $curl): self;
 
 }

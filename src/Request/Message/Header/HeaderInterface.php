@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChromaX\BasicHttpClient\Request\Message\Header;
 
 /**
@@ -10,44 +12,18 @@ namespace ChromaX\BasicHttpClient\Request\Message\Header;
 interface HeaderInterface
 {
 
-	/**
-	 * Header constructor.
-	 *
-	 * @param string $name
-	 * @param string[] $values
-	 */
 	public function __construct(string $name, array $values);
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string;
 
-	/**
-	 * @return string
-	 */
 	public function getNormalizedName(): string;
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName(string $name);
+	public function setName(string $name): self;
 
-	/**
-	 * @return string[]
-	 */
 	public function getValues(): array;
 
-	/**
-	 * @return string
-	 */
 	public function getValuesAsString(): string;
 
-	/**
-	 * @param string[] $values
-	 * @return $this
-	 */
-	public function setValues(array $values);
+	public function setValues(array $values): self;
 
 }
