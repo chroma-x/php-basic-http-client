@@ -26,7 +26,7 @@ Find out more at the [„PSR-7 is imminent, and here's my issues with it“](htt
 ```{json}
 {
    	"require": {
-        "chroma-x/basic-http-client": "~3.0"
+        "chroma-x/basic-http-client": "~4.0"
     }
 }
 ```
